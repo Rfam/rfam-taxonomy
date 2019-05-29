@@ -85,7 +85,7 @@ def get_taxonomic_distribution(rfam_acc, DATA_PATH):
     return data
 
 
-def get_major_domain(seed):
+def get_major_domain(seed, cutoff):
     """
     Find the prevalent domain (for example, Eukaryota):
 
@@ -93,7 +93,7 @@ def get_major_domain(seed):
     """
     major_domain = 'Mixed'
     maximum = max(seed, key=seed.get)
-    if seed[maximum] >= DOMAIN_CUTOFF:
+    if seed[maximum] >= cutoff:
         major_domain = maximum
     return major_domain
 
@@ -109,17 +109,17 @@ def get_domains(data):
     return ', '.join(output)
 
 
-def analyse_seed_full_taxonomic_distribution(rfam_acc):
+def analyse_seed_full_taxonomic_distribution(rfam_acc, cutoff):
     """
     Compare domains observed in seed alignments and full region hits.
     """
     seed = get_taxonomic_distribution(rfam_acc, DATA_SEED_PATH)
     full = get_taxonomic_distribution(rfam_acc, DATA_FULL_REGION_PATH)
 
-    major_domain_seed = get_major_domain(seed)
+    major_domain_seed = get_major_domain(seed, cutoff)
     seed_domains = get_domains(seed)
 
-    major_domain_full = get_major_domain(full)
+    major_domain_full = get_major_domain(full, cutoff)
     full_domains = get_domains(full)
 
     if major_domain_seed and major_domain_seed == major_domain_full:
@@ -141,7 +141,8 @@ def analyse_seed_full_taxonomic_distribution(rfam_acc):
 @click.command()
 @click.option('--precompute-seed', is_flag=True, required=False, help='Store seed data files')
 @click.option('--precompute-full', is_flag=True, required=False, help='Store full data files')
-def main(precompute_seed, precompute_full):
+@click.option('--cutoff', required=False, default=DOMAIN_CUTOFF, help='Percent of hits from the same domain')
+def main(precompute_seed, precompute_full, cutoff):
 
     if precompute_seed:
         precompute_taxonomic_information('seed')
@@ -153,7 +154,7 @@ def main(precompute_seed, precompute_full):
         header = ['Family', 'Domain', 'Seed domains', 'Full region domains']
         csvwriter.writerow(header)
         for family in get_rfam_families():
-            line = analyse_seed_full_taxonomic_distribution(family['rfam_acc'])
+            line = analyse_seed_full_taxonomic_distribution(family['rfam_acc'], cutoff)
             csvwriter.writerow(line)
 
     cmd = ("cut -d ',' -f 2,2 domains.csv | sort | uniq -c | "

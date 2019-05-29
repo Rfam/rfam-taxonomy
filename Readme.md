@@ -42,7 +42,7 @@ If you are interested only in families that match Bacteria, you can filter the f
 
 ## Number of families found in multiple domains
 
-While some families are expected to be found in multiple domains (for example RF00001), these families should be reviewed by the Rfam curator to ensure the correct taxonomic distribution:
+While some families are expected to be found in multiple domains (for example RF00001), these families could benefit from a review by the Rfam curator to ensure the correct taxonomic distribution:
 
 ```
  162 Mixed (multiple domains in SEED and in FULL)
@@ -61,6 +61,6 @@ While some families are expected to be found in multiple domains (for example RF
    1 Bacteria/Eukaryota
 ```
 
-For example, [RF01390](http://rfam.org/family/RF01390) has only Bacteria in the seed but 91% of full region hits are Eukaryotes. In this example this could be due to contamination as this RNA can be expressed (in pathogenic bacteria located inside eukaryotic cells)[https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4228915/].
+For example, [RF01390](http://rfam.org/family/RF01390) has only Bacteria in the seed but 91% of full region hits are Eukaryotes. In this example this could be due to contamination as this RNA can be expressed [in pathogenic bacteria located inside eukaryotic cells](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4228915/).
 
 The analysis is based on **Rfam 14.1**.

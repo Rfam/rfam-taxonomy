@@ -27,6 +27,14 @@ DOMAIN_CUTOFF = 90 # at least 90% of sequences must be from this domain
 
 
 def precompute_taxonomic_information(analysis_type):
+    """
+    Store csv files for each family (lineage, count, NCBI taxid).
+
+    Example:
+    Bacteria; Acidobacteria; Acidobacteriales; Acidobacteriaceae; Acidobacterium.,1,240015
+    Bacteria; Actinobacteria; Acidimicrobidae; Acidimicrobiales; Acidimicrobineae; Acidimicrobiaceae; Acidimicrobium.,1,525909
+    Bacteria; Actinobacteria; Actinobacteridae; Actinomycetales; Catenulisporineae; Catenulisporaceae; Catenulispora.,1,479433
+    """
     print('Retrieving data from the public Rfam database')
 
     if analysis_type == 'seed':
@@ -44,7 +52,13 @@ def precompute_taxonomic_information(analysis_type):
     print('Done')
 
 
-def analyse_taxonomic_distribution(rfam_acc, DATA_PATH):
+def get_taxonomic_distribution(rfam_acc, DATA_PATH):
+    """
+    Calculate the percentage of hits from each domain for a family.
+
+    Example:
+    {'Eukaryota': 45.51, 'Bacteria': 48.6, 'Other': 0.0, 'Viruses': 0.0, 'unclassified sequences': 0.0, 'Viroids': 0.0, 'Archaea': 5.9}
+    """
     data = {}
     for domain in DOMAINS:
         data[domain] = 0
@@ -72,6 +86,11 @@ def analyse_taxonomic_distribution(rfam_acc, DATA_PATH):
 
 
 def get_major_domain(seed):
+    """
+    Find the prevalent domain (for example, Eukaryota):
+
+    {'Eukaryota': 100.0, 'Other': 0.0, 'Viruses': 0.0, 'unclassified sequences': 0.0, 'Viroids': 0.0, 'Archaea': 0.0, 'Bacteria': 0.0}
+    """
     major_domain = 'Mixed'
     maximum = max(seed, key=seed.get)
     if seed[maximum] >= DOMAIN_CUTOFF:
@@ -80,6 +99,9 @@ def get_major_domain(seed):
 
 
 def get_domains(data):
+    """
+    List all domains in which a family has been observed.
+    """
     output = []
     for domain, proportion in sorted(data.items(), key=lambda x: x[1], reverse=True):
         if proportion > 0:
@@ -87,19 +109,33 @@ def get_domains(data):
     return ', '.join(output)
 
 
-
 def analyse_seed_full_taxonomic_distribution(rfam_acc):
-    seed = analyse_taxonomic_distribution(rfam_acc, DATA_SEED_PATH)
-    full = analyse_taxonomic_distribution(rfam_acc, DATA_FULL_REGION_PATH)
+    """
+    Compare domains observed in seed alignments and full region hits.
+    """
+    seed = get_taxonomic_distribution(rfam_acc, DATA_SEED_PATH)
+    full = get_taxonomic_distribution(rfam_acc, DATA_FULL_REGION_PATH)
 
     major_domain_seed = get_major_domain(seed)
     seed_domains = get_domains(seed)
+
     major_domain_full = get_major_domain(full)
     full_domains = get_domains(full)
+
     if major_domain_seed and major_domain_seed == major_domain_full:
-        return [rfam_acc, major_domain_seed, seed_domains, full_domains]
+        return [
+            rfam_acc,
+            major_domain_seed,
+            seed_domains,
+            full_domains,
+        ]
     else:
-        return [rfam_acc, '{}/{}'.format(major_domain_seed, major_domain_full), seed_domains, full_domains]
+        return [
+            rfam_acc,
+            '{}/{}'.format(major_domain_seed, major_domain_full),
+            seed_domains,
+            full_domains,
+        ]
 
 
 @click.command()

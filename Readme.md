@@ -64,3 +64,22 @@ While some families are expected to be found in multiple domains (for example RF
 For example, [RF01390](http://rfam.org/family/RF01390) has only Bacteria in the seed but 91% of full region hits are Eukaryotes. In this example this could be due to contamination as this RNA can be expressed [in pathogenic bacteria located inside eukaryotic cells](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4228915/).
 
 The analysis is based on **Rfam 14.1**.
+
+--------------------------------------------------------------------------------
+
+## Installation
+
+```
+virtualenv ENV
+source ENV/bin/activate
+pip install -r requirements.txt
+```
+
+## Usage
+
+```
+python rfam-taxonomy.py
+
+# to see additional options:
+python rfam-taxonomy.py --help
+```

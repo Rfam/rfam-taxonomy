@@ -22,7 +22,15 @@ from scripts.rfam_db import get_rfam_families, get_taxonomy_info
 
 DATA_SEED_PATH = 'data-seed'
 DATA_FULL_REGION_PATH = 'data-full-region'
-DOMAINS = sorted(['Archaea', 'Bacteria', 'Eukaryota', 'Other', 'unclassified sequences', 'Viruses', 'Viroids'])
+DOMAINS = sorted([
+    'Archaea',
+    'Bacteria',
+    'Eukaryota',
+    'unclassified sequences',
+    'Viruses',
+    'Viroids',
+    'Other',
+])
 DOMAIN_CUTOFF = 90 # at least 90% of sequences must be from this domain
 
 
@@ -85,15 +93,15 @@ def get_taxonomic_distribution(rfam_acc, DATA_PATH):
     return data
 
 
-def get_major_domain(seed, cutoff):
+def get_major_domain(data, cutoff):
     """
     Find the prevalent domain (for example, Eukaryota):
 
     {'Eukaryota': 100.0, 'Other': 0.0, 'Viruses': 0.0, 'unclassified sequences': 0.0, 'Viroids': 0.0, 'Archaea': 0.0, 'Bacteria': 0.0}
     """
     major_domain = 'Mixed'
-    maximum = max(seed, key=seed.get)
-    if seed[maximum] >= cutoff:
+    maximum = max(data, key=data.get)
+    if data[maximum] >= cutoff:
         major_domain = maximum
     return major_domain
 

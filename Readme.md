@@ -28,41 +28,14 @@ RF00005,Mixed,"Eukaryota (78.2%), Bacteria (17.3%), Archaea (3.46%), Viruses (1.
 - `<domain>/<domain>` - if seed and full region domains are not the same, both are listed (`Viruses/Eukaryota` when seed alignment contains mostly Viruses and the full region hits contain mostly Eukaryotes);
 - `Mixed` if there is no dominant domain
 
+:white_check_mark: View [summary](./domains/summary.md) with the number of families observed in each domain.
+
 ## Example use cases
 
 If you are interested only in families that match Bacteria, you can filter the file `domains.csv` where the second column is `Bacteria`. To further eliminate any families that find hits outside Bacteria, make sure the fourth column is `Bacteria (100.0%)`.
 
-## Number of families found only in one domain
 
-```
-1605 Eukaryota
- 746 Bacteria
- 143 Viruses
-  94 Archaea
-  59 unclassified sequences
-   1 Viroids
-```
-
-## Number of families found in multiple domains
-
-While some families are expected to be found in multiple domains (for example RF00001), these families could benefit from a review by the Rfam curator to ensure the correct taxonomic distribution:
-
-```
- 162 Mixed (multiple domains in SEED and in FULL)
-  60 Bacteria/Mixed (only Bacteria in SEED, multiple domains in FULL)
-  59 Mixed/Bacteria (multiple domains in SEED, only Bacteria in FULL)
-  41 unclassified sequences/Mixed
-  25 Viruses/Mixed
-   6 Eukaryota/Mixed
-   5 Archaea/Mixed
-   3 Mixed/Eukaryota
-   2 Viruses/Eukaryota
-   1 unclassified sequences/Bacteria
-   1 Viroids/Eukaryota
-   1 Mixed/Viruses
-   1 Mixed/Archaea
-   1 Bacteria/Eukaryota
-```
+Please note that some families are expected to be found in multiple domains (for example RF00001).
 
 For example, [RF01390](http://rfam.org/family/RF01390) has only Bacteria in the seed but 91% of full region hits are Eukaryotes. In this example this could be due to contamination as this RNA can be expressed [in pathogenic bacteria located inside eukaryotic cells](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4228915/).
 

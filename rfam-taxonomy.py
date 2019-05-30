@@ -162,6 +162,44 @@ def analyse_seed_full_taxonomic_distribution(family, cutoff):
         ]
 
 
+def write_output_files(data):
+    """
+    Generate output files.
+    """
+    with open('domains.csv', 'w') as f_out:
+        csvwriter = csv.writer(f_out)
+        header = ['Family', 'Domain', 'Seed domains', 'Full region domains',
+                  'Rfam ID', 'Description', 'RNA type']
+        csvwriter.writerow(header)
+        for line in data:
+            csvwriter.writerow(line)
+
+
+def update_summary():
+    """
+    Update summary file with domain counts.
+    """
+    summary_file = 'domains/summary.md'
+    with open(summary_file, 'w') as f_out:
+        header = """# Summary
+
+```
+"""
+        f_out.write(header)
+    cmd = ("cut -d ',' -f 2,2 domains.csv | sort | uniq -c | "
+           # "grep -v Mixed | "
+           # "grep -v '/' | "
+           "grep -v Domain | "
+           "sort -nr >> {}".format(summary_file))
+    os.system(cmd)
+
+    with open(summary_file, 'a') as f_out:
+        header = """
+```
+"""
+        f_out.write(header)
+
+
 @click.command()
 @click.option('--precompute-seed', is_flag=True, required=False, help='Store seed data files')
 @click.option('--precompute-full', is_flag=True, required=False, help='Store full data files')
@@ -173,21 +211,12 @@ def main(precompute_seed, precompute_full, cutoff):
     if precompute_full:
         precompute_taxonomic_information('full')
 
-    with open('domains.csv', 'w') as f_out:
-        csvwriter = csv.writer(f_out)
-        header = ['Family', 'Domain', 'Seed domains', 'Full region domains',
-                  'Rfam ID', 'Description', 'RNA type']
-        csvwriter.writerow(header)
-        for family in get_rfam_families():
-            line = analyse_seed_full_taxonomic_distribution(family, cutoff)
-            csvwriter.writerow(line)
+    data = []
+    for family in get_rfam_families():
+        data.append(analyse_seed_full_taxonomic_distribution(family, cutoff))
 
-    cmd = ("cut -d ',' -f 2,2 domains.csv | sort | uniq -c | "
-           "grep -v Mixed | "
-           "grep -v '/' | "
-           "grep -v Domain | "
-           "sort -nr")
-    os.system(cmd)
+    write_output_files(data)
+    update_summary()
 
 
 if __name__ == '__main__':

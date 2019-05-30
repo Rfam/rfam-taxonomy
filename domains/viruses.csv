@@ -1,4 +1,6 @@
 Family,Domain,Seed domains,Full region domains,Rfam ID,Description,RNA type
+RF00001,Mixed,"Bacteria (48.6%), Eukaryota (45.51%), Archaea (5.9%)","Eukaryota (87.59%), Bacteria (12.0%), Archaea (0.4%)",5S_rRNA,5S ribosomal RNA,Gene; rRNA;
+RF00005,Mixed,"Eukaryota (78.2%), Bacteria (17.3%), Archaea (3.46%), Viruses (1.05%)","Eukaryota (73.83%), Bacteria (25.02%), Archaea (0.95%), Viruses (0.2%)",tRNA,tRNA,Gene; tRNA;
 RF00036,Viruses,Viruses (100.0%),Viruses (100.0%),RRE,HIV Rev response element,Cis-reg;
 RF00041,Viruses,Viruses (100.0%),Viruses (100.0%),Entero_OriR,Enteroviral 3' UTR element,Cis-reg;
 RF00044,Viruses,Viruses (100.0%),Viruses (100.0%),Phage_pRNA,Bacteriophage pRNA,Gene;
@@ -140,6 +142,7 @@ RF01838,Viruses,Viruses (100.0%),Viruses (100.0%),sobemo_FSE,sobemovirus ribosom
 RF01839,Viruses,Viruses (100.0%),Viruses (100.0%),eeev_FSE,eastern equine encephalitis ribosomal frameshift element,Cis-reg; frameshift_element;
 RF01840,Viruses,Viruses (100.0%),Viruses (100.0%),ovine_lenti_FSE,ribosomal frameshift element,Cis-reg; frameshift_element;
 RF01841,Viruses,Viruses (100.0%),Viruses (100.0%),veev_FSE,venezuelan equine encephalitis virus ribosomal frameshift element,Cis-reg; frameshift_element;
+RF01852,Mixed,"Bacteria (68.81%), Eukaryota (29.36%), Archaea (1.83%)","Bacteria (73.97%), Eukaryota (25.31%), Archaea (0.51%), Viruses (0.21%)",tRNA-Sec,Selenocysteine transfer RNA,Gene; tRNA;
 RF01940,Viruses,Viruses (100.0%),Viruses (100.0%),hvt-mir-H,microRNA hvt-mir-H9,Gene; miRNA;
 RF02340,Viruses/Mixed,Viruses (100.0%),"Viruses (85.71%), Eukaryota (14.29%)",DENV_SLA,Dengue virus SLA,Cis-reg;
 RF02359,Viruses,Viruses (100.0%),Viruses (100.0%),MS2,Bacteriophage MS2 operator hairpin,Cis-reg;

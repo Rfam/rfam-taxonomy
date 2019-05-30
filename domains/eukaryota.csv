@@ -1,7 +1,9 @@
 Family,Domain,Seed domains,Full region domains,Rfam ID,Description,RNA type
+RF00001,Mixed,"Bacteria (48.6%), Eukaryota (45.51%), Archaea (5.9%)","Eukaryota (87.59%), Bacteria (12.0%), Archaea (0.4%)",5S_rRNA,5S ribosomal RNA,Gene; rRNA;
 RF00002,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.54%), Bacteria (0.46%)",5_8S_rRNA,5.8S ribosomal RNA,Gene; rRNA;
 RF00003,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),U1,U1 spliceosomal RNA,Gene; snRNA; splicing;
 RF00004,Eukaryota,"Eukaryota (99.04%), unclassified sequences (0.96%)","Eukaryota (99.98%), Viruses (0.01%), unclassified sequences (0.01%)",U2,U2 spliceosomal RNA,Gene; snRNA; splicing;
+RF00005,Mixed,"Eukaryota (78.2%), Bacteria (17.3%), Archaea (3.46%), Viruses (1.05%)","Eukaryota (73.83%), Bacteria (25.02%), Archaea (0.95%), Viruses (0.2%)",tRNA,tRNA,Gene; tRNA;
 RF00006,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),Vault,Vault RNA,Gene;
 RF00007,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),U12,U12 minor spliceosomal RNA,Gene; snRNA; splicing;
 RF00008,Viroids/Eukaryota,"Viroids (91.46%), Viruses (8.54%)","Eukaryota (94.25%), Bacteria (3.11%), Viroids (2.36%), Viruses (0.28%)",Hammerhead_3,Hammerhead ribozyme (type III),Gene; ribozyme;
@@ -1154,6 +1156,7 @@ RF01845,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),enod40,Early nodulin 40,
 RF01846,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.84%), Bacteria (0.16%)",Fungi_U3,Fungal small nucleolar RNA U3,Gene; snRNA; snoRNA; CD-box;
 RF01847,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),Plant_U3,Plant small nucleolar RNA U3,Gene; snRNA; snoRNA; CD-box;
 RF01848,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),ACEA_U3,ACEA small nucleolar RNA U3,Gene; snRNA; snoRNA; CD-box;
+RF01852,Mixed,"Bacteria (68.81%), Eukaryota (29.36%), Archaea (1.83%)","Bacteria (73.97%), Eukaryota (25.31%), Archaea (0.51%), Viruses (0.21%)",tRNA-Sec,Selenocysteine transfer RNA,Gene; tRNA;
 RF01853,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mtDNA_ssA,Mitochondrial DNA control region secondary structure A,Gene; antisense;
 RF01855,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.86%), Bacteria (0.14%)",Plant_SRP,Plant signal recognition particle RNA,Gene;
 RF01856,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),Protozoa_SRP,Protozoan signal recognition particle RNA,Gene;

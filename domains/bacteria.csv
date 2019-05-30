@@ -1,4 +1,6 @@
 Family,Domain,Seed domains,Full region domains,Rfam ID,Description,RNA type
+RF00001,Mixed,"Bacteria (48.6%), Eukaryota (45.51%), Archaea (5.9%)","Eukaryota (87.59%), Bacteria (12.0%), Archaea (0.4%)",5S_rRNA,5S ribosomal RNA,Gene; rRNA;
+RF00005,Mixed,"Eukaryota (78.2%), Bacteria (17.3%), Archaea (3.46%), Viruses (1.05%)","Eukaryota (73.83%), Bacteria (25.02%), Archaea (0.95%), Viruses (0.2%)",tRNA,tRNA,Gene; tRNA;
 RF00010,Bacteria,"Bacteria (99.78%), Eukaryota (0.22%)","Bacteria (99.37%), Eukaryota (0.6%), Archaea (0.03%)",RNaseP_bact_a,Bacterial RNase P class A,Gene; ribozyme;
 RF00011,Bacteria,"Bacteria (96.49%), unclassified sequences (2.63%), Eukaryota (0.88%)","Bacteria (98.73%), Eukaryota (0.89%), unclassified sequences (0.38%)",RNaseP_bact_b,Bacterial RNase P class B,Gene; ribozyme;
 RF00013,Bacteria,"Bacteria (96.64%), Eukaryota (2.01%), unclassified sequences (1.34%)","Bacteria (99.22%), Eukaryota (0.72%), unclassified sequences (0.05%)",6S,6S / SsrS RNA,Gene;
@@ -385,6 +387,7 @@ RF01843,Bacteria,Bacteria (100.0%),Bacteria (100.0%),neisseria_FSE,neiserria rib
 RF01849,Bacteria,"Bacteria (91.89%), unclassified sequences (8.11%)","Bacteria (96.82%), Eukaryota (2.02%), unclassified sequences (0.96%), Viruses (0.21%)",alpha_tmRNA,Alphaproteobacteria transfer-messenger RNA,Gene;
 RF01850,Bacteria,Bacteria (100.0%),"Bacteria (97.56%), Eukaryota (2.44%)",beta_tmRNA,Betaproteobacteria transfer-messenger RNA,Gene;
 RF01851,Bacteria,Bacteria (100.0%),"Bacteria (91.67%), Viruses (8.33%)",cyano_tmRNA,Cyanobacteria transfer-messenger RNA,Gene;
+RF01852,Mixed,"Bacteria (68.81%), Eukaryota (29.36%), Archaea (1.83%)","Bacteria (73.97%), Eukaryota (25.31%), Archaea (0.51%), Viruses (0.21%)",tRNA-Sec,Selenocysteine transfer RNA,Gene; tRNA;
 RF01854,Bacteria,Bacteria (100.0%),"Bacteria (99.3%), Archaea (0.61%), Eukaryota (0.09%)",Bacteria_large_SRP,Bacterial large signal recognition particle RNA,Gene;
 RF01858,Bacteria,Bacteria (100.0%),Bacteria (100.0%),RsaF,RNA Staph. aureus F,Gene; sRNA;
 RF01859,Bacteria,"Bacteria (97.18%), unclassified sequences (2.82%)","Bacteria (92.92%), Eukaryota (6.54%), unclassified sequences (0.54%)",Phe_leader,Phenylalanine leader peptide,Cis-reg; leader;

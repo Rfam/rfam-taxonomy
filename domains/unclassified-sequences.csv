@@ -1,4 +1,6 @@
 Family,Domain,Seed domains,Full region domains,Rfam ID,Description,RNA type
+RF00001,Mixed,"Bacteria (48.6%), Eukaryota (45.51%), Archaea (5.9%)","Eukaryota (87.59%), Bacteria (12.0%), Archaea (0.4%)",5S_rRNA,5S ribosomal RNA,Gene; rRNA;
+RF00005,Mixed,"Eukaryota (78.2%), Bacteria (17.3%), Archaea (3.46%), Viruses (1.05%)","Eukaryota (73.83%), Bacteria (25.02%), Archaea (0.95%), Viruses (0.2%)",tRNA,tRNA,Gene; tRNA;
 RF01689,unclassified sequences/Mixed,unclassified sequences (100.0%),"unclassified sequences (68.25%), Bacteria (30.81%), Eukaryota (0.47%), Archaea (0.47%)",AdoCbl-variant,AdoCbl variant RNA,Cis-reg; riboswitch;
 RF01706,unclassified sequences/Mixed,unclassified sequences (100.0%),"Bacteria (62.73%), unclassified sequences (34.55%), Eukaryota (2.73%)",Gut-1,Gut-1 RNA,Gene; sRNA;
 RF01712,unclassified sequences/Bacteria,"unclassified sequences (97.06%), Bacteria (2.94%)","unclassified sequences (70.21%), Bacteria (29.79%)",Methylobacterium-1,Methylobacterium-1 RNA,Gene; sRNA;
@@ -15,6 +17,7 @@ RF01761,unclassified sequences/Mixed,"unclassified sequences (98.31%), Viruses (
 RF01762,unclassified sequences/Mixed,unclassified sequences (100.0%),"Bacteria (70.91%), unclassified sequences (25.45%), Eukaryota (3.64%)",whalefall-1,Whalefall-1 RNA,Gene; sRNA;
 RF01810,unclassified sequences/Bacteria,"unclassified sequences (90.0%), Bacteria (10.0%)","unclassified sequences (56.25%), Bacteria (43.75%)",pntA,pntA sRNA,Gene; sRNA;
 RF01815,unclassified sequences/Bacteria,unclassified sequences (100.0%),"Bacteria (96.1%), unclassified sequences (2.6%), Eukaryota (1.3%)",rpsB,rpsB sRNA,Gene; sRNA;
+RF01852,Mixed,"Bacteria (68.81%), Eukaryota (29.36%), Archaea (1.83%)","Bacteria (73.97%), Eukaryota (25.31%), Archaea (0.51%), Viruses (0.21%)",tRNA-Sec,Selenocysteine transfer RNA,Gene; tRNA;
 RF02034,unclassified sequences,unclassified sequences (100.0%),"unclassified sequences (98.21%), Bacteria (1.79%)",IMES-1,IMES-1 RNA motif,Gene;
 RF02035,unclassified sequences,unclassified sequences (100.0%),"unclassified sequences (96.32%), Eukaryota (1.84%), Bacteria (1.84%)",IMES-2,IMES-2 RNA motif,Gene;
 RF02036,unclassified sequences,unclassified sequences (100.0%),unclassified sequences (100.0%),IMES-3,IMES-3 RNA motif,Gene;

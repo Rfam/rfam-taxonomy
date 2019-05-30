@@ -4,24 +4,13 @@
 
 The file [domains.csv](./domains.csv) contains seven columns:
 
-- `Family` = Rfam accession (e.g. RF00001)
-- `Domain` = Taxonomic domain where the family is found
-- `Seed domains` = All taxonomic domains from the seed alignment
-- `Full region domains` = All taxonomic domains from all the matches
-- `Rfam ID` = Rfam identifier (e.g. 5S_rRNA)
-- `Description` = Family description
-- `RNA type` = One of Rfam [RNA types](https://rfam.readthedocs.io/en/latest/searching-rfam.html#search-by-entry-type)
-
-Example:
-
-```
-Family,Domain,Seed domains,Full region domains
-RF00001,Mixed,"Bacteria (48.6%), Eukaryota (45.51%), Archaea (5.9%)","Eukaryota (87.59%), Bacteria (12.0%), Archaea (0.4%)"
-RF00002,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.54%), Bacteria (0.46%)"
-RF00003,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%)
-RF00004,Eukaryota,"Eukaryota (99.04%), unclassified sequences (0.96%)","Eukaryota (99.98%), Viruses (0.01%), unclassified sequences (0.01%)"
-RF00005,Mixed,"Eukaryota (78.2%), Bacteria (17.3%), Archaea (3.46%), Viruses (1.05%)","Eukaryota (73.83%), Bacteria (25.02%), Archaea (0.95%), Viruses (0.2%)"
-```
+1. `Family` = Rfam accession (e.g. RF00001)
+2. `Domain` = Taxonomic domain where the family is found
+3. `Seed domains` = All taxonomic domains from the seed alignment
+4. `Full region domains` = All taxonomic domains from all the matches
+5. `Rfam ID` = Rfam identifier (e.g. 5S_rRNA)
+6. `Description` = Family description
+7. `RNA type` = One of Rfam [RNA types](https://rfam.readthedocs.io/en/latest/searching-rfam.html#search-by-entry-type)
 
 `Domain` can be:
 - single domain (like Bacteria or Eukaryota) if the majority of hits (>=90%) are from the same domain both in seed and full region hits;

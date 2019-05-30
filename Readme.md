@@ -2,12 +2,15 @@
 
 :warning: Work in progress, do not use in production :warning:
 
-The file [domains.csv](./domains.csv) contains four columns:
+The file [domains.csv](./domains.csv) contains seven columns:
 
-- `Family` = Rfam accession
+- `Family` = Rfam accession (e.g. RF00001)
 - `Domain` = Taxonomic domain where the family is found
 - `Seed domains` = All taxonomic domains from the seed alignment
 - `Full region domains` = All taxonomic domains from all the matches
+- `Rfam ID` = Rfam identifier (e.g. 5S_rRNA)
+- `Description` = Family description
+- `RNA type` = One of Rfam [RNA types](https://rfam.readthedocs.io/en/latest/searching-rfam.html#search-by-entry-type)
 
 Example:
 

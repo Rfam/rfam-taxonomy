@@ -109,12 +109,12 @@ def get_domains(data):
     return ', '.join(output)
 
 
-def analyse_seed_full_taxonomic_distribution(rfam_acc, cutoff):
+def analyse_seed_full_taxonomic_distribution(family, cutoff):
     """
     Compare domains observed in seed alignments and full region hits.
     """
-    seed = get_taxonomic_distribution(rfam_acc, DATA_SEED_PATH)
-    full = get_taxonomic_distribution(rfam_acc, DATA_FULL_REGION_PATH)
+    seed = get_taxonomic_distribution(family['rfam_acc'], DATA_SEED_PATH)
+    full = get_taxonomic_distribution(family['rfam_acc'], DATA_FULL_REGION_PATH)
 
     major_domain_seed = get_major_domain(seed, cutoff)
     seed_domains = get_domains(seed)
@@ -124,17 +124,23 @@ def analyse_seed_full_taxonomic_distribution(rfam_acc, cutoff):
 
     if major_domain_seed and major_domain_seed == major_domain_full:
         return [
-            rfam_acc,
+            family['rfam_acc'],
             major_domain_seed,
             seed_domains,
             full_domains,
+            family['rfam_id'],
+            family['description'],
+            family['type'],
         ]
     else:
         return [
-            rfam_acc,
+            family['rfam_acc'],
             '{}/{}'.format(major_domain_seed, major_domain_full),
             seed_domains,
             full_domains,
+            family['rfam_id'],
+            family['description'],
+            family['type'],
         ]
 
 
@@ -151,10 +157,11 @@ def main(precompute_seed, precompute_full, cutoff):
 
     with open('domains.csv', 'w') as f_out:
         csvwriter = csv.writer(f_out)
-        header = ['Family', 'Domain', 'Seed domains', 'Full region domains']
+        header = ['Family', 'Domain', 'Seed domains', 'Full region domains',
+                  'Rfam ID', 'Description', 'RNA type']
         csvwriter.writerow(header)
         for family in get_rfam_families():
-            line = analyse_seed_full_taxonomic_distribution(family['rfam_acc'], cutoff)
+            line = analyse_seed_full_taxonomic_distribution(family, cutoff)
             csvwriter.writerow(line)
 
     cmd = ("cut -d ',' -f 2,2 domains.csv | sort | uniq -c | "

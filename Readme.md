@@ -25,7 +25,7 @@ Each file contains seven columns:
 - `<seed domain>/<full region domain>` - if seed and full region domains are not the same, then both are listed. For example, `Viruses/Eukaryota` when seed alignment contains mostly Viruses and the full region hits contain mostly Eukaryotes);
 - `Mixed` - if there is no single domain where the family occurs. For example, 5S rRNA RF00001 is expected to be found in Bacteria, Archaea, and Eukaryota.
 
-:white_check_mark: View [summary](./domains/summary.md) with the number of families observed in each domain.
+:white_check_mark: View [summary](./domains/Readme.md) with the number of families observed in each domain.
 
 The analysis is based on **Rfam 14.1**.
 

@@ -206,7 +206,7 @@ def update_summary():
     """
     Update summary.md file with domain counts.
     """
-    summary_file = 'domains/summary.md'
+    summary_file = 'domains/Readme.md'
     with open(summary_file, 'w') as f_out:
         header = """# Summary
 

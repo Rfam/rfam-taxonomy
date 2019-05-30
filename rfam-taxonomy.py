@@ -186,27 +186,24 @@ def write_output_files(data):
 
 def update_summary():
     """
-    Update summary file with domain counts.
+    Update summary.md file with domain counts.
     """
     summary_file = 'domains/summary.md'
     with open(summary_file, 'w') as f_out:
         header = """# Summary
 
+The number of Rfam families observed in different domains:
+
 ```
 """
         f_out.write(header)
-    cmd = ("cut -d ',' -f 2,2 domains.csv | sort | uniq -c | "
+    cmd = ("cut -d ',' -f 2,2 domains/all-domains.csv | sort | uniq -c | "
            # "grep -v Mixed | "
            # "grep -v '/' | "
            "grep -v Domain | "
            "sort -nr >> {}".format(summary_file))
     os.system(cmd)
-
-    with open(summary_file, 'a') as f_out:
-        header = """
-```
-"""
-        f_out.write(header)
+    os.system("echo '```' >> {}".format(summary_file))
 
 
 @click.command()

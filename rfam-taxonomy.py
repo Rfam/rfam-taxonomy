@@ -103,6 +103,16 @@ def get_major_domain(data, cutoff):
     maximum = max(data, key=data.get)
     if data[maximum] >= cutoff:
         major_domain = maximum
+    else:
+        # get distinct domains
+        found_domains = []
+        for domain, value in data.iteritems():
+            if value > 0:
+                found_domains.append(domain)
+        # if only two domains and one of them is `unclassified`, consider the other one major domain
+        if len(found_domains) == 2 and 'unclassified sequences' in found_domains:
+            found_domains.remove('unclassified sequences')
+            major_domain = found_domains.pop()
     return major_domain
 
 

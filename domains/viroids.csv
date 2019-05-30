@@ -1,2 +1,3 @@
 Family,Domain,Seed domains,Full region domains,Rfam ID,Description,RNA type
+RF00008,Viroids/Eukaryota,"Viroids (91.46%), Viruses (8.54%)","Eukaryota (94.25%), Bacteria (3.11%), Viroids (2.36%), Viruses (0.28%)",Hammerhead_3,Hammerhead ribozyme (type III),Gene; ribozyme;
 RF00362,Viroids,Viroids (100.0%),Viroids (100.0%),Pospi_RY,Pospiviroid RY motif stem loop,Cis-reg;

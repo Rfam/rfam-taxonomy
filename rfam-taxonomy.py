@@ -22,6 +22,7 @@ from scripts.rfam_db import get_rfam_families, get_taxonomy_info
 
 DATA_SEED_PATH = 'data-seed'
 DATA_FULL_REGION_PATH = 'data-full-region'
+
 DOMAINS = sorted([
     'Archaea',
     'Bacteria',
@@ -32,6 +33,12 @@ DOMAINS = sorted([
     'Other',
 ])
 DOMAIN_CUTOFF = 90 # at least 90% of sequences must be from this domain
+
+WHITELIST = [
+    'RF00001', # 5S
+    'RF00005', # tRNA
+    'RF01852', # tRNA-Sec
+]
 
 
 def precompute_taxonomic_information(analysis_type):
@@ -168,19 +175,30 @@ def write_output_files(data):
     """
     header = ['Family', 'Domain', 'Seed domains', 'Full region domains',
               'Rfam ID', 'Description', 'RNA type']
+
+    # create a file for all families
     with open('domains/all-domains.csv', 'w') as f_out:
         csvwriter = csv.writer(f_out)
         csvwriter.writerow(header)
         for line in data:
             csvwriter.writerow(line)
+
+    # create domain-specific files
     for domain in DOMAINS:
         if domain == 'Other':
             continue
-        with open('domains/{}.csv'.format(domain.lower().replace(' ', '-')), 'w') as f_out:
+        filename = 'domains/{}.csv'.format(domain.lower().replace(' ', '-'))
+        with open(filename, 'w') as f_out:
             csvwriter = csv.writer(f_out)
             csvwriter.writerow(header)
             for line in data:
-                if line[1].lower() == domain.lower():
+                this_domain = line[1].lower()
+                rfam_acc = line[0]
+                if this_domain in ['Bacteria/Eukaryota']: # skip families that have Bacteria in SEED but mostly Eukaryotes in full
+                    continue
+                elif rfam_acc in WHITELIST:
+                    csvwriter.writerow(line)
+                elif domain.lower() in this_domain:
                     csvwriter.writerow(line)
 
 

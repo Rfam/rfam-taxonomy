@@ -21,9 +21,9 @@ Each file contains seven columns:
 7. `RNA type` = One of Rfam [RNA types](https://rfam.readthedocs.io/en/latest/searching-rfam.html#search-by-entry-type).
 
 `Domain` can be:
-- single domain (for example, Bacteria or Eukaryota) if the majority of hits (>=90%) are from the same domain both in seed and full region hits;
-- `<seed domain>/<full region domain>` - if seed and full region domains are not the same, then both are listed. For example, `Viruses/Eukaryota` when seed alignment contains mostly Viruses and the full region hits contain mostly Eukaryotes);
-- `Mixed` - if there is no single domain where the family occurs. For example, 5S rRNA RF00001 is expected to be found in Bacteria, Archaea, and Eukaryota.
+- a single domain (for example, _Bacteria_ or _Eukaryota_) if the majority of hits (>=90%) are from the same domain both in seed and full region hits;
+- `<seed domain>/<full region domain>` - if seed and full region domains are not the same, then both are listed. For example, _Viruses/Eukaryota_ when seed alignment contains mostly Viruses and the full region hits contain mostly Eukaryotes);
+- `Mixed` - if there is no single domain where the family occurs. For example, 5S rRNA [RF00001](http://rfam.org/family/RF00001) is expected to be found in _Bacteria_, _Archaea_, and _Eukaryota_.
 
 :white_check_mark: View [summary](./domains/Readme.md) with the number of families observed in each domain.
 
@@ -33,9 +33,9 @@ The analysis is based on **Rfam 14.1**.
 
 The files can be retrieved directly from GitHub:
 
-- [all-domains.csv](https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/all-domains.csv)
-- [bacteria.csv](https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/bacteria.csv)
-- [archaea.csv](https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/archaea.csv)
+- https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/all-domains.csv
+- https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/bacteria.csv
+- https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/archaea.csv
 
  It is also possible to regenerate the files locally (see the **Installation** section below).
 

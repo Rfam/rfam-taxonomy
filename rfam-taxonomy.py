@@ -166,13 +166,22 @@ def write_output_files(data):
     """
     Generate output files.
     """
-    with open('domains.csv', 'w') as f_out:
+    header = ['Family', 'Domain', 'Seed domains', 'Full region domains',
+              'Rfam ID', 'Description', 'RNA type']
+    with open('domains/all-domains.csv', 'w') as f_out:
         csvwriter = csv.writer(f_out)
-        header = ['Family', 'Domain', 'Seed domains', 'Full region domains',
-                  'Rfam ID', 'Description', 'RNA type']
         csvwriter.writerow(header)
         for line in data:
             csvwriter.writerow(line)
+    for domain in DOMAINS:
+        if domain == 'Other':
+            continue
+        with open('domains/{}.csv'.format(domain.lower().replace(' ', '-')), 'w') as f_out:
+            csvwriter = csv.writer(f_out)
+            csvwriter.writerow(header)
+            for line in data:
+                if line[1].lower() == domain.lower():
+                    csvwriter.writerow(line)
 
 
 def update_summary():

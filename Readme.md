@@ -2,7 +2,6 @@
 
 :warning: Work in progress, do not use in production :warning:
 
-The file [domains.csv](./domains.csv) contains seven columns:
 
 1. `Family` = Rfam accession (e.g. RF00001)
 2. `Domain` = Taxonomic domain where the family is found

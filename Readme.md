@@ -25,10 +25,11 @@ Each file contains seven columns:
 - a single domain (for example, _Bacteria_ or _Eukaryota_) if the majority of hits (>=90%) are from the same domain both in seed and full region hits;
 - `<seed domain>/<full region domain>` - if seed and full region domains are not the same, then both are listed. For example, _Viruses/Eukaryota_ means that the seed alignment contains mostly Viruses and the full region hits contain mostly Eukaryotes);
 - `Mixed` - if there is no single domain where the family occurs. For example, 5S rRNA [RF00001](http://rfam.org/family/RF00001) is expected to be found in _Bacteria_, _Archaea_, and _Eukaryota_.
+- `<seed region domain>/Mixed` or `Mixed/<full region domain>` - For example, Bacterial SSU [RF00177](http://rfam.org/family/RF00177) has only Bacteria in the seed alignment but the full region hits also contain Eukaryota because the mitochondrial and plastid SSU is similar to the bacterial SSU and is expected to match the bacterial model.
 
 :white_check_mark: View [summary](./domains/Readme.md) with the number of families observed in each domain.
 
-The analysis is based on **Rfam 14.1**.
+The current analysis is based on **Rfam 14.1** (the csv files need to be updated each Rfam release).
 
 ## Retrieving the data
 

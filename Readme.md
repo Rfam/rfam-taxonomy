@@ -76,7 +76,8 @@ pip install -r requirements.txt
 
 ```
 # when running for the first time:
-python rfam-taxonomy.py --precompute
+python rfam-taxonomy.py --precompute-seed
+python rfam-taxonomy.py --precompute-full
 
 # after precompute is done, run:
 python rfam-taxonomy.py

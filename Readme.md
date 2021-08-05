@@ -1,9 +1,11 @@
 # Rfam Taxonomy
 
 This repository contains the code and data for analysing the taxonomic distribution
-of the [Rfam](http://rfam.org) families. The goal is to identify domain-specific
+of the [Rfam](https://rfam.org) families. The goal is to identify domain-specific
 subsets of Rfam covariance models for annotating bacterial, eukaryotic,
 and other genomes with the [Infernal](http://eddylab.org/infernal) software.
+
+The current analysis is based on **Rfam 14.6** (July 2021). The data should be updated after every Rfam release.
 
 The code uses the Rfam [public MySQL database](https://rfam.readthedocs.io/en/latest/database.html)
 to compare the taxonomic domains of sequences from the manually curated
@@ -29,8 +31,6 @@ Each file contains seven columns:
 
 :white_check_mark: View [summary](./domains/Readme.md) with the number of families observed in each domain.
 
-The current analysis is based on **Rfam 14.1** (the csv files need to be updated each Rfam release).
-
 ## Retrieving the data
 
 The latest version of the files can be retrieved directly from GitHub using the following URL format:
@@ -38,6 +38,7 @@ The latest version of the files can be retrieved directly from GitHub using the 
 - https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/all-domains.csv
 - https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/bacteria.csv
 - https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/archaea.csv
+- https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/viruses.csv
 
  It is also possible to download the data and use it locally or regenerate the files (see the **Installation** section below).
 

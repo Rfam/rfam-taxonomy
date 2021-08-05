@@ -5,10 +5,10 @@ RF00058,Archaea,Archaea (100.0%),Archaea (100.0%),HgcF,HgcF RNA (Pab35),Gene; sn
 RF00060,Archaea,Archaea (100.0%),Archaea (100.0%),HgcE,HgcE RNA (Pab105),Gene; snRNA; snoRNA; HACA-box;
 RF00062,Archaea,Archaea (100.0%),Archaea (100.0%),HgcC,HgcC family RNA,Gene;
 RF00063,Archaea,Archaea (100.0%),Archaea (100.0%),SscA,SscA RNA,Gene;
-RF00064,Archaea,Archaea (100.0%),Archaea (100.0%),HgcG,HgcG RNA (Pab40),Gene; snRNA; snoRNA; HACA-box
+RF00064,Archaea,Archaea (100.0%),Archaea (100.0%),HgcG,HgcG RNA (Pab40),Gene; snRNA; snoRNA; HACA-box;
 RF00065,Archaea,Archaea (100.0%),Archaea (100.0%),snoR9,Small nucleolar RNA snoR9,Gene; snRNA; snoRNA; CD-box;
 RF00095,Archaea,Archaea (100.0%),"Archaea (96.35%), Eukaryota (3.65%)",snoPyro_CD,Pyrococcus C/D box small nucleolar RNA,Gene; snRNA; snoRNA; CD-box;
-RF00373,Archaea/Mixed,"Archaea (68.57%), unclassified sequences (31.43%)","Archaea (89.81%), unclassified sequences (5.9%), Bacteria (4.29%)",RNaseP_arch,Archaeal RNase P,Gene; ribozyme;
+RF00373,Archaea/Mixed,"Archaea (68.57%), unclassified sequences (31.43%)","Archaea (89.36%), unclassified sequences (6.16%), Bacteria (4.48%)",RNaseP_arch,Archaeal RNase P,Gene; ribozyme;
 RF01119,Archaea,Archaea (100.0%),Archaea (100.0%),sR32,Small nucleolar RNA sR32,Gene; snRNA; snoRNA; CD-box;
 RF01120,Archaea,Archaea (100.0%),"Archaea (91.67%), Eukaryota (8.33%)",sR33,Small nucleolar RNA sR33,Gene; snRNA; snoRNA; CD-box;
 RF01121,Archaea,Archaea (100.0%),Archaea (100.0%),sR38,Small nucleolar RNA sR38,Gene; snRNA; snoRNA; CD-box;
@@ -60,7 +60,7 @@ RF01324,Archaea,Archaea (100.0%),Archaea (100.0%),CRISPR-DR11,CRISPR RNA direct 
 RF01326,Archaea,Archaea (100.0%),"Archaea (99.25%), Eukaryota (0.75%)",CRISPR-DR13,CRISPR RNA direct repeat element,Gene; CRISPR;
 RF01328,Archaea,Archaea (100.0%),Archaea (100.0%),CRISPR-DR17,CRISPR RNA direct repeat element,Gene; CRISPR;
 RF01337,Archaea,Archaea (100.0%),"Archaea (99.92%), Eukaryota (0.08%)",CRISPR-DR24,CRISPR RNA direct repeat element,Gene; CRISPR;
-RF01338,Archaea,Archaea (100.0%),"Archaea (99.03%), Eukaryota (0.97%)",CRISPR-DR25,CRISPR RNA direct repeat element,Gene; CRISPR;
+RF01338,Archaea,Archaea (100.0%),"Archaea (99.01%), Eukaryota (0.99%)",CRISPR-DR25,CRISPR RNA direct repeat element,Gene; CRISPR;
 RF01339,Archaea,Archaea (100.0%),"Archaea (96.99%), Eukaryota (2.26%), Bacteria (0.75%)",CRISPR-DR27,CRISPR RNA direct repeat element,Gene; CRISPR;
 RF01350,Archaea,Archaea (100.0%),Archaea (100.0%),CRISPR-DR41,CRISPR RNA direct repeat element,Gene; CRISPR;
 RF01351,Archaea,Archaea (100.0%),Archaea (100.0%),CRISPR-DR42,CRISPR RNA direct repeat element,Gene; CRISPR;
@@ -77,15 +77,15 @@ RF01378,Archaea,Archaea (100.0%),Archaea (100.0%),CRISPR-DR65,CRISPR RNA direct 
 RF01722,Archaea,Archaea (100.0%),Archaea (100.0%),Pyrobac-1,Pyrobac-1 RNA,Gene; sRNA;
 RF01737,Archaea,Archaea (100.0%),Archaea (100.0%),flpD,flpD RNA,Cis-reg;
 RF01829,Archaea,Archaea (100.0%),Archaea (100.0%),sR6,sR6 snoRNA,Gene; snRNA; snoRNA; CD-box;
-RF01852,Mixed,"Bacteria (68.81%), Eukaryota (29.36%), Archaea (1.83%)","Bacteria (73.97%), Eukaryota (25.31%), Archaea (0.51%), Viruses (0.21%)",tRNA-Sec,Selenocysteine transfer RNA,Gene; tRNA;
-RF01857,Archaea,Archaea (100.0%),"Archaea (98.84%), Bacteria (0.87%), Eukaryota (0.29%)",Archaea_SRP,Archaeal signal recognition particle RNA,Gene;
-RF01959,Archaea/Mixed,Archaea (100.0%),"Archaea (84.06%), Eukaryota (11.41%), Bacteria (4.53%)",SSU_rRNA_archaea,Archaeal small subunit ribosomal RNA,Gene; rRNA;
+RF01852,Mixed,"Bacteria (68.81%), Eukaryota (29.36%), Archaea (1.83%)","Bacteria (73.5%), Eukaryota (25.86%), Archaea (0.43%), Viruses (0.22%)",tRNA-Sec,Selenocysteine transfer RNA,Gene; tRNA;
+RF01857,Archaea,Archaea (100.0%),"Archaea (98.73%), Bacteria (0.95%), Eukaryota (0.32%)",Archaea_SRP,Archaeal signal recognition particle RNA,Gene;
+RF01959,Archaea/Mixed,Archaea (100.0%),"Archaea (83.65%), Eukaryota (11.7%), Bacteria (4.65%)",SSU_rRNA_archaea,Archaeal small subunit ribosomal RNA,Gene; rRNA;
 RF02163,Archaea,Archaea (100.0%),Archaea (100.0%),sR-tMet,Small nucleolar RNA sR-tMet,Gene; snRNA; snoRNA; CD-box;
 RF02357,Archaea,Archaea (100.0%),Archaea (100.0%),RNaseP-T,RNaseP truncated form,Gene; ribozyme;
 RF02511,Archaea,Archaea (100.0%),Archaea (100.0%),PYLIS_4,Pyrrolysine insertion sequence TetR,Cis-reg;
 RF02512,Archaea,"Archaea (94.12%), unclassified sequences (5.88%)","Archaea (97.06%), unclassified sequences (2.94%)",PYLIS_5,Pyrrolysine insertion sequence transposase 1,Cis-reg;
 RF02513,Archaea,Archaea (100.0%),Archaea (100.0%),PYLIS_6,Pyrrolysine insertion sequence transposase 2,Cis-reg;
-RF02540,Archaea/Mixed,Archaea (100.0%),"Eukaryota (59.26%), Archaea (34.96%), Bacteria (5.78%)",LSU_rRNA_archaea,Archaeal large subunit ribosomal RNA,Gene; rRNA;
+RF02540,Archaea/Mixed,Archaea (100.0%),"Eukaryota (61.09%), Archaea (32.95%), Bacteria (5.96%)",LSU_rRNA_archaea,Archaeal large subunit ribosomal RNA,Gene; rRNA;
 RF02656,Archaea,Archaea (100.0%),Archaea (100.0%),sot0042,Sense overlapping transcript RNA 0042 (sot),Gene; sRNA;
 RF02657,Archaea,Archaea (100.0%),Archaea (100.0%),sot2652,Sense overlapping transcript RNA 2652 (sot),Gene; sRNA;
 RF02792,Archaea,Archaea (100.0%),Archaea (100.0%),sRNA162,Archaeal Small RNA 162,Gene; antisense;
@@ -106,3 +106,7 @@ RF02905,Archaea,Archaea (100.0%),Archaea (100.0%),sRNA41,Archaeal Small RNA 41,G
 RF02906,Archaea,Archaea (100.0%),Archaea (100.0%),sRNA154,Archaeal Small RNA 154,Gene; sRNA;
 RF02984,unclassified sequences/Archaea,"unclassified sequences (92.05%), Archaea (7.95%)","unclassified sequences (80.2%), Archaea (19.8%)",DUF3800-X,DUF3800-X RNA,Gene; sRNA;
 RF03001,Archaea,"Archaea (52.63%), unclassified sequences (47.37%)","Archaea (65.88%), unclassified sequences (34.12%)",leuA-Halobacteria,leuA-Halobacteria RNA,Cis-reg;
+RF03135,Archaea,"unclassified sequences (68.87%), Archaea (31.13%)","unclassified sequences (54.32%), Archaea (45.68%)",L4-Archaeoglobi,L4-Archaeoglobi ribosomal protein leades,Cis-reg; leader;
+RF03137,Archaea,"unclassified sequences (86.0%), Archaea (14.0%)","unclassified sequences (75.44%), Archaea (24.56%)",S15-Methanomicrobia,S15-Methanomicrobia ribosomal protein leader,Cis-reg; leader;
+RF03143,Archaea,"unclassified sequences (57.81%), Archaea (42.19%)","Archaea (54.33%), unclassified sequences (45.67%)",S15-Halobacteria,S15-Halobacteria ribosomal protein leader,Cis-reg; leader;
+RF03144,Archaea/Mixed,"unclassified sequences (68.27%), Archaea (31.73%)","unclassified sequences (52.49%), Archaea (47.24%), Eukaryota (0.26%)",eL15-Euryarchaeota,eL15-Euryarchaeota ribosomal protein leader,Cis-reg; leader;

@@ -1,6 +1,5 @@
 Family,Domain,Seed domains,Full region domains,Rfam ID,Description,RNA type
 RF00001,Mixed,"Bacteria (48.6%), Eukaryota (45.51%), Archaea (5.9%)","Eukaryota (87.59%), Bacteria (12.0%), Archaea (0.4%)",5S_rRNA,5S ribosomal RNA,Gene; rRNA;
 RF00005,Mixed,"Eukaryota (78.2%), Bacteria (17.3%), Archaea (3.46%), Viruses (1.05%)","Eukaryota (73.83%), Bacteria (25.02%), Archaea (0.95%), Viruses (0.2%)",tRNA,tRNA,Gene; tRNA;
-RF00008,Viroids/Eukaryota,"Viroids (91.46%), Viruses (8.54%)","Eukaryota (94.25%), Bacteria (3.11%), Viroids (2.36%), Viruses (0.28%)",Hammerhead_3,Hammerhead ribozyme (type III),Gene; ribozyme;
 RF00362,Viroids,Viroids (100.0%),Viroids (100.0%),Pospi_RY,Pospiviroid RY motif stem loop,Cis-reg;
-RF01852,Mixed,"Bacteria (68.81%), Eukaryota (29.36%), Archaea (1.83%)","Bacteria (73.97%), Eukaryota (25.31%), Archaea (0.51%), Viruses (0.21%)",tRNA-Sec,Selenocysteine transfer RNA,Gene; tRNA;
+RF01852,Mixed,"Bacteria (68.81%), Eukaryota (29.36%), Archaea (1.83%)","Bacteria (73.5%), Eukaryota (25.86%), Archaea (0.43%), Viruses (0.22%)",tRNA-Sec,Selenocysteine transfer RNA,Gene; tRNA;

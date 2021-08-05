@@ -95,8 +95,9 @@ def get_taxonomic_distribution(rfam_acc, DATA_PATH):
             else:
                 data['Other'] += count
             total += count
-    for domain in DOMAINS:
-        data[domain] = round(data[domain]*100.0/total, 2)
+    if total != 0:
+        for domain in DOMAINS:
+            data[domain] = round(data[domain]*100.0/total, 2)
     return data
 
 

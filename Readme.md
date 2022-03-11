@@ -1,11 +1,11 @@
 # Rfam Taxonomy
 
+Based on **Rfam 14.7** (December 2021). See [releases](https://github.com/Rfam/rfam-taxonomy/releases) for previous versions.
+
 This repository contains the code and data for analysing the taxonomic distribution
 of the [Rfam](https://rfam.org) families. The goal is to identify domain-specific
 subsets of Rfam covariance models for annotating bacterial, eukaryotic,
 and other genomes with the [Infernal](http://eddylab.org/infernal) software.
-
-The current analysis is based on **Rfam 14.6** (July 2021). The data should be updated after every Rfam release.
 
 The code uses the Rfam [public MySQL database](https://rfam.readthedocs.io/en/latest/database.html)
 to compare the taxonomic domains of sequences from the manually curated
@@ -16,7 +16,7 @@ and the automatically identified [full region](https://rfam.readthedocs.io/en/la
 Each file contains seven columns:
 
 1. `Family` = Rfam accession (e.g. RF00001)
-2. `Domain` = Taxonomic domain where the family is found
+2. `Domain` = Taxonomic domain where the family is found (:grey_exclamation: this is the most important column)
 3. `Seed domains` = All taxonomic domains from the seed alignment
 4. `Full region domains` = All taxonomic domains from full region hits
 5. `Rfam ID` = Rfam identifier (e.g. 5S_rRNA)
@@ -74,21 +74,36 @@ source ENV/bin/activate
 pip install -r requirements.txt
 ```
 
-## Usage
+## Updating the data
 
-```
-# when running for the first time:
-python rfam-taxonomy.py --precompute-full
-python rfam-taxonomy.py --precompute-seed
+After each Rfam release, the data in this repo need to be updated locally and
+pushed to GitHub.
 
-# after precompute is done, run:
-python rfam-taxonomy.py
+1. Generate new data
 
-# to see additional options:
-python rfam-taxonomy.py --help
-```
+    ```
+    # when running for the first time (needs to run in this order):
+    python rfam-taxonomy.py --precompute-full
+    python rfam-taxonomy.py --precompute-seed
+
+    # after precompute is done, run:
+    python rfam-taxonomy.py
+
+    # to see additional options:
+    python rfam-taxonomy.py --help
+    ```
+
+1. Review the changes
+
+    The results must be manually reviewed before committing the new files by checking the difference between the old and the new versions using git.
+
+    It is normal for the values in the 3rd and 4th columns to change but `Domain`, the 2nd column, should stay stable unless the affected family has been significantly updated.
+
+1. Update release info in Readme
+
+1. Create new GitHub release
 
 ## Feedback
 
-Feel free to create GitHub issues to ask questions or provide feedback.
+Feel free to create [GitHub issues](https://github.com/Rfam/rfam-taxonomy/issues) to ask questions or provide feedback.
 Pull requests are also welcome.

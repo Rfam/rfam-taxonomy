@@ -10,7 +10,7 @@ RF01718,unclassified sequences/Bacteria,"unclassified sequences (93.75%), Bacter
 RF01725,unclassified sequences/Mixed,"unclassified sequences (91.61%), Bacteria (7.91%), Other (0.48%)","unclassified sequences (51.23%), Bacteria (48.19%), Eukaryota (0.58%)",SAM-I-IV-variant,SAM-I/IV variant riboswitch,Cis-reg; riboswitch;
 RF01729,unclassified sequences/Bacteria,unclassified sequences (100.0%),"unclassified sequences (86.67%), Bacteria (13.33%)",Termite-flg,Termite-flg RNA,Cis-reg;
 RF01730,unclassified sequences,unclassified sequences (100.0%),unclassified sequences (100.0%),Termite-leu,Termite-leu RNA,Cis-reg;
-RF01739,unclassified sequences/Mixed,"unclassified sequences (94.37%), Bacteria (5.49%), Viruses (0.14%)","unclassified sequences (76.31%), Bacteria (22.6%), Viruses (1.09%)",glnA,Glutamine riboswitch,Cis-reg; riboswitch;
+RF01739,unclassified sequences/Mixed,"unclassified sequences (96.7%), Bacteria (3.19%), Viruses (0.11%)","unclassified sequences (77.65%), Bacteria (21.85%), Viruses (0.5%)",glnA,Glutamine riboswitch,Cis-reg; riboswitch;
 RF01745,unclassified sequences/Mixed,"unclassified sequences (98.79%), Bacteria (1.21%)","unclassified sequences (89.07%), Viruses (8.2%), Bacteria (2.19%), Archaea (0.55%)",manA,manA RNA,Cis-reg;
 RF01751,unclassified sequences,unclassified sequences (100.0%),"unclassified sequences (99.27%), Eukaryota (0.73%)",potC,potC RNA,Cis-reg;
 RF01761,unclassified sequences/Mixed,"unclassified sequences (98.15%), Viruses (1.85%)","unclassified sequences (81.54%), Viruses (16.92%), Archaea (1.54%)",wcaG,wcaG RNA,Cis-reg;
@@ -22,7 +22,7 @@ RF02034,unclassified sequences,unclassified sequences (100.0%),"unclassified seq
 RF02035,unclassified sequences,unclassified sequences (100.0%),"unclassified sequences (97.86%), Bacteria (2.14%)",IMES-2,IMES-2 RNA motif,Gene;
 RF02036,unclassified sequences,unclassified sequences (100.0%),unclassified sequences (100.0%),IMES-3,IMES-3 RNA motif,Gene;
 RF02037,unclassified sequences,unclassified sequences (100.0%),unclassified sequences (100.0%),IMES-4,IMES-4 RNA motif,Gene;
-RF02678,unclassified sequences,"unclassified sequences (99.35%), Bacteria (0.65%)","unclassified sequences (96.75%), Bacteria (1.95%), Other (1.3%)",Hatchet,Hatchet ribozyme,Gene; ribozyme;
+RF02678,unclassified sequences,"unclassified sequences (98.06%), Other (1.29%), Bacteria (0.65%)","unclassified sequences (96.75%), Bacteria (1.95%), Other (1.3%)",Hatchet,Hatchet ribozyme,Gene; ribozyme;
 RF02681,unclassified sequences,"unclassified sequences (99.11%), Bacteria (0.89%)","unclassified sequences (99.11%), Bacteria (0.89%)",Twister-sister,Twister_sister_ribozyme,Gene; ribozyme;
 RF02684,unclassified sequences,"unclassified sequences (98.14%), Bacteria (1.4%), Eukaryota (0.47%)","unclassified sequences (92.27%), Bacteria (7.73%)",Twister-P5,Type-P5 twister ribozyme,Gene; ribozyme;
 RF02686,unclassified sequences,unclassified sequences (100.0%),unclassified sequences (100.0%),RAGATH-6,RAGATH-6 RNA,Gene; ribozyme;

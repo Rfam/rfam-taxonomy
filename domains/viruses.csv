@@ -5,7 +5,7 @@ RF00036,Viruses,Viruses (100.0%),Viruses (100.0%),RRE,HIV Rev response element,C
 RF00041,Viruses,Viruses (100.0%),Viruses (100.0%),Entero_OriR,Enteroviral 3' UTR element,Cis-reg;
 RF00044,Viruses,Viruses (100.0%),Viruses (100.0%),Phage_pRNA,Bacteriophage pRNA,Gene;
 RF00048,Viruses,Viruses (100.0%),"Viruses (93.44%), Eukaryota (6.56%)",Entero_CRE,Enterovirus cis-acting replication element,Cis-reg;
-RF00061,Viruses,Viruses (100.0%),Viruses (100.0%),IRES_HCV,Hepatitis C virus internal ribosome entry site,Cis-reg; IRES;
+RF00061,Viruses/Mixed,Viruses (100.0%),"Viruses (75.0%), Eukaryota (25.0%)",IRES_HCV,Hepatitis C virus internal ribosome entry site,Cis-reg; IRES;
 RF00094,Viruses,Viruses (100.0%),"Viruses (92.5%), Eukaryota (7.5%)",HDV_ribozyme,Hepatitis delta virus ribozyme,Gene; ribozyme;
 RF00102,Viruses/Mixed,"Viruses (98.15%), Eukaryota (1.85%)","Viruses (85.93%), Eukaryota (14.07%)",VA,VA RNA,Gene;
 RF00164,Viruses/Mixed,"Viruses (97.44%), Other (2.56%)","Eukaryota (50.0%), Viruses (37.5%), Other (12.5%)",s2m,Coronavirus 3' stem-loop II-like motif (s2m),Cis-reg;
@@ -32,7 +32,7 @@ RF00229,Viruses,Viruses (100.0%),"Viruses (95.05%), Eukaryota (4.95%)",IRES_Pico
 RF00233,Viruses,Viruses (100.0%),Viruses (100.0%),Tymo_tRNA-like,Tymovirus/Pomovirus/Furovirus tRNA-like 3' UTR element,Cis-reg;
 RF00250,Viruses,Viruses (100.0%),"Viruses (96.55%), Bacteria (3.45%)",mir-TAR,Trans-activation response element (TAR),Gene; miRNA;
 RF00252,Viruses,Viruses (100.0%),"Viruses (95.45%), Eukaryota (4.55%)",Alfamo_CPB,Alfalfa mosaic virus coat protein binding (CPB) RNA,Cis-reg;
-RF00260,Viruses,Viruses (100.0%),"Viruses (98.15%), Eukaryota (1.85%)",HepC_CRE,Hepatitis C virus (HCV) cis-acting replication element (CRE),Cis-reg;
+RF00260,Viruses,Viruses (100.0%),Viruses (100.0%),HepC_CRE,Hepatitis C virus (HCV) cis-acting replication element (CRE),Cis-reg;
 RF00262,Viruses/Mixed,Viruses (100.0%),"Viruses (76.92%), Bacteria (15.38%), Eukaryota (7.69%)",sar,sar RNA,Gene; antisense;
 RF00290,Viruses,Viruses (100.0%),Viruses (100.0%),BaMV_CRE,Bamboo mosaic potexvirus (BaMV) cis-regulatory element,Cis-reg;
 RF00363,Viruses,Viruses (100.0%),Viruses (100.0%),mir-BART1,mir-BART1 microRNA precursor family,Gene; miRNA;
@@ -41,7 +41,7 @@ RF00365,Viruses,Viruses (100.0%),Viruses (100.0%),mir-BHRF1-1,mir-BHRF1-1 microR
 RF00366,Viruses,Viruses (100.0%),Viruses (100.0%),mir-BHRF1-2,mir-BHRF1-2 microRNA precursor family,Gene; miRNA;
 RF00367,Viruses,Viruses (100.0%),Viruses (100.0%),mir-BHRF1-3,mir-BHRF1-3 microRNA precursor family,Gene; miRNA;
 RF00374,Viruses/Mixed,Viruses (100.0%),"Eukaryota (85.45%), Viruses (14.55%)",Gammaretro_CES,Gammaretrovirus core encapsidation signal,Cis-reg;
-RF00375,Viruses,"Viruses (99.23%), Eukaryota (0.77%)","Viruses (98.66%), Eukaryota (0.67%), Bacteria (0.67%)",HIV_PBS,HIV primer binding site (PBS),Cis-reg;
+RF00375,Viruses,"Viruses (99.23%), Eukaryota (0.77%)",Viruses (100.0%),HIV_PBS,HIV primer binding site (PBS),Cis-reg;
 RF00376,Viruses,Viruses (100.0%),Viruses (100.0%),HIV_GSL3,HIV gag stem loop 3 (GSL3),Cis-reg;
 RF00384,Viruses,Viruses (100.0%),Viruses (100.0%),Pox_AX_element,Poxvirus AX element late mRNA cis-regulatory element,Cis-reg;
 RF00385,Viruses/Mixed,Viruses (100.0%),"Viruses (88.89%), Eukaryota (11.11%)",IBV_D-RNA,Infectious bronchitis virus D-RNA,Cis-reg;
@@ -54,10 +54,9 @@ RF00453,Viruses,Viruses (100.0%),Viruses (100.0%),Cardiovirus_CRE,Cardiovirus ci
 RF00458,Viruses,Viruses (100.0%),Viruses (100.0%),IRES_Cripavirus,Cripavirus internal ribosome entry site (IRES),Cis-reg; IRES;
 RF00467,Viruses/Mixed,Viruses (100.0%),"Eukaryota (56.6%), Viruses (43.4%)",RSV_PBS,Rous sarcoma virus (RSV) primer binding site (PBS),Cis-reg;
 RF00468,Viruses,Viruses (100.0%),Viruses (100.0%),HCV_SLVII,Hepatitis C virus stem-loop VII,Cis-reg;
-RF00469,Viruses,Viruses (100.0%),Viruses (100.0%),HCV_SLIV,Hepatitis C stem-loop IV,Cis-reg;
 RF00470,Viruses,Viruses (100.0%),Viruses (100.0%),Toga_5_CRE,Togavirus 5' plus strand cis-regulatory element,Cis-reg;
 RF00480,Viruses,Viruses (100.0%),Viruses (100.0%),HIV_FE,HIV Ribosomal frameshift signal,Cis-reg; frameshift_element;
-RF00481,Viruses,Viruses (100.0%),Viruses (100.0%),HCV_X3,Hepatitis C virus 3'X element,Cis-reg;
+RF00481,Viruses,Viruses (100.0%),Viruses (100.0%),HCV_X3,Hepatitis C virus 3' X element,Cis-reg;
 RF00498,Viruses,Viruses (100.0%),Viruses (100.0%),EAV_LTH,Equine arteritis virus leader TRS hairpin (LTH),Cis-reg; leader;
 RF00499,Viruses/Mixed,Viruses (100.0%),"Viruses (85.71%), Eukaryota (14.29%)",Parecho_CRE,Human parechovirus 1 (HPeV1) cis regulatory element (CRE),Cis-reg;
 RF00500,Viruses,Viruses (100.0%),Viruses (100.0%),TCV_H5,Turnip crinkle virus (TCV) repressor of minus strand synthesis H5,Cis-reg;
@@ -159,10 +158,6 @@ RF02532,Viruses,Viruses (100.0%),Viruses (100.0%),MNV_3UTR,Murine norovirus 3'UT
 RF02533,Viruses,Viruses (100.0%),Viruses (100.0%),HAV_CRE,Hepatitis A virus (HAV) cis-acting replication element (CRE),Cis-reg;
 RF02534,Viruses,Viruses (100.0%),"Viruses (95.45%), Eukaryota (4.55%)",Noro_CRE,Norovirus cis-acting replication element (CRE),Cis-reg;
 RF02536,Viruses,Viruses (100.0%),Viruses (100.0%),AEV_CRE,Avian encephalitis virus (AEV) cis-acting replication element (CRE),Cis-reg;
-RF02585,Viruses/Mixed,Viruses (100.0%),"Eukaryota (50.0%), Viruses (50.0%)",HCV_package,Hepatitis C virus RNA packaging signal,Cis-reg;
-RF02586,Viruses/Mixed,Viruses (100.0%),"Eukaryota (50.0%), Viruses (50.0%)",HCV_package-SL733,Hepatitis C virus RNA packaging signal 733,Cis-reg;
-RF02587,Viruses/Mixed,Viruses (100.0%),"Eukaryota (81.82%), Viruses (18.18%)",HCV_package-SL4629,Hepatitis C virus RNA packaging signal 4629,Cis-reg;
-RF02588,Viruses,Viruses (100.0%),Viruses (100.0%),HCV_package-SL6067,Hepatitis C virus RNA packaging signal 6067,Cis-reg;
 RF02595,Viruses,Viruses (100.0%),Viruses (100.0%),EBv-sisRNA-1,Epstein-Barr virus stable intronic sequence RNA 1,Gene;
 RF02598,Viruses/Mixed,Viruses (100.0%),"Viruses (72.6%), Eukaryota (26.03%), Bacteria (1.37%)",EBv-sisRNA-2,Epstein-Barr virus stable intronic sequence RNA 2,Gene;
 RF02658,Viruses,Viruses (100.0%),Viruses (100.0%),IRES_RhPV,Rhopalosiphum padi virus 5'UTR internal ribosome entry site,Cis-reg; IRES;
@@ -213,3 +208,8 @@ RF03914,Viruses,Viruses (100.0%),Viruses (100.0%),mir-BART21,mir-BART21 microRNA
 RF03934,Viruses,Viruses (100.0%),Viruses (100.0%),mir-m107-1,mir-m107-1 microRNA precursor family,Gene; miRNA;
 RF03964,Viruses,Viruses (100.0%),Viruses (100.0%),mir-H1,mir-H1 microRNA precursor family,Gene; miRNA;
 RF04076,Viruses,Viruses (100.0%),Viruses (100.0%),mir-H11,mir-H11 microRNA precursor family,Gene; miRNA;
+RF04218,Viruses,Viruses (100.0%),Viruses (100.0%),HCV_5BSL1,Hepatitis C virus stem-loop I,Cis-reg;
+RF04219,Viruses,Viruses (100.0%),Viruses (100.0%),HCV_J750,J750 non-coding RNA (containing SLSL761 and SL783),Cis-reg;
+RF04220,Viruses,Viruses (100.0%),Viruses (100.0%),HCV_SL588,SL588 non-coding RNA,Cis-reg;
+RF04221,Viruses,Viruses (100.0%),Viruses (100.0%),HCV_SL669,SL669 non-coding RNA,Cis-reg;
+RF04222,Viruses/Mixed,Viruses (100.0%),"Viruses (85.37%), Eukaryota (14.63%)",PLRV_xrRNA,Potato leafroll virus exoribonuclease-resistant RNA,Cis-reg;

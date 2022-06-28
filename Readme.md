@@ -1,6 +1,6 @@
 # Rfam Taxonomy
 
-Based on **Rfam 14.7** (December 2021). See [releases](https://github.com/Rfam/rfam-taxonomy/releases) for previous versions.
+Based on **Rfam 14.8** (May 2022). See [releases](https://github.com/Rfam/rfam-taxonomy/releases) for previous versions.
 
 This repository contains the code and data for analysing the taxonomic distribution
 of the [Rfam](https://rfam.org) families. The goal is to identify domain-specific

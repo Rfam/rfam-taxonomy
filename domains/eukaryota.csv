@@ -6,7 +6,6 @@ RF00004,Eukaryota,"Eukaryota (99.04%), unclassified sequences (0.96%)","Eukaryot
 RF00005,Mixed,"Eukaryota (78.2%), Bacteria (17.3%), Archaea (3.46%), Viruses (1.05%)","Eukaryota (73.83%), Bacteria (25.02%), Archaea (0.95%), Viruses (0.2%)",tRNA,tRNA,Gene; tRNA;
 RF00006,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),Vault,Vault RNA,Gene;
 RF00007,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),U12,U12 minor spliceosomal RNA,Gene; snRNA; splicing;
-RF00008,Mixed/Eukaryota,"Viroids (87.21%), Viruses (8.14%), Other (4.65%)","Eukaryota (94.89%), Bacteria (4.91%), Other (0.2%)",Hammerhead_3,Hammerhead ribozyme (type III),Gene; ribozyme;
 RF00009,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),RNaseP_nuc,Nuclear RNase P,Gene; ribozyme;
 RF00012,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),U3,Small nucleolar RNA U3,Gene; snRNA; snoRNA; CD-box;
 RF00015,Eukaryota,"Eukaryota (98.86%), Other (0.57%), unclassified sequences (0.57%)","Eukaryota (99.99%), Other (0.01%)",U4,U4 spliceosomal RNA,Gene; snRNA; splicing;
@@ -297,7 +296,7 @@ RF00451,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-395,mir-395 microRNA
 RF00452,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-172,mir-172 microRNA precursor family,Gene; miRNA;
 RF00454,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),p27_CRE,p27 cis-regulatory element,Cis-reg;
 RF00455,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-15,mir-15 microRNA precursor family,Gene; miRNA;
-RF00456,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.65%), Bacteria (0.35%)",mir-34,mir-34 microRNA precursor family,Gene; miRNA;
+RF00456,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.62%), Bacteria (0.38%)",mir-34,mir-34 microRNA precursor family,Gene; miRNA;
 RF00457,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),IRES_mnt,Mnt IRES,Cis-reg; IRES;
 RF00459,Mixed/Eukaryota,"Eukaryota (55.56%), Viruses (44.44%)","Eukaryota (99.2%), Viruses (0.8%)",MPMV_package,Mason-Pfizer monkey virus packaging signal,Cis-reg;
 RF00460,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),U1A_PIE,U1A polyadenylation inhibition element (PIE),Cis-reg;
@@ -425,7 +424,7 @@ RF00651,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.31%), Viruses (0.69%)",mir-2
 RF00652,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),MIR478,microRNA MIR478,Gene; miRNA;
 RF00653,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-22,microRNA mir-22,Gene; miRNA;
 RF00654,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-216,microRNA mir-216,Gene; miRNA;
-RF00655,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.62%), Bacteria (0.38%)",mir-28,microRNA mir-28,Gene; miRNA;
+RF00655,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.59%), Bacteria (0.41%)",mir-28,microRNA mir-28,Gene; miRNA;
 RF00656,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-205,microRNA mir-205,Gene; miRNA;
 RF00657,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-184,microRNA mir-184,Gene; miRNA;
 RF00658,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-21,microRNA mir-21,Gene; miRNA;
@@ -492,7 +491,7 @@ RF00718,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-431,mir-431 microRNA
 RF00719,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-326,microRNA mir-326,Gene; miRNA;
 RF00720,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-317,microRNA mir-317,Gene; miRNA;
 RF00721,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),MIR475,microRNA MIR475,Gene; miRNA;
-RF00722,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.25%), Bacteria (0.75%)",mir-451,microRNA mir-451,Gene; miRNA;
+RF00722,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.13%), Bacteria (0.87%)",mir-451,microRNA mir-451,Gene; miRNA;
 RF00723,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-448,mir-448 microRNA precursor family,Gene; miRNA;
 RF00724,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-282,microRNA mir-282,Gene; miRNA;
 RF00725,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-iab-4,mir-iab-4 microRNA precursor family,Gene; miRNA;
@@ -591,7 +590,7 @@ RF00820,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-248,mir-248 microRNA
 RF00821,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-249,mir-249 microRNA precursor family,Gene; miRNA;
 RF00822,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-274,microRNA mir-274,Gene; miRNA;
 RF00823,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),lsy-6,lsy-6 microRNA precursor family,Gene; miRNA;
-RF00824,Eukaryota/Mixed,Eukaryota (100.0%),"Eukaryota (84.09%), Bacteria (15.91%)",mir-50,microRNA mir-50,Gene; miRNA;
+RF00824,Eukaryota/Mixed,Eukaryota (100.0%),"Eukaryota (83.72%), Bacteria (16.28%)",mir-50,microRNA mir-50,Gene; miRNA;
 RF00825,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-344,microRNA mir-344,Gene; miRNA;
 RF00826,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-55,microRNA mir-55,Gene; miRNA;
 RF00827,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-77,microRNA mir-77,Gene; miRNA;
@@ -615,7 +614,7 @@ RF00844,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-67,microRNA mir-67,G
 RF00845,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),MIR158,MIR158 microRNA precursor family,Gene; miRNA;
 RF00846,Eukaryota,Eukaryota (100.0%),"Eukaryota (96.55%), Bacteria (3.45%)",mir-64,microRNA mir-64,Gene; miRNA;
 RF00847,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-62,mir-62 microRNA precursor family,Gene; miRNA;
-RF00848,Eukaryota/Mixed,Eukaryota (100.0%),"Eukaryota (85.0%), Bacteria (15.0%)",mir-61,microRNA mir-61,Gene; miRNA;
+RF00848,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-61,microRNA mir-61,Gene; miRNA;
 RF00849,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-60,microRNA mir-60,Gene; miRNA;
 RF00850,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-259,microRNA mir-259,Gene; miRNA;
 RF00851,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-230,microRNA mir-230,Gene; miRNA;
@@ -776,7 +775,7 @@ RF01027,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-765,microRNA mir-765
 RF01028,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-633,microRNA mir-633,Gene; miRNA;
 RF01029,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-649,microRNA mir-649,Gene; miRNA;
 RF01030,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-422,microRNA mir-422,Gene; miRNA;
-RF01031,Eukaryota,Eukaryota (100.0%),"Eukaryota (97.06%), Bacteria (2.94%)",mir-639,microRNA mir-639,Gene; miRNA;
+RF01031,Eukaryota,Eukaryota (100.0%),"Eukaryota (96.43%), Bacteria (3.57%)",mir-639,microRNA mir-639,Gene; miRNA;
 RF01032,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-554,microRNA mir-554,Gene; miRNA;
 RF01033,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-767,microRNA mir-767,Gene; miRNA;
 RF01034,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-618,microRNA mir-618,Gene; miRNA;
@@ -1275,7 +1274,7 @@ RF01991,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),SECIS_5,Selenocysteine i
 RF01992,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),VIS1,Viral integration site 1,Gene; lncRNA;
 RF01996,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-995,microRNA mir-995,Gene; miRNA;
 RF01997,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-969,microRNA mir-969,Gene; miRNA;
-RF02000,Eukaryota/Mixed,Eukaryota (100.0%),"Eukaryota (86.76%), Bacteria (13.24%)",MIR1846,microRNA MIR1846,Gene; miRNA;
+RF02000,Eukaryota/Mixed,Eukaryota (100.0%),"Eukaryota (86.59%), Bacteria (13.41%)",MIR1846,microRNA MIR1846,Gene; miRNA;
 RF02006,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-1253,microRNA mir-1253,Gene; miRNA;
 RF02007,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-1237,microRNA mir-1237,Gene; miRNA;
 RF02008,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-621,microRNA mir-621,Gene; miRNA;
@@ -1378,7 +1377,7 @@ RF02158,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),NPPA-AS1_3,NPPA antisens
 RF02159,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),PART1_1,Prostate androgen-regulated transcript 1 conserved region 1,Gene; lncRNA;
 RF02160,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),PART1_2,Prostate androgen-regulated transcript 1 conserved region 2,Gene; lncRNA;
 RF02161,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),PART1_3,Prostate androgen-regulated transcript 1 conserved region 3,Gene; lncRNA;
-RF02162,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),XIST_A_REPEAT,XIST RNA A repeat,Gene; lncRNA;
+RF02162,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),XIST_A_REPEAT,XIST RNA A repeat,Gene; sRNA;
 RF02164,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),PVT1_1,Pvt1 oncogene conserved region 1,Gene; lncRNA;
 RF02165,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),PVT1_2,Pvt1 oncogene conserved region 2,Gene; lncRNA;
 RF02166,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),PVT1_3,Pvt1 oncogene conserved region 3,Gene; lncRNA;
@@ -2570,3 +2569,28 @@ RF04185,Eukaryota/Mixed,Eukaryota (100.0%),,MIR2118_2,MIR2118_2 microRNA precurs
 RF04186,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-278_2,mir-278_2 microRNA precursor family,Gene; miRNA;
 RF04187,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),MIR862,MIR862 microRNA precursor family,Gene; miRNA;
 RF04188,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),Hovlinc,Hovlinc ribozyme (hominin vlincRNA-located),Gene; ribozyme;
+RF04193,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-51,mir-51 microRNA precursor family,Gene; miRNA;
+RF04194,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-57,mir-57 microRNA precursor family,Gene; miRNA;
+RF04195,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),MIR6217,MIR6217 microRNA precursor family,Gene; miRNA;
+RF04196,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),MIR5638,MIR5638 microRNA precursor family,Gene; miRNA;
+RF04197,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-9457,mir-9457 microRNA precursor family,Gene; miRNA;
+RF04198,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),MIR8670,MIR8670 microRNA precursor family,Gene; miRNA;
+RF04199,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),MIR6027,MIR6027 microRNA precursor family,Gene; miRNA;
+RF04200,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-9437,mir-9437 microRNA precursor family,Gene; miRNA;
+RF04201,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),MIR7510,MIR7510 microRNA precursor family,Gene; miRNA;
+RF04202,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),MIR5380,MIR5380 microRNA precursor family,Gene; miRNA;
+RF04203,Eukaryota/Mixed,Eukaryota (100.0%),,MIR1144,MIR1144 microRNA precursor family,Gene; miRNA;
+RF04204,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-3473,mir-3473 microRNA precursor family,Gene; miRNA;
+RF04205,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),MIR2606,MIR2606 microRNA precursor family,Gene; miRNA;
+RF04206,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),MIR9555,MIR9555 microRNA precursor family,Gene; miRNA;
+RF04207,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),MIR5048,MIR5048 microRNA precursor family,Gene; miRNA;
+RF04208,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),MIR8742,MIR8742 microRNA precursor family,Gene; miRNA;
+RF04209,Eukaryota/Mixed,Eukaryota (100.0%),,MIR7533,MIR7533 microRNA precursor family,Gene; miRNA;
+RF04210,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),MIR8643,MIR8643 microRNA precursor family,Gene; miRNA;
+RF04211,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),MIR5185,MIR5185 microRNA precursor family,Gene; miRNA;
+RF04212,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-8904,mir-8904 microRNA precursor family,Gene; miRNA;
+RF04213,Eukaryota/Mixed,Eukaryota (100.0%),,MIR7807,MIR7807 microRNA precursor family,Gene; miRNA;
+RF04214,Eukaryota/Mixed,Eukaryota (100.0%),,MIR7526,MIR7526 microRNA precursor family,Gene; miRNA;
+RF04215,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-9214,mir-9214 microRNA precursor family,Gene; miRNA;
+RF04216,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-509,mir-509 microRNA precursor family,Gene; miRNA;
+RF04217,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-297,mir-297 microRNA precursor family,Gene; miRNA;

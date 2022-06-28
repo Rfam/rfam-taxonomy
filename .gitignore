@@ -3,3 +3,4 @@
 ENV/*
 data-seed/*
 data-full-region/*
+.idea

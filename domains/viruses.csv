@@ -79,7 +79,7 @@ RF00874,Viruses,Viruses (100.0%),Viruses (100.0%),mir-BART12,microRNA mir-BART12
 RF01009,Viruses,Viruses (100.0%),Viruses (100.0%),mir-M7,microRNA mir-M7,Gene; miRNA;
 RF01047,Viruses,Viruses (100.0%),Viruses (100.0%),HBV_epsilon,HBV RNA encapsidation signal epsilon,Cis-reg;
 RF01072,Viruses,Viruses (100.0%),"Viruses (90.0%), Eukaryota (7.5%), Bacteria (2.5%)",TMV_UPD-PK3,Pseudoknot of upstream pseudoknot domain (UPD) of the 3'UTR,Cis-reg;
-RF01073,Viruses/Eukaryota,Viruses (100.0%),"Eukaryota (99.72%), Viruses (0.28%)",GP_knot1,Gag/pol translational readthrough site,Cis-reg;
+RF01073,Viruses/Eukaryota,Viruses (100.0%),"Eukaryota (99.6%), Viruses (0.4%)",GP_knot1,Gag/pol translational readthrough site,Cis-reg;
 RF01074,Viruses,Viruses (100.0%),Viruses (100.0%),RF_site1,Putative RNA-dependent RNA polymerase ribosomal frameshift site,Cis-reg; frameshift_element;
 RF01075,Viruses,Viruses (100.0%),Viruses (100.0%),TLS-PK1,Pseudoknot of tRNA-like structure,Cis-reg;
 RF01076,Viruses,Viruses (100.0%),Viruses (100.0%),RF_site2,Polymerase ribosomal frameshift site,Cis-reg; frameshift_element;
@@ -212,4 +212,4 @@ RF04218,Viruses,Viruses (100.0%),Viruses (100.0%),HCV_5BSL1,Hepatitis C virus st
 RF04219,Viruses,Viruses (100.0%),Viruses (100.0%),HCV_J750,J750 non-coding RNA (containing SLSL761 and SL783),Cis-reg;
 RF04220,Viruses,Viruses (100.0%),Viruses (100.0%),HCV_SL588,SL588 non-coding RNA,Cis-reg;
 RF04221,Viruses,Viruses (100.0%),Viruses (100.0%),HCV_SL669,SL669 non-coding RNA,Cis-reg;
-RF04222,Viruses/Mixed,Viruses (100.0%),"Viruses (85.37%), Eukaryota (14.63%)",PLRV_xrRNA,Potato leafroll virus exoribonuclease-resistant RNA,Cis-reg;
+RF04222,Viruses/Mixed,Viruses (100.0%),"Viruses (82.5%), Eukaryota (17.5%)",PLRV_xrRNA,Potato leading responsible virus exoribonuclease-resistant RNA,Cis-reg;

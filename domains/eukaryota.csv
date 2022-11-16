@@ -1,14 +1,15 @@
 Family,Domain,Seed domains,Full region domains,Rfam ID,Description,RNA type
 RF00001,Mixed,"Bacteria (48.6%), Eukaryota (45.51%), Archaea (5.9%)","Eukaryota (87.59%), Bacteria (12.0%), Archaea (0.4%)",5S_rRNA,5S ribosomal RNA,Gene; rRNA;
-RF00002,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.54%), Bacteria (0.46%)",5_8S_rRNA,5.8S ribosomal RNA,Gene; rRNA;
+RF00002,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.55%), Bacteria (0.45%)",5_8S_rRNA,5.8S ribosomal RNA,Gene; rRNA;
 RF00003,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),U1,U1 spliceosomal RNA,Gene; snRNA; splicing;
 RF00004,Eukaryota,"Eukaryota (99.04%), unclassified sequences (0.96%)","Eukaryota (99.98%), Viruses (0.01%), unclassified sequences (0.01%)",U2,U2 spliceosomal RNA,Gene; snRNA; splicing;
 RF00005,Mixed,"Eukaryota (78.2%), Bacteria (17.3%), Archaea (3.46%), Viruses (1.05%)","Eukaryota (73.83%), Bacteria (25.02%), Archaea (0.95%), Viruses (0.2%)",tRNA,tRNA,Gene; tRNA;
 RF00006,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),Vault,Vault RNA,Gene;
 RF00007,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),U12,U12 minor spliceosomal RNA,Gene; snRNA; splicing;
+RF00008,Mixed/Eukaryota,"Viroids (88.24%), Viruses (8.24%), Other (3.53%)","Eukaryota (93.78%), Bacteria (5.81%), Other (0.41%)",Hammerhead_3,Hammerhead ribozyme (type III),Gene; ribozyme;
 RF00009,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),RNaseP_nuc,Nuclear RNase P,Gene; ribozyme;
 RF00012,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),U3,Small nucleolar RNA U3,Gene; snRNA; snoRNA; CD-box;
-RF00015,Eukaryota,"Eukaryota (98.86%), Other (0.57%), unclassified sequences (0.57%)","Eukaryota (99.99%), Other (0.01%)",U4,U4 spliceosomal RNA,Gene; snRNA; splicing;
+RF00015,Eukaryota,"Eukaryota (98.87%), Other (0.56%), unclassified sequences (0.56%)","Eukaryota (99.99%), Other (0.01%)",U4,U4 spliceosomal RNA,Gene; snRNA; splicing;
 RF00016,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),SNORD14,Small nucleolar RNA SNORD14,Gene; snRNA; snoRNA; CD-box;
 RF00017,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),Metazoa_SRP,Metazoan signal recognition particle RNA,Gene;
 RF00019,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),Y_RNA,Y RNA,Gene;
@@ -21,7 +22,7 @@ RF00028,Eukaryota/Mixed,"Eukaryota (91.67%), Viruses (8.33%)","Eukaryota (50.4%)
 RF00030,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),RNase_MRP,RNase MRP,Gene; ribozyme;
 RF00031,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),SECIS_1,Selenocysteine insertion sequence 1,Cis-reg;
 RF00032,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.04%), Bacteria (0.95%), Viruses (0.01%)",Histone3,Histone 3' UTR stem-loop,Cis-reg;
-RF00037,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),IRE_I,Iron response element I,Cis-reg;
+RF00037,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.95%), Other (0.05%)",IRE_I,Iron response element I,Cis-reg;
 RF00045,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),SNORA73,Small nucleolar RNA SNORA73 family,Gene; snRNA; snoRNA; HACA-box;
 RF00046,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),snoR30,Small nucleolar RNA R30/Z108,Gene; snRNA; snoRNA; CD-box;
 RF00047,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-2,mir-2 microRNA precursor,Gene; miRNA;
@@ -131,7 +132,7 @@ RF00231,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),SCARNA13,Small Cajal bod
 RF00232,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),Spi-1,Spi-1 (PU.1) 5' UTR regulatory element,Cis-reg;
 RF00237,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-9,mir-9/mir-79 microRNA precursor family,Gene; miRNA;
 RF00239,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-124,mir-124 microRNA precursor family,Gene; miRNA;
-RF00241,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.84%), Bacteria (0.16%)",mir-8,mir-8/mir-141/mir-200 microRNA precursor family,Gene; miRNA;
+RF00241,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-8,mir-8/mir-141/mir-200 microRNA precursor family,Gene; miRNA;
 RF00244,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-26,mir-26 microRNA precursor family,Gene; miRNA;
 RF00245,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-19,mir-19 microRNA precursor family,Gene; miRNA;
 RF00246,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-135,mir-135 microRNA precursor family,Gene; miRNA;
@@ -475,7 +476,7 @@ RF00702,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-182,microRNA mir-182
 RF00703,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-139,microRNA mir-139,Gene; miRNA;
 RF00704,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),MIR397,microRNA MIR397,Gene; miRNA;
 RF00705,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-202,microRNA mir-202,Gene; miRNA;
-RF00706,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-263,microRNA mir-263,Gene; miRNA;
+RF00706,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-263,mir-263 microRNA precursor family,Gene; miRNA;
 RF00707,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-197,microRNA mir-197,Gene; miRNA;
 RF00708,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-450,microRNA mir-450,Gene; miRNA;
 RF00709,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-455,mir-455 microRNA precursor family,Gene; miRNA;
@@ -495,7 +496,7 @@ RF00722,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.13%), Bacteria (0.87%)",mir-
 RF00723,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-448,mir-448 microRNA precursor family,Gene; miRNA;
 RF00724,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-282,microRNA mir-282,Gene; miRNA;
 RF00725,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-iab-4,mir-iab-4 microRNA precursor family,Gene; miRNA;
-RF00726,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-87,microRNA mir-87,Gene; miRNA;
+RF00726,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-87,mir-87 microRNA precursor family,Gene; miRNA;
 RF00727,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),bantam,microRNA bantam,Gene; miRNA;
 RF00728,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-81,microRNA mir-81,Gene; miRNA;
 RF00729,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-278,microRNA mir-278,Gene; miRNA;
@@ -796,7 +797,7 @@ RF01052,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),Arthropod_7SK,Arthropod 
 RF01059,Eukaryota,"Eukaryota (95.83%), unclassified sequences (4.17%)","Eukaryota (99.88%), Bacteria (0.12%)",mir-598,microRNA mir-598,Gene; miRNA;
 RF01061,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-548,microRNA mir-548,Gene; miRNA;
 RF01064,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-253,microRNA mir-253,Gene; miRNA;
-RF01073,Viruses/Eukaryota,Viruses (100.0%),"Eukaryota (99.72%), Viruses (0.28%)",GP_knot1,Gag/pol translational readthrough site,Cis-reg;
+RF01073,Viruses/Eukaryota,Viruses (100.0%),"Eukaryota (99.6%), Viruses (0.4%)",GP_knot1,Gag/pol translational readthrough site,Cis-reg;
 RF01090,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),RF_site4,Edr gene ribosomal frameshift signal,Cis-reg; frameshift_element;
 RF01093,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),RF_site5,Ma3 gene ribosomal frameshift signal,Cis-reg; frameshift_element;
 RF01097,Viruses/Eukaryota,Viruses (100.0%),"Eukaryota (99.44%), Viruses (0.56%)",RF_site8,Gag/pro ribosomal frameshift site,Cis-reg; frameshift_element;
@@ -946,7 +947,7 @@ RF01302,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),snoU36a,SnoRNA U36a,Gene
 RF01314,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-1227,microRNA mir-1227,Gene; miRNA;
 RF01383,Eukaryota,Eukaryota (100.0%),"Eukaryota (96.15%), Bacteria (3.85%)",GRIK4_3p_UTR,GRIK4 3 prime UTR element,Gene;
 RF01390,Bacteria/Eukaryota,Bacteria (100.0%),"Eukaryota (91.04%), Bacteria (8.96%)",isrG,isrG Hfq binding RNA,Gene; sRNA;
-RF01413,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),miR-430,microRNA miR-430,Gene; miRNA;
+RF01413,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),miR-430,miR-430 microRNA precursor family,Gene; miRNA;
 RF01414,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),Dicty_Class_I_RNA,Class I RNA from Dictyostelium,Gene;
 RF01420,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),snoR113,Small nucleolar RNA snoR113,Gene; snRNA; snoRNA; CD-box;
 RF01421,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),snoR114,small nucleolar RNA snoR114,Gene; snRNA; snoRNA; CD-box;
@@ -1443,7 +1444,7 @@ RF02249,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),Six3os1_4,Six3os1 conser
 RF02250,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),Six3os1_5,Six3os1 conserved region 5,Gene; lncRNA;
 RF02251,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),Six3os1_6,Six3os1 conserved region 6,Gene; lncRNA;
 RF02252,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),Six3os1_7,Six3os1 conserved region 7,Gene; lncRNA;
-RF02253,Eukaryota,Eukaryota (100.0%),"Eukaryota (97.75%), Bacteria (2.16%), Archaea (0.08%)",IRE_II,Iron response element II,Cis-reg;
+RF02253,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.13%), Bacteria (0.65%), Other (0.11%), Archaea (0.11%)",IRE_II,Iron response element II,Cis-reg;
 RF02254,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-35,microRNA mir-35,Gene; miRNA;
 RF02255,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),adapt33_1,Adaptive response 33 conserved region 1,Gene; lncRNA;
 RF02256,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),adapt33_2,Adaptive response 33 conserved region 2,Gene; lncRNA;
@@ -1566,8 +1567,8 @@ RF02530,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),URE2_IRES,Ure2 internal 
 RF02531,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),NRF2_IRES,Nrf2 internal ribosome entry site (IRES),Cis-reg; IRES;
 RF02535,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),ODC_IRES,ODC internal ribosome entry site (IRES),Cis-reg; IRES;
 RF02539,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),SNOR75,Plant small nucleolar RNA SNOR75,Gene; snRNA; snoRNA; CD-box;
-RF02542,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),SSU_rRNA_microsporidia,Microsporidia small subunit ribosomal RNA,Gene; rRNA;
-RF02543,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.68%), Bacteria (0.32%)",LSU_rRNA_eukarya,Eukaryotic large subunit ribosomal RNA,Gene; rRNA;
+RF02542,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.72%), Bacteria (0.28%)",SSU_rRNA_microsporidia,Microsporidia small subunit ribosomal RNA,Gene; rRNA;
+RF02543,Eukaryota,Eukaryota (100.0%),"Eukaryota (99.72%), Bacteria (0.28%)",LSU_rRNA_eukarya,Eukaryotic large subunit ribosomal RNA,Gene; rRNA;
 RF02544,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mt-tmRNA,Mitochondrion-encoded tmRNA,Gene;
 RF02545,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),SSU_trypano_mito,Trypanosomatid mitochondrial small subunit ribosomal RNA,Gene; rRNA;
 RF02546,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),LSU_trypano_mito,Trypanosomatid mitochondrial large subunit ribosomal RNA,Gene; rRNA;
@@ -2594,3 +2595,17 @@ RF04214,Eukaryota/Mixed,Eukaryota (100.0%),,MIR7526,MIR7526 microRNA precursor f
 RF04215,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-9214,mir-9214 microRNA precursor family,Gene; miRNA;
 RF04216,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-509,mir-509 microRNA precursor family,Gene; miRNA;
 RF04217,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-297,mir-297 microRNA precursor family,Gene; miRNA;
+RF04223,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),MIR2619,MIR2619 microRNA precursor family,Gene; miRNA;
+RF04224,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-9229,mir-9229 microRNA precursor family,Gene; miRNA;
+RF04225,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),MIR7502,MIR7502 microRNA precursor family,Gene; miRNA;
+RF04226,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-9186,mir-9186 microRNA precursor family,Gene; miRNA;
+RF04227,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-9215,mir-9215 microRNA precursor family,Gene; miRNA;
+RF04228,Eukaryota/Mixed,Eukaryota (100.0%),,MIR6140,MIR6140 microRNA precursor family,Gene; miRNA;
+RF04229,Eukaryota/Mixed,Eukaryota (100.0%),,mir-9279,mir-9279 microRNA precursor family,Gene; miRNA;
+RF04230,Eukaryota/Mixed,Eukaryota (100.0%),,mir-9261,mir-9261 microRNA precursor family,Gene; miRNA;
+RF04231,Eukaryota/Mixed,Eukaryota (100.0%),,mir-9191,mir-9191 microRNA precursor family,Gene; miRNA;
+RF04232,Eukaryota/Mixed,Eukaryota (100.0%),,mir-9318,mir-9318 microRNA precursor family,Gene; miRNA;
+RF04233,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-680,mir-680 microRNA precursor family,Gene; miRNA;
+RF04234,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-1421,mir-1421 microRNA precursor family,Gene; miRNA;
+RF04235,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-242_2,microRNA mir-242_2,Gene; miRNA;
+RF04236,Eukaryota,Eukaryota (100.0%),Eukaryota (100.0%),mir-1285,mir-1285 microRNA precursor family,Gene; miRNA;

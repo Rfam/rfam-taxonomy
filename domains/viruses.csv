@@ -212,4 +212,5 @@ RF04218,Viruses,Viruses (100.0%),Viruses (100.0%),HCV_5BSL1,Hepatitis C virus st
 RF04219,Viruses,Viruses (100.0%),Viruses (100.0%),HCV_J750,J750 non-coding RNA (containing SLSL761 and SL783),Cis-reg;
 RF04220,Viruses,Viruses (100.0%),Viruses (100.0%),HCV_SL588,SL588 non-coding RNA,Cis-reg;
 RF04221,Viruses,Viruses (100.0%),Viruses (100.0%),HCV_SL669,SL669 non-coding RNA,Cis-reg;
-RF04222,Viruses/Mixed,Viruses (100.0%),"Viruses (82.5%), Eukaryota (17.5%)",PLRV_xrRNA,Potato leading responsible virus exoribonuclease-resistant RNA,Cis-reg;
+RF04222,Viruses/Mixed,Viruses (100.0%),"Viruses (82.5%), Eukaryota (17.5%)",PLRV_xrRNA,Flavivirus Potato leading responsible virus exoribonuclease-resistant RNA,Cis-reg;
+RF04279,Viruses,Viruses (100.0%),Viruses (100.0%),mir-H20,mir-H20 microRNA precursor family,Gene; miRNA;

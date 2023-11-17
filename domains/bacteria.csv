@@ -405,7 +405,7 @@ RF02005,Mixed/Bacteria,"Bacteria (54.02%), unclassified sequences (45.4%), Other
 RF02029,Bacteria,Bacteria (100.0%),"Bacteria (95.0%), Eukaryota (5.0%)",sraA,sraA,Gene; sRNA;
 RF02030,Bacteria,"Bacteria (95.83%), unclassified sequences (4.17%)","Bacteria (95.31%), Eukaryota (3.91%), unclassified sequences (0.78%)",tp2,tp2,Gene; sRNA;
 RF02031,Bacteria,Bacteria (100.0%),"Bacteria (95.39%), Eukaryota (4.61%)",tpke11,tpke11,Gene; sRNA;
-RF02033,Mixed/Bacteria,"Bacteria (85.61%), unclassified sequences (12.95%), Viruses (0.72%), Archaea (0.72%)","Bacteria (92.47%), Archaea (5.82%), unclassified sequences (1.4%), Viruses (0.23%), Eukaryota (0.08%)",HEARO,HNH endonuclease-associated RNA and ORF (HEARO) RNA,Gene;
+RF02033,Mixed/Bacteria,"Bacteria (85.61%), unclassified sequences (12.95%), Viruses (0.72%), Archaea (0.72%)","Bacteria (93.99%), Archaea (3.87%), unclassified sequences (1.83%), Viruses (0.2%), Eukaryota (0.1%)",HEARO,HNH endonuclease-associated RNA and ORF (HEARO) RNA,Gene;
 RF02048,Bacteria,Bacteria (100.0%),Bacteria (100.0%),STnc30,Salmonella enterica conserved region STnc30,Gene; sRNA;
 RF02049,Bacteria,Bacteria (100.0%),Bacteria (100.0%),STnc460,Salmonella enterica sRNA STnc460,Gene; sRNA;
 RF02050,Bacteria,Bacteria (100.0%),Bacteria (100.0%),STnc470,Salmonella enterica sRNA STnc470,Gene; sRNA;

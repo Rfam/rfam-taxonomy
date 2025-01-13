@@ -114,7 +114,7 @@ def get_major_domain(data, cutoff):
     else:
         # get distinct domains
         found_domains = []
-        for domain, value in data.iteritems():
+        for domain, value in iter(data.items()):
             if value > 0:
                 found_domains.append(domain)
         # if only two domains and one of them is `unclassified`, consider the other one major domain

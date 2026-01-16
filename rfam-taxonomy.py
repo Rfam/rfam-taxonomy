@@ -23,11 +23,11 @@ from scripts.rfam_db import get_rfam_families, get_taxonomy_info
 DATA_SEED_PATH = 'data-seed'
 DATA_FULL_REGION_PATH = 'data-full-region'
 
-# add 'Fungi' here
 DOMAINS = sorted([
     'Archaea',
     'Bacteria',
     'Eukaryota',
+    'Fungi',
     'unclassified sequences',
     'Viruses',
     'Viroids',
@@ -90,6 +90,10 @@ def get_taxonomic_distribution(rfam_acc, DATA_PATH):
                 taxon = taxon.replace('.', '') # example: Bacteria.
             if taxon == 'Unclassified':
                 taxon = 'unclassified sequences'
+
+            # Check if Fungi appears in the taxonomy lineage (sub-kingdom of Eukaryota)
+            if 'Fungi' in tax_string:
+                taxon = 'Fungi'
 
             if taxon in DOMAINS:
                 data[taxon] += count

@@ -23,6 +23,7 @@ from scripts.rfam_db import get_rfam_families, get_taxonomy_info
 DATA_SEED_PATH = 'data-seed'
 DATA_FULL_REGION_PATH = 'data-full-region'
 
+# add 'Fungi' here
 DOMAINS = sorted([
     'Archaea',
     'Bacteria',

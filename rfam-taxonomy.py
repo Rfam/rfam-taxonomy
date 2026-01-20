@@ -14,6 +14,7 @@ limitations under the License.
 
 import os
 import csv
+import re
 
 import click
 
@@ -34,6 +35,7 @@ DOMAINS = sorted([
     'Other',
 ])
 DOMAIN_CUTOFF = 90 # at least 90% of sequences must be from this domain
+FUNGI_THRESHOLD = 5  # include families with at least 5% Fungi in full regions
 
 WHITELIST = [
     'RF00001', # 5S
@@ -140,6 +142,21 @@ def get_domains(data):
     return ', '.join(output)
 
 
+def get_fungi_percentage(full_domains_str):
+    """
+    Extract the Fungi percentage from a full_domains string.
+
+    Example input: 'Eukaryota (90.08%), Fungi (9.66%), Bacteria (0.25%)'
+    Returns: 9.66
+
+    If Fungi is not present, returns 0.0
+    """
+    match = re.search(r'Fungi \(([0-9.]+)%\)', full_domains_str)
+    if match:
+        return float(match.group(1))
+    return 0.0
+
+
 def analyse_seed_full_taxonomic_distribution(family, cutoff):
     """
     Compare domains observed in seed alignments and full region hits.
@@ -200,11 +217,15 @@ def write_output_files(data):
             for line in data:
                 this_domain = line[1].lower()
                 rfam_acc = line[0]
+                full_domains = line[3]
                 if this_domain in ['Bacteria/Eukaryota']: # skip families that have Bacteria in SEED but mostly Eukaryotes in full
                     continue
                 elif rfam_acc in WHITELIST:
                     csvwriter.writerow(line)
                 elif domain.lower() in this_domain:
+                    csvwriter.writerow(line)
+                # Secondary criteria for Fungi: include if Fungi >= threshold in full regions
+                elif domain == 'Fungi' and get_fungi_percentage(full_domains) >= FUNGI_THRESHOLD:
                     csvwriter.writerow(line)
 
 

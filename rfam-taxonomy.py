@@ -206,6 +206,30 @@ def write_output_files(data):
         for line in data:
             csvwriter.writerow(line)
 
+    # Define subgroup-parent relationships for extensibility
+    subgroup_parent = {
+        'Fungi': 'Eukaryota',
+        # Add more subgroup-parent pairs here, e.g. 'Plants': 'Eukaryota', 'Flaviviridae': 'Viruses'
+    }
+
+    # Precompute parent group inclusion flags for each family
+    parent_inclusion = {}
+    for line in data:
+        this_domain = line[1].lower()
+        rfam_acc = line[0]
+        full_domains = line[3]
+        # Eukaryota inclusion logic
+        is_eukaryote = (
+            rfam_acc in WHITELIST or
+            'eukaryota' in this_domain or
+            ('fungi' in this_domain) or
+            (get_fungi_percentage(full_domains) >= FUNGI_THRESHOLD)
+        )
+        parent_inclusion[rfam_acc] = {
+            'Eukaryota': is_eukaryote,
+            # Extend for other parent groups as needed
+        }
+
     # create domain-specific files
     for domain in DOMAINS:
         if domain == 'Other':
@@ -218,15 +242,27 @@ def write_output_files(data):
                 this_domain = line[1].lower()
                 rfam_acc = line[0]
                 full_domains = line[3]
-                if this_domain in ['Bacteria/Eukaryota']: # skip families that have Bacteria in SEED but mostly Eukaryotes in full
+                if this_domain in ['bacteria/eukaryota']:
                     continue
-                elif rfam_acc in WHITELIST:
+                # Whitelist always included
+                if rfam_acc in WHITELIST:
                     csvwriter.writerow(line)
-                elif domain.lower() in this_domain:
+                    continue
+                # Subgroup-parent enforcement
+                if domain in subgroup_parent:
+                    parent = subgroup_parent[domain]
+                    # Only include if parent group inclusion is True
+                    if not parent_inclusion[rfam_acc].get(parent, False):
+                        continue
+                # Standard inclusion
+                if domain.lower() in this_domain:
                     csvwriter.writerow(line)
-                # Secondary criteria for Fungi: include if Fungi >= threshold in full regions
-                elif domain == 'Fungi' and get_fungi_percentage(full_domains) >= FUNGI_THRESHOLD:
-                    csvwriter.writerow(line)
+                    continue
+                # Secondary criteria for Fungi (or other subgroups): include if threshold met and parent group inclusion is True
+                if domain == 'Fungi' and get_fungi_percentage(full_domains) >= FUNGI_THRESHOLD:
+                    if parent_inclusion[rfam_acc]['Eukaryota']:
+                        csvwriter.writerow(line)
+                    continue
 
 
 def update_summary():

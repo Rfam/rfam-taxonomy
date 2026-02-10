@@ -81,9 +81,11 @@ def get_taxonomic_distribution(rfam_acc, DATA_PATH):
     for domain in DOMAINS:
         data[domain] = 0
     total = 0
+    num_rows = 0
     with open(os.path.join(DATA_PATH, '{}.csv'.format(rfam_acc)), 'r') as f:
         csvreader = csv.reader(f)
         for row in csvreader:
+            num_rows += 1
             tax_string, count, _ = row
             count = int(count)
             taxon = tax_string.split(';')[0]
@@ -102,6 +104,8 @@ def get_taxonomic_distribution(rfam_acc, DATA_PATH):
             else:
                 data['Other'] += count
             total += count
+    if num_rows == 0:
+        return 'NO_DATA'
     if total != 0:
         for domain in DOMAINS:
             data[domain] = round(data[domain]*100.0/total, 2)
@@ -114,31 +118,87 @@ def get_major_domain(data, cutoff):
 
     {'Eukaryota': 100.0, 'Other': 0.0, 'Viruses': 0.0, 'unclassified sequences': 0.0, 'Viroids': 0.0, 'Archaea': 0.0, 'Bacteria': 0.0}
     """
-    major_domain = 'Mixed'
-    maximum = max(data, key=data.get)
-    if data[maximum] >= cutoff:
-        major_domain = maximum
+    if data == 'NO_DATA':
+        return 'No Data'
+    # Find all domains above cutoff
+    major_domains = [domain for domain, value in data.items() if value >= cutoff]
+    if len(major_domains) == 1:
+        return major_domains[0]
+    elif len(major_domains) > 1:
+        return '+'.join(sorted(major_domains))
     else:
-        # get distinct domains
-        found_domains = []
-        for domain, value in iter(data.items()):
-            if value > 0:
-                found_domains.append(domain)
+        found_domains = [domain for domain, value in data.items() if value > 0]
+        # Generalized special case: only a parent and its subgroup present
+        SUBGROUP_PARENT = {
+            'Fungi': 'Eukaryota',
+            # Add more subgroups as needed
+        }
+        for subgroup, parent in SUBGROUP_PARENT.items():
+            if set(found_domains) <= set([parent, subgroup]):
+                # Assign to the one with the higher count
+                if data[parent] > data[subgroup]:
+                    return parent
+                elif data[subgroup] > data[parent]:
+                    return subgroup
+                else:
+                    # If equal, return both joined
+                    return '+'.join(sorted([parent, subgroup]))
         # if only two domains and one of them is `unclassified`, consider the other one major domain
         if len(found_domains) == 2 and 'unclassified sequences' in found_domains:
             found_domains.remove('unclassified sequences')
-            major_domain = found_domains.pop()
-    return major_domain
+            return found_domains.pop()
+        else:
+            return 'Mixed'
+        # Mapping of subgroups to their parent domains for generalization
+        SUBGROUP_PARENT = {
+            'Fungi': 'Eukaryota',
+            # Add more subgroups as needed
+        }
+        # Generalized special case: only a parent and its subgroup present
+        for subgroup, parent in SUBGROUP_PARENT.items():
+            if set(found_domains) <= set([parent, subgroup]):
+                # Assign to the one with the higher count
+                if data[parent] > data[subgroup]:
+                    return parent
+                elif data[subgroup] > data[parent]:
+                    return subgroup
+                else:
+                    # If equal, return both joined
+                    return '+'.join(sorted([parent, subgroup]))
 
 
 def get_domains(data):
     """
     List all domains in which a family has been observed.
     """
+    if data == 'NO_DATA':
+        return 'No Data'
+
+    # Define parent relationships
+    SUBGROUP_PARENT = {
+        'Fungi': 'Eukaryota',
+        # Add more subgroups as needed
+    }
+
+    # Make a copy so we don't mutate the original
+    data = data.copy()
+
+    # For each subgroup, add its percentage to its parent
+    for subgroup, parent in SUBGROUP_PARENT.items():
+        if parent in data and subgroup in data:
+            data[parent] += data[subgroup]
+            # Cap at 100%
+            if data[parent] > 100.0:
+                data[parent] = 100.0
+
     output = []
     for domain, proportion in sorted(data.items(), key=lambda x: x[1], reverse=True):
         if proportion > 0:
-            output.append('{} ({}%)'.format(domain, proportion))
+            # Show subgroups with their parent prefix
+            display_name = domain
+            if domain in SUBGROUP_PARENT:
+                display_name = '{}/{}'.format(SUBGROUP_PARENT[domain], domain)
+            output.append('{} ({}%)'.format(display_name, proportion))
     return ', '.join(output)
 
 
@@ -170,26 +230,45 @@ def analyse_seed_full_taxonomic_distribution(family, cutoff):
     major_domain_full = get_major_domain(full, cutoff)
     full_domains = get_domains(full)
 
-    if major_domain_seed and major_domain_seed == major_domain_full:
-        return [
-            family['rfam_acc'],
-            major_domain_seed,
-            seed_domains,
-            full_domains,
-            family['rfam_id'],
-            family['description'],
-            family['type'],
-        ]
+    # Rule 1: If both are the same and not Mixed/No Data, use that value
+    if major_domain_seed and major_domain_seed == major_domain_full and major_domain_seed not in ('Mixed', 'No Data'):
+        domain_field = major_domain_seed
+    # Rule 2: If either is Mixed or No Data, use the appropriate combination
+    elif major_domain_seed in ('Mixed', 'No Data') or major_domain_full in ('Mixed', 'No Data'):
+        if major_domain_seed in ('Mixed', 'No Data') and major_domain_full in ('Mixed', 'No Data'):
+            domain_field = 'Mixed'
+        elif major_domain_seed in ('Mixed', 'No Data'):
+            domain_field = 'Mixed/{}'.format(major_domain_full)
+        else:
+            domain_field = '{}/Mixed'.format(major_domain_seed)
     else:
-        return [
-            family['rfam_acc'],
-            '{}/{}'.format(major_domain_seed, major_domain_full),
-            seed_domains,
-            full_domains,
-            family['rfam_id'],
-            family['description'],
-            family['type'],
-        ]
+        # Rule 3: Parent/subgroup and A+B logic
+        SUBGROUP_PARENT = {
+            'Fungi': 'Eukaryota',
+            # Add more subgroups as needed
+        }
+        parent_to_subgroup = {v: k for k, v in SUBGROUP_PARENT.items()}
+        # If one is a parent (A) and the other is its subgroup (B), use "A+B" if parent is not a subgroup
+        if (major_domain_seed in SUBGROUP_PARENT.values() and major_domain_full in SUBGROUP_PARENT.keys() and SUBGROUP_PARENT[major_domain_full] == major_domain_seed):
+            domain_field = '{}+{}'.format(major_domain_seed, major_domain_full)
+        elif (major_domain_full in SUBGROUP_PARENT.values() and major_domain_seed in SUBGROUP_PARENT.keys() and SUBGROUP_PARENT[major_domain_seed] == major_domain_full):
+            domain_field = '{}+{}'.format(major_domain_full, major_domain_seed)
+        # If one is A+B and the other is A, use A+B
+        elif (isinstance(major_domain_seed, str) and '+' in major_domain_seed and major_domain_full in major_domain_seed.split('+')):
+            domain_field = major_domain_seed
+        elif (isinstance(major_domain_full, str) and '+' in major_domain_full and major_domain_seed in major_domain_full.split('+')):
+            domain_field = major_domain_full
+        else:
+            domain_field = '{}/{}'.format(major_domain_seed, major_domain_full)
+    return [
+        family['rfam_acc'],
+        domain_field,
+        seed_domains,
+        full_domains,
+        family['rfam_id'],
+        family['description'],
+        family['type'],
+    ]
 
 
 def write_output_files(data):
@@ -248,11 +327,12 @@ def write_output_files(data):
                 if rfam_acc in WHITELIST:
                     csvwriter.writerow(line)
                     continue
-                # Subgroup-parent enforcement
+                # Subgroup-parent enforcement: Allow if major_domain_seed is parent, subgroup, or parent/subgroup combo
                 if domain in subgroup_parent:
                     parent = subgroup_parent[domain]
-                    # Only include if parent group inclusion is True
-                    if not parent_inclusion[rfam_acc].get(parent, False):
+                    major_domain_seed = line[1].split('/')[0].strip().capitalize()
+                    major_domain_combo = parent + '/' + domain
+                    if major_domain_seed.lower() not in [parent.lower(), domain.lower(), major_domain_combo.lower()]:
                         continue
                 # Standard inclusion
                 if domain.lower() in this_domain:

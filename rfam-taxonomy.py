@@ -192,12 +192,14 @@ def get_fungi_percentage(full_domains_str):
     """
     Extract the Fungi percentage from a full_domains string.
 
-    Example input: 'Eukaryota (90.08%), Fungi (9.66%), Bacteria (0.25%)'
+    Example input: 'Bacteria (0.25%), Eukaryota/Fungi (9.66%)'
     Returns: 9.66
 
     If Fungi is not present, returns 0.0
     """
-    match = re.search(r'Fungi \(([0-9.]+)%\)', full_domains_str)
+    # Match "Fungi (x%)" possibly preceded by a parent prefix like "Eukaryota/Fungi"
+    # within a single comma-separated domain entry.
+    match = re.search(r'[^,]*\\bFungi \\(([0-9.]+)%\\)', full_domains_str)
     if match:
         return float(match.group(1))
     return 0.0

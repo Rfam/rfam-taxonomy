@@ -137,6 +137,9 @@ def get_major_domain(data, cutoff):
         return '+'.join(sorted(major_domains))
     else:
         found_domains = [domain for domain, value in data.items() if value > 0]
+        # Guard against empty found_domains
+        if not found_domains:
+            return 'Mixed'
         # Generalized special case: only a parent and its subgroup present
         for subgroup, parent in SUBGROUP_PARENT.items():
             if set(found_domains) <= set([parent, subgroup]):

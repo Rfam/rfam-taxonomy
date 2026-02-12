@@ -37,6 +37,15 @@ DOMAINS = sorted([
 DOMAIN_CUTOFF = 90 # at least 90% of sequences must be from this domain
 FUNGI_THRESHOLD = 5  # include families with at least 5% Fungi in full regions
 
+# Mapping of subgroups to their parent domains
+# To add a new subgroup, add it here and to the DOMAINS list above
+SUBGROUP_PARENT = {
+    'Fungi': 'Eukaryota',
+    # Add more subgroup-parent pairs here, e.g.:
+    # 'Plants': 'Eukaryota',
+    # 'Alphaproteobacteria': 'Bacteria',
+}
+
 WHITELIST = [
     'RF00001', # 5S
     'RF00005', # tRNA
@@ -129,10 +138,6 @@ def get_major_domain(data, cutoff):
     else:
         found_domains = [domain for domain, value in data.items() if value > 0]
         # Generalized special case: only a parent and its subgroup present
-        SUBGROUP_PARENT = {
-            'Fungi': 'Eukaryota',
-            # Add more subgroups as needed
-        }
         for subgroup, parent in SUBGROUP_PARENT.items():
             if set(found_domains) <= set([parent, subgroup]):
                 # Assign to the one with the higher count
@@ -149,22 +154,6 @@ def get_major_domain(data, cutoff):
             return found_domains.pop()
         else:
             return 'Mixed'
-        # Mapping of subgroups to their parent domains for generalization
-        SUBGROUP_PARENT = {
-            'Fungi': 'Eukaryota',
-            # Add more subgroups as needed
-        }
-        # Generalized special case: only a parent and its subgroup present
-        for subgroup, parent in SUBGROUP_PARENT.items():
-            if set(found_domains) <= set([parent, subgroup]):
-                # Assign to the one with the higher count
-                if data[parent] > data[subgroup]:
-                    return parent
-                elif data[subgroup] > data[parent]:
-                    return subgroup
-                else:
-                    # If equal, return both joined
-                    return '+'.join(sorted([parent, subgroup]))
 
 
 def get_domains(data):
@@ -173,12 +162,6 @@ def get_domains(data):
     """
     if data == 'NO_DATA':
         return 'No Data'
-
-    # Define parent relationships
-    SUBGROUP_PARENT = {
-        'Fungi': 'Eukaryota',
-        # Add more subgroups as needed
-    }
 
     # Make a copy so we don't mutate the original
     data = data.copy()
@@ -235,29 +218,31 @@ def analyse_seed_full_taxonomic_distribution(family, cutoff):
         domain_field = major_domain_seed
     # Rule 2: If either is Mixed or No Data, use the appropriate combination
     elif major_domain_seed in ('Mixed', 'No Data') or major_domain_full in ('Mixed', 'No Data'):
-        if major_domain_seed in ('Mixed', 'No Data') and major_domain_full in ('Mixed', 'No Data'):
+        # Handle all combinations of Mixed and No Data
+        if major_domain_seed == 'No Data' and major_domain_full == 'No Data':
+            domain_field = 'No Data'
+        elif major_domain_seed == 'Mixed' and major_domain_full == 'Mixed':
             domain_field = 'Mixed'
-        elif major_domain_seed in ('Mixed', 'No Data'):
+        elif major_domain_seed == 'No Data' and major_domain_full == 'Mixed':
+            domain_field = 'Mixed'
+        elif major_domain_seed == 'Mixed' and major_domain_full == 'No Data':
+            domain_field = 'Mixed'
+        elif major_domain_seed == 'No Data':
+            domain_field = 'No Data/{}'.format(major_domain_full)
+        elif major_domain_full == 'No Data':
+            domain_field = '{}/No Data'.format(major_domain_seed)
+        elif major_domain_seed == 'Mixed':
             domain_field = 'Mixed/{}'.format(major_domain_full)
-        else:
+        else:  # major_domain_full == 'Mixed'
             domain_field = '{}/Mixed'.format(major_domain_seed)
     else:
-        # Rule 3: Parent/subgroup and A+B logic
-        SUBGROUP_PARENT = {
-            'Fungi': 'Eukaryota',
-            # Add more subgroups as needed
-        }
-        parent_to_subgroup = {v: k for k, v in SUBGROUP_PARENT.items()}
-        # If one is a parent (A) and the other is its subgroup (B), use "A+B" if parent is not a subgroup
-        if (major_domain_seed in SUBGROUP_PARENT.values() and major_domain_full in SUBGROUP_PARENT.keys() and SUBGROUP_PARENT[major_domain_full] == major_domain_seed):
-            domain_field = '{}+{}'.format(major_domain_seed, major_domain_full)
-        elif (major_domain_full in SUBGROUP_PARENT.values() and major_domain_seed in SUBGROUP_PARENT.keys() and SUBGROUP_PARENT[major_domain_seed] == major_domain_full):
-            domain_field = '{}+{}'.format(major_domain_full, major_domain_seed)
-        # If one is A+B and the other is A, use A+B
-        elif (isinstance(major_domain_seed, str) and '+' in major_domain_seed and major_domain_full in major_domain_seed.split('+')):
+        # Rule 3: Handle A+B patterns and standard A/B format
+        # If one is A+B and the other is A (or any component of A+B), use A+B
+        if (isinstance(major_domain_seed, str) and '+' in major_domain_seed and major_domain_full in major_domain_seed.split('+')):
             domain_field = major_domain_seed
         elif (isinstance(major_domain_full, str) and '+' in major_domain_full and major_domain_seed in major_domain_full.split('+')):
             domain_field = major_domain_full
+        # Otherwise use standard seed/full format
         else:
             domain_field = '{}/{}'.format(major_domain_seed, major_domain_full)
     return [
@@ -284,12 +269,6 @@ def write_output_files(data):
         csvwriter.writerow(header)
         for line in data:
             csvwriter.writerow(line)
-
-    # Define subgroup-parent relationships for extensibility
-    subgroup_parent = {
-        'Fungi': 'Eukaryota',
-        # Add more subgroup-parent pairs here, e.g. 'Plants': 'Eukaryota', 'Flaviviridae': 'Viruses'
-    }
 
     # Precompute parent group inclusion flags for each family
     parent_inclusion = {}
@@ -327,21 +306,22 @@ def write_output_files(data):
                 if rfam_acc in WHITELIST:
                     csvwriter.writerow(line)
                     continue
-                # Subgroup-parent enforcement: Allow if major_domain_seed is parent, subgroup, or parent/subgroup combo
-                if domain in subgroup_parent:
-                    parent = subgroup_parent[domain]
-                    major_domain_seed = line[1].split('/')[0].strip().capitalize()
-                    major_domain_combo = parent + '/' + domain
-                    if major_domain_seed.lower() not in [parent.lower(), domain.lower(), major_domain_combo.lower()]:
+                # For subgroups: include if Domain field contains the subgroup name OR if threshold met with parent inclusion
+                if domain in SUBGROUP_PARENT:
+                    parent = SUBGROUP_PARENT[domain]
+                    domain_field = line[1]
+                    # Include if the domain name appears in the Domain field (handles Fungi, Eukaryota+Fungi, Mixed/Fungi, Fungi/Mixed, etc.)
+                    if domain.lower() in domain_field.lower():
+                        csvwriter.writerow(line)
                         continue
-                # Standard inclusion
+                    # Also include if threshold met and parent group inclusion is True
+                    if domain == 'Fungi' and get_fungi_percentage(full_domains) >= FUNGI_THRESHOLD:
+                        if parent_inclusion[rfam_acc].get(parent, False):
+                            csvwriter.writerow(line)
+                        continue
+                # Standard inclusion for major domains
                 if domain.lower() in this_domain:
                     csvwriter.writerow(line)
-                    continue
-                # Secondary criteria for Fungi (or other subgroups): include if threshold met and parent group inclusion is True
-                if domain == 'Fungi' and get_fungi_percentage(full_domains) >= FUNGI_THRESHOLD:
-                    if parent_inclusion[rfam_acc]['Eukaryota']:
-                        csvwriter.writerow(line)
                     continue
 
 

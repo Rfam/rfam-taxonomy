@@ -28,11 +28,11 @@ Each file contains seven columns:
 The `Domain` field (column 2) is determined by the following rules:
 
 - **Single domain** (e.g., _Bacteria_, _Eukaryota_): Used if the majority of hits (≥90%) are from the same domain in both seed and full region hits.
-- **A+B**: If both a parent domain (A) and its subgroup (B) are above the 90% cutoff in either seed or full region the field is shown as `A+B` (e.g., _Eukaryota+Fungi_).
-- **A/B**: If seed and full region domains are different and do not fit the parent/subgroup rule, the field is `<seed domain>/<full region domain>`. For example, _Viruses/Eukaryota_ means the seed alignment is mostly Viruses and the full region hits are mostly Eukaryota.
+- **A+B**: If multiple domains are each ≥90% within a single dataset (seed or full), they are joined with `+` (e.g., _Eukaryota+Fungi_). This occurs with parent/subgroup relationships where the subgroup's sequences contribute to both the parent and subgroup counts, allowing both to exceed 90%.
+- **A/B**: If seed and full region domains are different, the field is `<seed domain>/<full region domain>`. For example, _Viruses/Eukaryota_ means the seed alignment is mostly Viruses and the full region hits are mostly Eukaryota. This also applies to parent/subgroup pairs when they differ between seed and full.
 - **Mixed**: Used if there is no single domain where the family occurs (i.e., no domain is above the cutoff and the distribution is ambiguous). For example, 5S rRNA [RF00001](http://rfam.org/family/RF00001) is found in _Bacteria_, _Archaea_, and _Eukaryota_.
-- **A/Mixed** or **Mixed/B**: If one of the seed or full region domains is `Mixed` or `No Data`, the field is shown as `<seed domain>/Mixed` or `Mixed/<full region domain>`.
-- **No Data**: If there is no data for a family in the full region, the field is shown as `A/No Data` as appropriate.
+- **A/Mixed** or **Mixed/B**: If one of the seed or full region domains is `Mixed`, the field is shown as `<seed domain>/Mixed` or `Mixed/<full region domain>`.
+- **A/No Data** or **No Data/B**: If there is no data for a family in either the seed or full region, the field is shown as `<seed domain>/No Data`, `No Data/<full region domain>`, or `No Data` if both lack data.
 
 ### Parent-child domain relationships
 
@@ -74,7 +74,7 @@ The latest version of the files can be retrieved directly from GitHub using the 
 
     where _cmfetch_ is part of the Infernal suite and `Rfam.cm.gz` can be downloaded from `ftp://ftp.ebi.ac.uk/pub/databases/Rfam/CURRENT/Rfam.cm.gz`.
 
-    The same approach works for any domain or subgroup (e.g. Archaea or Fungi) by just replacing `bacteria` in the command above with the name of the domain or subgroup.
+    The same approach works for any domain or subgroup (e.g. archaea or fungi) by just replacing `bacteria` in the command above with the name of the domain or subgroup.
 
     **Note for subgroups:** Subgroup files like [fungi.csv](./domains/fungi.csv) contain two types of families: (1) families that are ≥90% from that subgroup (Domain field = `Fungi`), and (2) families that are primarily from the parent domain but have significant (>5%) representation from the subgroup (Domain field = `Eukaryota` or containing the parent name). To extract only families that are ≥90% from a subgroup, filter the Domain field (column 2):
 

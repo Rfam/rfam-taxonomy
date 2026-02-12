@@ -181,7 +181,7 @@ def get_domains(data):
             display_name = domain
             if domain in SUBGROUP_PARENT:
                 display_name = '{}/{}'.format(SUBGROUP_PARENT[domain], domain)
-            output.append('{} ({}%)'.format(display_name, proportion))
+            output.append('{} ({:.2f}%)'.format(display_name, proportion))
     return ', '.join(output)
 
 

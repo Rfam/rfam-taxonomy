@@ -1,5 +1,5 @@
 Family,Domain,Seed domains,Full region domains,Rfam ID,Description,RNA type
-RF00001,Mixed/Eukaryota,"Bacteria (48.6%), Eukaryota (45.5%), Eukaryota/Fungi (12.78%), Archaea (5.9%)","Eukaryota (95.39%), Eukaryota/Fungi (4.9%), Bacteria (4.52%), Archaea (0.09%)",5S_rRNA,5S ribosomal RNA,Gene; rRNA;
-RF00005,Mixed,"Eukaryota (78.2%), Bacteria (17.3%), Eukaryota/Fungi (14.57%), Archaea (3.46%), Viruses (1.05%)","Eukaryota (90.4%), Bacteria (9.16%), Eukaryota/Fungi (3.48%), Archaea (0.25%), Viruses (0.19%)",tRNA,tRNA,Gene; tRNA;
-RF00362,Viroids/Eukaryota,Viroids (100.0%),Eukaryota (100.0%),Pospi_RY,Pospiviroid RY motif stem loop,Cis-reg;
-RF01852,Mixed,"Bacteria (68.81%), Eukaryota (29.36%), Archaea (1.83%)","Bacteria (55.11%), Eukaryota (44.32%), Eukaryota/Fungi (0.42%), Viruses (0.4%), Archaea (0.16%)",tRNA-Sec,Selenocysteine transfer RNA,Gene; tRNA;
+RF00001,Mixed/Eukaryota,"Bacteria (48.60%), Eukaryota (45.50%), Eukaryota/Fungi (12.78%), Archaea (5.90%)","Eukaryota (95.39%), Eukaryota/Fungi (4.90%), Bacteria (4.52%), Archaea (0.09%)",5S_rRNA,5S ribosomal RNA,Gene; rRNA;
+RF00005,Mixed,"Eukaryota (78.20%), Bacteria (17.30%), Eukaryota/Fungi (14.57%), Archaea (3.46%), Viruses (1.05%)","Eukaryota (90.40%), Bacteria (9.16%), Eukaryota/Fungi (3.48%), Archaea (0.25%), Viruses (0.19%)",tRNA,tRNA,Gene; tRNA;
+RF00362,Viroids/Eukaryota,Viroids (100.00%),Eukaryota (100.00%),Pospi_RY,Pospiviroid RY motif stem loop,Cis-reg;
+RF01852,Mixed,"Bacteria (68.81%), Eukaryota (29.36%), Archaea (1.83%)","Bacteria (55.11%), Eukaryota (44.32%), Eukaryota/Fungi (0.42%), Viruses (0.40%), Archaea (0.16%)",tRNA-Sec,Selenocysteine transfer RNA,Gene; tRNA;

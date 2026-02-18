@@ -228,7 +228,7 @@ def get_subgroup_percentage(full_domains_str, subgroup):
     If subgroup is not present, returns 0.0
     """
     # Match "subgroup (x%)" possibly preceded by a parent prefix like "Eukaryota:Fungi"
-    pattern = r'[^,]*\\b{} \\(([0-9.]+)%\\)'.format(re.escape(subgroup))
+    pattern = r'[^,]*\b{} \(([0-9.]+)%\)'.format(re.escape(subgroup))
     match = re.search(pattern, full_domains_str)
     if match:
         return float(match.group(1))

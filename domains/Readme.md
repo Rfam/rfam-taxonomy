@@ -3,7 +3,7 @@
 The number of Rfam families observed in different domains:
 
 ```
-   2539 Eukaryota
+   2544 Eukaryota
     908 Bacteria
     151 Bacteria/Mixed
     140 Viruses
@@ -16,9 +16,9 @@ The number of Rfam families observed in different domains:
      26 Bacteria/No Data
      23 Mixed/Bacteria
      17 Mixed
-     16 Mixed/Eukaryota
      13 Mixed/Viruses
      13 Archaea/Mixed
+     11 Mixed/Eukaryota
      10 Viruses/Eukaryota
       7 Eukaryota+Fungi/Eukaryota
       7 Bacteria/Viruses

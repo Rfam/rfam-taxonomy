@@ -199,7 +199,7 @@ def get_fungi_percentage(full_domains_str):
     """
     # Match "Fungi (x%)" possibly preceded by a parent prefix like "Eukaryota/Fungi"
     # within a single comma-separated domain entry.
-    match = re.search(r'[^,]*\\bFungi \\(([0-9.]+)%\\)', full_domains_str)
+    match = re.search(r'[^,]*\bFungi \(([0-9.]+)%\)', full_domains_str)
     if match:
         return float(match.group(1))
     return 0.0

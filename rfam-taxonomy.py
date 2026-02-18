@@ -319,7 +319,8 @@ def write_output_files(data):
     # Sort domains: subgroups first, then parents, then others
     # This ensures we know which families are in subgroups before writing parent files
     subgroups = list(SUBGROUP_PARENT.keys())
-    parents = list(set(SUBGROUP_PARENT.values()))
+    # Use deterministic ordering for parent domains to keep CSV generation stable
+    parents = sorted(set(SUBGROUP_PARENT.values()))
     other_domains = [d for d in DOMAINS if d not in subgroups and d not in parents and d != 'Other']
     sorted_domains = subgroups + parents + other_domains
     

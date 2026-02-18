@@ -170,16 +170,18 @@ def get_major_domain(data, cutoff):
     
     # Remove unclassified sequences and renormalize if present
     if 'unclassified sequences' in data and data['unclassified sequences'] > 0:
-        # Calculate total percentage excluding unclassified
-        total_excluding_unclassified = sum(
-            value for domain, value in data.items() 
-            if domain != 'unclassified sequences'
-        )
-        if total_excluding_unclassified == 0:
+        unclassified_pct = data['unclassified sequences']
+        if unclassified_pct >= 100.0:
             return 'Mixed'  # Only unclassified sequences present
-        # Renormalize to 100%
+        
+        # Scale up remaining percentages to sum to 100%
+        # Use multiplication by scale factor rather than summing percentages, because
+        # parent+subgroup double-counting means percentages sum to >100% (e.g., a family
+        # with 10% Fungi contributes to both Fungi and Eukaryota percentages).
+        # Scaling preserves the proportional relationships while renormalizing.
+        scale_factor = 100.0 / (100.0 - unclassified_pct)
         data = {
-            domain: (value / total_excluding_unclassified) * 100.0
+            domain: value * scale_factor
             for domain, value in data.items()
             if domain != 'unclassified sequences'
         }

@@ -220,16 +220,31 @@ def get_domains(data):
 
 
 
-def get_subgroup_percentage(full_domains_str, subgroup):
+def get_domain_percentage(domains_str, domain, allow_prefix=True):
     """
-    Extract the percentage for a given subgroup from a full_domains string.
+    Extract the percentage for a given domain from a domains string.
 
-    Example input: 'Bacteria (0.25%), Eukaryota:Fungi (9.66%)', subgroup='Fungi' => 9.66
-    If subgroup is not present, returns 0.0
+    Args:
+        domains_str: String with domain percentages (e.g., 'Bacteria (0.25%), Eukaryota (40%)')
+        domain: Domain name to search for
+        allow_prefix: If True, matches "Parent:Domain (X%)" format. If False, only standalone "Domain (X%)"
+
+    Examples:
+        get_domain_percentage('Eukaryota:Fungi (9.66%)', 'Fungi') => 9.66
+        get_domain_percentage('Eukaryota (40%)', 'Eukaryota') => 40.0
+        get_domain_percentage('Eukaryota:Fungi (9.66%)', 'Eukaryota', allow_prefix=False) => 0.0
+
+    Returns:
+        Percentage as float, or 0.0 if not found
     """
-    # Match "subgroup (x%)" possibly preceded by a parent prefix like "Eukaryota:Fungi"
-    pattern = r'[^,]*\b{} \(([0-9.]+)%\)'.format(re.escape(subgroup))
-    match = re.search(pattern, full_domains_str)
+    if allow_prefix:
+        # Match "domain (x%)" possibly preceded by a parent prefix like "Eukaryota:Fungi"
+        pattern = r'[^,]*\b{} \(([0-9.]+)%\)'.format(re.escape(domain))
+    else:
+        # Only match standalone domain, not as part of "Parent:Domain" format
+        pattern = r'\b{} \(([0-9.]+)%\)'.format(re.escape(domain))
+    
+    match = re.search(pattern, domains_str)
     if match:
         return float(match.group(1))
     return 0.0
@@ -331,15 +346,21 @@ def write_output_files(data):
                     continue
                 # (B) Subgroup file logic
                 if domain in SUBGROUP_PARENT:
+                    parent = SUBGROUP_PARENT[domain]
+                    seed_domains = line[2]
                     # (B1) Domain name appears in domain_field
                     if domain.lower() in domain_field.lower():
                         csvwriter.writerow(line)
                         subgroup_families[domain].add(rfam_acc)
                         continue
-                    # (B2) Subgroup threshold for any subgroup file
-                    if get_subgroup_percentage(full_domains, domain) >= SUBGROUP_THRESHOLD:
-                        csvwriter.writerow(line)
-                        subgroup_families[domain].add(rfam_acc)
+                    # (B2) Subgroup threshold: only if parent domain is substantively present in seed
+                    # This ensures subgroups are restricted to the scope of their parent
+                    # (prevents viral/bacterial contamination in eukaryotic subgroups like Fungi)
+                    if get_domain_percentage(full_domains, domain) >= SUBGROUP_THRESHOLD:
+                        parent_pct_in_seed = get_domain_percentage(seed_domains, parent, allow_prefix=False)
+                        if parent_pct_in_seed >= SUBGROUP_THRESHOLD:
+                            csvwriter.writerow(line)
+                            subgroup_families[domain].add(rfam_acc)
                         continue
                 # (C) Parent domain file logic: include all families from child subgroups
                 if domain in parents:

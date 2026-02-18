@@ -44,7 +44,7 @@ Currently defined subgroups:
 
 If both a parent and its subgroup are above the cutoff, or if one is the parent and the other is its subgroup, the domain is shown as `Parent+Subgroup` (e.g., _Eukaryota+Fungi_). This helps clarify cases where a family is strongly represented in both a major domain and a specific subgroup.
 
-In the `Seed domains` and `Full region domains` columns (columns 3 and 4), subgroups are displayed with their parent prefix to indicate the hierarchical relationship (e.g., _Eukaryota/Fungi_). The percentages for subgroups are also included in their parent domain's percentage.
+In the `Seed domains` and `Full region domains` columns (columns 3 and 4), subgroups are displayed with their parent prefix using a colon separator to indicate the hierarchical relationship (e.g., _Eukaryota:Fungi_). The percentages for subgroups are also included in their parent domain's percentage.
 
 (If you add more subgroups in the code, update this section accordingly.)
 

@@ -81,7 +81,7 @@ The latest version of the files can be retrieved directly from GitHub using the 
     ```
     # Get only families that are ≥90% Fungi
     curl https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/fungi.csv | \
-    awk -F',' '$2 == "Fungi" || $2 ~ /Fungi\+/ {print $1}' | \
+    awk -F',' '$2 ~ /(^|\+)Fungi(\+|$)/ {print $1}' | \
     tail -n +2 | \
     cmfetch -o fungi-90pct.cm -f Rfam.cm.gz -
     ```

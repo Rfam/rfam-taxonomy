@@ -16,12 +16,11 @@ import os
 import csv
 import click
 
-from scripts.rfam_db import get_rfam_families, get_taxonomy_info
+from scripts.rfam_db import get_rfam_families, get_taxonomy_info, get_clan_membership
 
 
 DATA_SEED_PATH = 'data-seed'
 DATA_FULL_REGION_PATH = 'data-full-region'
-CLANIN_PATH = 'Rfam.clanin'  # Path to master Rfam.clanin file
 
 DOMAINS = sorted([
     'Archaea',
@@ -174,6 +173,7 @@ def write_output_files(data):
     """
     Generate output files.
     """
+    print("Generating domain-specific CSV files...")
     header = ['Family', 'Domain', 'Seed domains', 'Full region domains',
               'Rfam ID', 'Description', 'RNA type']
 
@@ -183,6 +183,7 @@ def write_output_files(data):
         csvwriter.writerow(header)
         for line in data:
             csvwriter.writerow(line)
+    print("  Created domains/all-domains.csv")
 
     # create domain-specific files
     for domain in DOMAINS:
@@ -201,6 +202,8 @@ def write_output_files(data):
                     csvwriter.writerow(line)
                 elif domain.lower() in this_domain:
                     csvwriter.writerow(line)
+        print(f"  Created {filename}")
+    print("Done generating CSV files")
 
 
 def update_summary():
@@ -225,61 +228,17 @@ The number of Rfam families observed in different domains:
     os.system("echo '```' >> {}".format(summary_file))
 
 
-def parse_csv_rfam_ids(csv_path):
+def generate_clanin_files():
     """
-    Extract Rfam IDs from a CSV file (5th column).
+    Generate domain-specific clanin files from Rfam database clan information.
     
-    Args:
-        csv_path: Path to domain CSV file
-        
-    Returns:
-        Set of Rfam IDs present in the CSV
+    For each domain, creates a clanin file containing only clans with >1 family
+    present in that domain. Queries the database directly to get current clan membership.
     """
-    rfam_ids = set()
-    with open(csv_path, newline='') as csvfile:
-        reader = csv.reader(csvfile)
-        next(reader)  # Skip header
-        for row in reader:
-            if len(row) >= 5:
-                rfam_ids.add(row[4].strip())
-    return rfam_ids
-
-
-def filter_clanin_for_domain(clanin_path, rfam_ids, output_path):
-    """
-    Filter a clanin file to only include clans with >1 Rfam ID present in the domain.
+    print("Retrieving clan membership from database...")
+    clan_data = get_clan_membership()
     
-    Args:
-        clanin_path: Path to master Rfam.clanin file
-        rfam_ids: Set of Rfam IDs present in this domain
-        output_path: Path to write filtered clanin file
-    """
-    with open(clanin_path) as infile, open(output_path, 'w') as outfile:
-        for line in infile:
-            tokens = line.strip().split()
-            if not tokens:
-                continue
-            clan = tokens[0]
-            clan_rfam_ids = tokens[1:]
-            # Only keep Rfam IDs present in the domain CSV
-            present = [rfam_id for rfam_id in clan_rfam_ids if rfam_id in rfam_ids]
-            # Only write clans with >1 family in this domain
-            if len(present) > 1:
-                outfile.write(f"{clan} {' '.join(present)}\n")
-
-
-def generate_clanin_files(clanin_path):
-    """
-    Generate domain-specific clanin files from master Rfam.clanin file.
-    
-    Args:
-        clanin_path: Path to master Rfam.clanin file
-    """
-    if not clanin_path or not os.path.exists(clanin_path):
-        print(f"Skipping clanin file generation: {clanin_path} not found")
-        return
-    
-    # print("Generating domain-specific clanin files...")
+    print("Generating domain-specific clanin files...")
     for domain in DOMAINS:
         if domain == 'Other':
             continue
@@ -289,23 +248,36 @@ def generate_clanin_files(clanin_path):
         
         if not os.path.exists(csv_filename):
             continue
-            
-        # Extract Rfam IDs from domain CSV
-        rfam_ids = parse_csv_rfam_ids(csv_filename)
         
-        # Filter clanin file for this domain
-        filter_clanin_for_domain(clanin_path, rfam_ids, clanin_filename)
-        # print(f"  Created {clanin_filename}")
+        # Extract Rfam IDs from domain CSV (5th column)
+        domain_rfam_ids = set()
+        with open(csv_filename, newline='') as csvfile:
+            reader = csv.reader(csvfile)
+            next(reader)  # Skip header
+            for row in reader:
+                if len(row) >= 5:
+                    domain_rfam_ids.add(row[4].strip())
+        
+        # Write clanin file for this domain
+        with open(clanin_filename, 'w') as outfile:
+            for clan_acc in sorted(clan_data.keys()):
+                clan_rfam_ids = clan_data[clan_acc]
+                # Only keep Rfam IDs present in this domain
+                present = [rfam_id for rfam_id in clan_rfam_ids if rfam_id in domain_rfam_ids]
+                # Only write clans with >1 family in this domain
+                if len(present) > 1:
+                    outfile.write(f"{clan_acc} {' '.join(present)}\n")
+        
+        print(f"  Created {clanin_filename}")
     
-    # print("Done generating clanin files")
+    print("Done generating clanin files")
 
 
 @click.command()
 @click.option('--precompute-seed', is_flag=True, required=False, help='Store seed data files')
 @click.option('--precompute-full', is_flag=True, required=False, help='Store full data files')
 @click.option('--cutoff', required=False, default=DOMAIN_CUTOFF, help='Percent of hits from the same domain')
-@click.option('--clanin', required=False, default=CLANIN_PATH, help='Path to Rfam.clanin file (default: Rfam.clanin)')
-def main(precompute_seed, precompute_full, cutoff, clanin):
+def main(precompute_seed, precompute_full, cutoff):
 
     if precompute_seed:
         precompute_taxonomic_information('seed')
@@ -319,8 +291,8 @@ def main(precompute_seed, precompute_full, cutoff, clanin):
     write_output_files(data)
     update_summary()
     
-    # Generate domain-specific clanin files from master Rfam.clanin
-    generate_clanin_files(clanin)
+    # Generate domain-specific clanin files from database
+    generate_clanin_files()
 
 
 if __name__ == '__main__':

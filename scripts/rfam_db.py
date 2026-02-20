@@ -71,3 +71,34 @@ def get_taxonomy_info(rfam_acc, analysis_type):
     finally:
         connection.close()
     return data
+
+
+def get_clan_membership():
+    """
+    Retrieve clan membership information from Rfam database.
+    
+    Returns:
+        Dictionary mapping clan_acc to list of rfam_ids in that clan.
+        Example: {'CL00001': ['5S_rRNA', 'tRNA', ...], 'CL00002': [...]}
+    """
+    clan_data = {}
+    try:
+        connection = get_connection()
+        with connection.cursor() as cursor:
+            sql = """
+            SELECT c.clan_acc, f.rfam_id
+            FROM clan c
+            JOIN clan_membership cm ON c.clan_acc = cm.clan_acc
+            JOIN family f ON cm.rfam_acc = f.rfam_acc
+            ORDER BY c.clan_acc, f.rfam_id
+            """
+            cursor.execute(sql)
+            for result in cursor.fetchall():
+                clan_acc = result['clan_acc']
+                rfam_id = result['rfam_id']
+                if clan_acc not in clan_data:
+                    clan_data[clan_acc] = []
+                clan_data[clan_acc].append(rfam_id)
+    finally:
+        connection.close()
+    return clan_data

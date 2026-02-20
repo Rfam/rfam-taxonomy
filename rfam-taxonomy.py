@@ -365,6 +365,7 @@ def write_output_files(data):
                             csvwriter.writerow(line)
                             subgroup_families[domain].add(rfam_acc)
                         continue
+                    continue    
                 # (C) Parent domain file logic: include all families from child subgroups
                 if domain in parents:
                     # Include families from any subgroup that has this domain as parent

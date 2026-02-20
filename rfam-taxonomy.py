@@ -257,6 +257,8 @@ def generate_clanin_files():
             for row in reader:
                 if len(row) >= 5:
                     domain_rfam_ids.add(row[4].strip())
+                else:
+                    print(f"Skipping malformed row in {csv_filename}: {row}")
         
         # Write clanin file for this domain
         with open(clanin_filename, 'w') as outfile:

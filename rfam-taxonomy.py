@@ -35,6 +35,11 @@ DOMAINS = sorted([
     'Other',
 ])
 DOMAIN_CUTOFF = 90 # at least 90% of sequences must be from this domain
+# Ensure DOMAIN_CUTOFF is valid (51-100)
+if not (51 <= DOMAIN_CUTOFF <= 100):
+    raise ValueError(
+        f"DOMAIN_CUTOFF ({DOMAIN_CUTOFF}) is invalid. It must be between 51 and 100 (inclusive) to ensure mutually exclusive major domains."
+    )
 SUBGROUP_THRESHOLD = 5  # include families with at least 5% of a subgroup in full regions
 
 # Mapping of subgroups to their parent domains

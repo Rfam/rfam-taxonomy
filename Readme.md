@@ -1,6 +1,6 @@
 # Rfam Taxonomy
 
-Based on **Rfam 14.8** (May 2022). See [releases](https://github.com/Rfam/rfam-taxonomy/releases) for previous versions.
+Based on **Rfam 15.1** (December 2024). See [releases](https://github.com/Rfam/rfam-taxonomy/releases) for previous versions.
 
 This repository contains the code and data for analysing the taxonomic distribution
 of the [Rfam](https://rfam.org) families. The goal is to identify domain-specific
@@ -13,7 +13,12 @@ to compare the taxonomic domains of sequences from the manually curated
 and the automatically identified [full region](https://rfam.readthedocs.io/en/latest/glossary.html) hits.
 
 :open_file_folder: The results are organised in several files in the [domains folder](./domains).
-Each file contains seven columns:
+Each domain has both a `.csv` file and a `.clanin` file:
+
+- **CSV files** contain seven columns with family and taxonomic information
+- **Clanin files** list Rfam clan membership for families in that domain, useful for `cmscan --clanin` when using modified CM files
+
+CSV files contain seven columns:
 
 1. `Family` = Rfam accession (e.g. RF00001)
 2. `Domain` = Taxonomic domain where the family is found (:grey_exclamation: this is the most important column)
@@ -37,8 +42,11 @@ The latest version of the files can be retrieved directly from GitHub using the 
 
 - https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/all-domains.csv
 - https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/bacteria.csv
+- https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/bacteria.clanin
 - https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/archaea.csv
+- https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/archaea.clanin
 - https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/viruses.csv
+- https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/viruses.clanin
 
  It is also possible to download the data and use it locally or regenerate the files (see the **Installation** section below).
 
@@ -54,6 +62,23 @@ The latest version of the files can be retrieved directly from GitHub using the 
     ```
 
     where _cmfetch_ is part of the Infernal suite and `Rfam.cm.gz` can be downloaded from `ftp://ftp.ebi.ac.uk/pub/databases/Rfam/CURRENT/Rfam.cm.gz`.
+
+- When using domain-specific CM files (created as shown above), you should use the corresponding `.clanin` file with `cmscan --clanin` to ensure proper clan competition filtering. The `--clanin` option must be used with `--fmt 2` and `--tblout`. For example:
+
+    ```
+    cmscan --cpu 4 --fmt 2 --clanin bacteria.clanin --tblout results.tbl bacteria.cm sequences.fa
+    ```
+
+    The `.clanin` files contain clan membership information for families present in each domain, ensuring that `cmscan` correctly handles competing models from the same clan when using modified CM subsets.
+
+    **Additional clan-related options:**
+    - `--oclan`: Only mark overlaps between models in the same clan (requires `--clanin`, `--fmt 2`, and `--tblout`)
+    - `--oskip`: Omit lower-scoring overlapping hits from the tabular output file (requires `--fmt 2` and `--tblout`). When combined with `--oclan`, only omits overlaps within the same clan.
+
+    Example using all clan options:
+    ```
+    cmscan --cpu 4 --fmt 2 --clanin bacteria.clanin --oclan --oskip --tblout results.tbl bacteria.cm sequences.fa
+    ```
 
 - You can also further process the [all-domains.csv](./domains/all-domains.csv) file. For example, to eliminate any families that find hits outside Bacteria, you can focus on rows where the second column is `Bacteria` and the third and the fourth columns contain `Bacteria (100.0%)`. Note that such a subset would ignore many important RNA families that detect some contamination in eukaryotic sequences.
 
@@ -88,6 +113,9 @@ pushed to GitHub.
 
     # after precompute is done, run:
     python rfam-taxonomy.py
+
+    # this will generate both .csv and .clanin files for each domain
+    # clan information is retrieved directly from the Rfam database
 
     # to see additional options:
     python rfam-taxonomy.py --help

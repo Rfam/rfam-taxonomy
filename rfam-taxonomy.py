@@ -40,6 +40,7 @@ if not (51 <= DOMAIN_CUTOFF <= 100):
         f"DOMAIN_CUTOFF ({DOMAIN_CUTOFF}) is invalid. It must be between 51 and 100 (inclusive) to ensure mutually exclusive major domains."
     )
 SUBGROUP_THRESHOLD = 5  # include families with at least 5% of a subgroup in full regions
+EPSILON = 1e-6
 
 # Mapping of subgroups to their parent domains
 # To add a new subgroup, add it here and to the DOMAINS list above
@@ -175,7 +176,7 @@ def get_major_domain(data, cutoff):
     # Remove unclassified sequences and renormalize if present
     if 'unclassified sequences' in data and data['unclassified sequences'] > 0:
         unclassified_pct = data['unclassified sequences']
-        if unclassified_pct >= 100.0:
+        if unclassified_pct >= (100.0 - EPSILON):
             return 'Mixed'  # Only unclassified sequences present
         
         # Scale up remaining percentages to sum to 100%

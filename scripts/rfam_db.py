@@ -26,8 +26,8 @@ def get_connection():
 
 def get_rfam_families():
     data = []
+    connection = get_connection()
     try:
-        connection = get_connection()
         with connection.cursor() as cursor:
             sql = """SELECT rfam_acc, rfam_id, description, type
                      FROM family
@@ -60,10 +60,12 @@ def get_taxonomy_info(rfam_acc, analysis_type):
         AND t2.ncbi_id = t3.ncbi_id
         AND rfam_acc = '{rfam_acc}'
         GROUP BY t3.tax_string
-        """
+     """
+    else:
+        raise ValueError(f"Unknown analysis_type: {analysis_type}") 
     data = []
+    connection = get_connection()
     try:
-        connection = get_connection()
         with connection.cursor() as cursor:
             cursor.execute(sql.format(rfam_acc=rfam_acc))
             for result in cursor.fetchall():
@@ -82,9 +84,9 @@ def get_clan_membership():
         Example: {'CL00001': ['5S_rRNA', 'tRNA', ...], 'CL00002': [...]}
     """
     clan_data = {}
+    connection = get_connection()
     try:
-        connection = get_connection()
-        with connection.cursor() as cursor:
+      with connection.cursor() as cursor:
             sql = """
             SELECT c.clan_acc, f.rfam_id
             FROM clan c
@@ -96,9 +98,7 @@ def get_clan_membership():
             for result in cursor.fetchall():
                 clan_acc = result['clan_acc']
                 rfam_id = result['rfam_id']
-                if clan_acc not in clan_data:
-                    clan_data[clan_acc] = []
-                clan_data[clan_acc].append(rfam_id)
+                clan_data.setdefault(clan_acc, []).append(rfam_id)
     finally:
         connection.close()
     return clan_data

@@ -262,7 +262,7 @@ def generate_clanin_files():
         
         # Write clanin file for this domain
         with open(clanin_filename, 'w') as outfile:
-            for clan_acc in sorted(clan_data.keys()):
+            for clan_acc in clan_data.keys():
                 clan_rfam_ids = clan_data[clan_acc]
                 # Only keep Rfam IDs present in this domain
                 present = [rfam_id for rfam_id in clan_rfam_ids if rfam_id in domain_rfam_ids]

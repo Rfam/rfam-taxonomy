@@ -41,10 +41,10 @@ CSV files contain seven columns:
 The latest version of the files can be retrieved directly from GitHub using the following URL format:
 
 - https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/all-domains.csv
-- https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/bacteria.csv
-- https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/bacteria.clanin
 - https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/archaea.csv
 - https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/archaea.clanin
+- https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/bacteria.csv
+- https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/bacteria.clanin
 - https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/eukaryota.csv
 - https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/eukaryota.clanin
 - https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/viruses.csv

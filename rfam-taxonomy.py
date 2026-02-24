@@ -23,16 +23,47 @@ from scripts.rfam_db import get_rfam_families, get_taxonomy_info, get_clan_membe
 DATA_SEED_PATH = 'data-seed'
 DATA_FULL_REGION_PATH = 'data-full-region'
 
-DOMAINS = sorted([
+# Domains (top-level biological domains)
+DOMAINS = [
     'Archaea',
     'Bacteria',
     'Eukaryota',
-    'Fungi',
-    'unclassified sequences',
     'Viruses',
     'Viroids',
+    'unclassified sequences',
     'Other',
-])
+]
+
+# Subgroups (taxonomic groups within parent domains)
+SUBGROUPS = [
+    # Archaea subgroups
+    'Euryarchaeota',
+    'Crenarchaeota',
+    'Thaumarchaeota',
+    # Bacteria subgroups
+    'Proteobacteria',
+    'Firmicutes',
+    'Actinobacteria',
+    'Bacteroidetes',
+    'Cyanobacteria',
+    # Eukaryota subgroups
+    'Fungi',
+    'Viridiplantae',
+    'Metazoa',
+    'Amoebozoa',
+    'Alveolata',
+    'Stramenopiles',
+    # Virus subgroups
+    'Flaviviridae',
+    'Coronaviridae',
+    'Retroviridae',
+    'Herpesviridae',
+    'Picornaviridae',
+    'Orthomyxoviridae',
+]
+
+# All groups (combination of domains and subgroups)
+ALL_GROUPS = DOMAINS + SUBGROUPS
 DOMAIN_CUTOFF = 90 # at least 90% of sequences must be from this domain
 # Ensure DOMAIN_CUTOFF is valid (51-100)
 if not (51 <= DOMAIN_CUTOFF <= 100):
@@ -44,12 +75,32 @@ SUBGROUP_THRESHOLD = 5  # include families with at least 5% of a subgroup in ful
 EPSILON = 1e-6 # small value used for floating-point comparison to avoid precision errors
 
 # Mapping of subgroups to their parent domains
-# To add a new subgroup, add it here and to the DOMAINS list above
+# To add a new subgroup, add it to the SUBGROUPS list above and to this mapping
 SUBGROUP_PARENT = {
+    # Archaea subgroups
+    'Euryarchaeota': 'Archaea',
+    'Crenarchaeota': 'Archaea',
+    'Thaumarchaeota': 'Archaea',
+    # Bacteria subgroups
+    'Proteobacteria': 'Bacteria',
+    'Firmicutes': 'Bacteria',
+    'Actinobacteria': 'Bacteria',
+    'Bacteroidetes': 'Bacteria',
+    'Cyanobacteria': 'Bacteria',
+    # Eukaryota subgroups
     'Fungi': 'Eukaryota',
-    # Add more subgroup-parent pairs here, e.g.:
-    # 'Plants': 'Eukaryota',
-    # 'Alphaproteobacteria': 'Bacteria',
+    'Viridiplantae': 'Eukaryota',
+    'Metazoa': 'Eukaryota',
+    'Amoebozoa': 'Eukaryota',
+    'Alveolata': 'Eukaryota',
+    'Stramenopiles': 'Eukaryota',
+    # Virus subgroups
+    'Flaviviridae': 'Viruses',
+    'Coronaviridae': 'Viruses',
+    'Retroviridae': 'Viruses',
+    'Herpesviridae': 'Viruses',
+    'Picornaviridae': 'Viruses',
+    'Orthomyxoviridae': 'Viruses',
 }
 
 WHITELIST = [
@@ -93,7 +144,7 @@ def get_taxonomic_distribution(rfam_acc, DATA_PATH):
     {'Eukaryota': 45.51, 'Bacteria': 48.6, 'Other': 0.0, 'Viruses': 0.0, 'unclassified sequences': 0.0, 'Viroids': 0.0, 'Archaea': 5.9}
     """
     data = {}
-    for domain in DOMAINS:
+    for domain in ALL_GROUPS:
         data[domain] = 0
     total = 0
     num_rows = 0
@@ -112,14 +163,16 @@ def get_taxonomic_distribution(rfam_acc, DATA_PATH):
 
             # Check if any subgroup appears in the taxonomy lineage
             # Count in both the subgroup AND parent domain since subgroups are part of their parent
+            # Parse lineage into tokens to avoid false positives from substring matching
+            tax_tokens = {token.strip() for token in tax_string.split(';')}
             for subgroup, parent in SUBGROUP_PARENT.items():
-                if subgroup in tax_string:
+                if subgroup in tax_tokens:
                     data[subgroup] += count
                     data[parent] += count
                     break
             else:
                 # No subgroup found, count in the top-level taxon
-                if taxon in DOMAINS:
+                if taxon in ALL_GROUPS:
                     data[taxon] += count
                 else:
                     data['Other'] += count
@@ -127,19 +180,19 @@ def get_taxonomic_distribution(rfam_acc, DATA_PATH):
     if num_rows == 0:
         return 'NO_DATA'
     if total != 0:
-        for domain in DOMAINS:
+        for domain in ALL_GROUPS:
             data[domain] = round(data[domain]*100.0/total, 2)
     return data
 
 
-def validate_multi_domain_pattern(major_domains, cutoff):
+def validate_multi_group_pattern(major_groups, cutoff):
     """
-    Validate that A+B patterns only occur when domains have parent-child relationships.
+    Validate that A+B patterns only occur when groups have parent-child relationships.
     
     Raises ValueError if the pattern is invalid (e.g., multiple unrelated parent domains).
     """
-    parents_in_set = [d for d in major_domains if d in SUBGROUP_PARENT.values()]
-    subgroups_in_set = [d for d in major_domains if d in SUBGROUP_PARENT.keys()]
+    parents_in_set = [d for d in major_groups if d in SUBGROUP_PARENT.values()]
+    subgroups_in_set = [d for d in major_groups if d in SUBGROUP_PARENT.keys()]
     
     # Valid A+B requires: exactly one parent, and all others are its subgroups
     if len(parents_in_set) == 1:
@@ -147,12 +200,12 @@ def validate_multi_domain_pattern(major_domains, cutoff):
         for subgroup in subgroups_in_set:
             if SUBGROUP_PARENT[subgroup] != parent:
                 raise ValueError(
-                    f"Invalid A+B pattern: {'+'.join(sorted(major_domains))}. "
+                    f"Invalid A+B pattern: {'+'.join(sorted(major_groups))}. "
                     f"Subgroup '{subgroup}' is not a child of parent '{parent}'."
                 )
     elif len(parents_in_set) > 1:
         raise ValueError(
-            f"Invalid A+B pattern: {'+'.join(sorted(major_domains))}. "
+            f"Invalid A+B pattern: {'+'.join(sorted(major_groups))}. "
             f"Multiple unrelated parent domains >= {cutoff}%: {parents_in_set}"
         )
     # If no parents (all subgroups), also invalid unless they share same parent
@@ -160,14 +213,14 @@ def validate_multi_domain_pattern(major_domains, cutoff):
         parent_set = set(SUBGROUP_PARENT[sg] for sg in subgroups_in_set)
         if len(parent_set) > 1:
             raise ValueError(
-                f"Invalid A+B pattern: {'+'.join(sorted(major_domains))}. "
+                f"Invalid A+B pattern: {'+'.join(sorted(major_groups))}. "
                 f"Subgroups from different parents: {subgroups_in_set}"
             )
 
 
-def get_major_domain(data, cutoff):
+def get_major_group(data, cutoff):
     """
-    Find the prevalent domain (for example, Eukaryota):
+    Find the prevalent group (domain or subgroup, for example, Eukaryota or Fungi):
 
     {'Eukaryota': 100.0, 'Other': 0.0, 'Viruses': 0.0, 'unclassified sequences': 0.0, 'Viroids': 0.0, 'Archaea': 0.0, 'Bacteria': 0.0}
     """
@@ -192,20 +245,24 @@ def get_major_domain(data, cutoff):
             if domain != 'unclassified sequences'
         }
     
-    # Find all domains above cutoff
-    major_domains = [domain for domain, value in data.items() if value >= cutoff]
-    if len(major_domains) == 1:
-        return major_domains[0]
-    elif len(major_domains) > 1:
-        validate_multi_domain_pattern(major_domains, cutoff)
-        return '+'.join(sorted(major_domains))
+    # Find all groups above cutoff
+    major_groups = [domain for domain, value in data.items() if value >= cutoff]
+    if len(major_groups) == 1:
+        return major_groups[0]
+    elif len(major_groups) > 1:
+        validate_multi_group_pattern(major_groups, cutoff)
+        # Order with parent domains before subgroups to maintain Parent+Subgroup convention
+        parents = [g for g in major_groups if g not in SUBGROUP_PARENT]
+        subgroups = [g for g in major_groups if g in SUBGROUP_PARENT]
+        ordered_groups = sorted(parents) + sorted(subgroups)
+        return '+'.join(ordered_groups)
     else:
         return 'Mixed'
 
 
-def get_domains(data):
+def get_groups(data):
     """
-    List all domains in which a family has been observed.
+    List all groups (domains and subgroups) in which a family has been observed.
     """
     if data == 'NO_DATA':
         return 'No Data'
@@ -228,31 +285,31 @@ def get_domains(data):
 
 
 
-def get_domain_percentage(domains_str, domain, allow_prefix=True):
+def get_group_percentage(groups_str, group, allow_prefix=True):
     """
-    Extract the percentage for a given domain from a domains string.
+    Extract the percentage for a given group (domain or subgroup) from a groups string.
 
     Args:
-        domains_str: String with domain percentages (e.g., 'Bacteria (0.25%), Eukaryota (40%)')
-        domain: Domain name to search for
-        allow_prefix: If True, matches "Parent:Domain (X%)" format. If False, only standalone "Domain (X%)"
+        groups_str: String with group percentages (e.g., 'Bacteria (0.25%), Eukaryota (40%)')
+        group: Group name to search for
+        allow_prefix: If True, matches "Parent:Group (X%)" format. If False, only standalone "Group (X%)"
 
     Examples:
-        get_domain_percentage('Eukaryota:Fungi (9.66%)', 'Fungi') => 9.66
-        get_domain_percentage('Eukaryota (40%)', 'Eukaryota') => 40.0
-        get_domain_percentage('Eukaryota:Fungi (9.66%)', 'Eukaryota', allow_prefix=False) => 0.0
+        get_group_percentage('Eukaryota:Fungi (9.66%)', 'Fungi') => 9.66
+        get_group_percentage('Eukaryota (40%)', 'Eukaryota') => 40.0
+        get_group_percentage('Eukaryota:Fungi (9.66%)', 'Eukaryota', allow_prefix=False) => 0.0
 
     Returns:
         Percentage as float, or 0.0 if not found
     """
     if allow_prefix:
-        # Match "domain (x%)" possibly preceded by a parent prefix like "Eukaryota:Fungi"
-        pattern = r'[^,]*\b{} \(([0-9.]+)%\)'.format(re.escape(domain))
+        # Match "group (x%)" possibly preceded by a parent prefix like "Eukaryota:Fungi"
+        pattern = r'[^,]*\b{} \(([0-9.]+)%\)'.format(re.escape(group))
     else:
-        # Only match standalone domain, not as part of "Parent:Domain" format
-        pattern = r'\b{} \(([0-9.]+)%\)'.format(re.escape(domain))
+        # Only match standalone group, not as part of "Parent:Group" format
+        pattern = r'\b{} \(([0-9.]+)%\)'.format(re.escape(group))
     
-    match = re.search(pattern, domains_str)
+    match = re.search(pattern, groups_str)
     if match:
         return float(match.group(1))
     return 0.0
@@ -260,48 +317,48 @@ def get_domain_percentage(domains_str, domain, allow_prefix=True):
 
 def analyse_seed_full_taxonomic_distribution(family, cutoff):
     """
-    Compare domains observed in seed alignments and full region hits.
+    Compare groups observed in seed alignments and full region hits.
     """
     seed = get_taxonomic_distribution(family['rfam_acc'], DATA_SEED_PATH)
     full = get_taxonomic_distribution(family['rfam_acc'], DATA_FULL_REGION_PATH)
 
-    major_domain_seed = get_major_domain(seed, cutoff)
-    seed_domains = get_domains(seed)
+    major_group_seed = get_major_group(seed, cutoff)
+    seed_groups = get_groups(seed)
 
-    major_domain_full = get_major_domain(full, cutoff)
-    full_domains = get_domains(full)
+    major_group_full = get_major_group(full, cutoff)
+    full_groups = get_groups(full)
 
     # Validate: seed should never be 'No Data' (Rfam requires at least 2 sequences in seed)
-    if major_domain_seed == 'No Data':
+    if major_group_seed == 'No Data':
         raise ValueError(
             f"Impossible state: seed has 'No Data' for {family['rfam_acc']}. "
             f"Rfam requires at least 2 sequences in seed alignments."
         )
 
     # Rule 1: If both are the same and not Mixed, use that value
-    if major_domain_seed == major_domain_full and major_domain_seed != 'Mixed':
-        domain_field = major_domain_seed
+    if major_group_seed == major_group_full and major_group_seed != 'Mixed':
+        domain_field = major_group_seed
     # Rule 2: If either is Mixed or full is No Data, use the appropriate combination
-    elif major_domain_seed == 'Mixed' or major_domain_full in ('Mixed', 'No Data'):
+    elif major_group_seed == 'Mixed' or major_group_full in ('Mixed', 'No Data'):
         # Handle all combinations (seed is never 'No Data' thanks to check above)
-        if major_domain_seed == 'Mixed' and major_domain_full == 'Mixed':
+        if major_group_seed == 'Mixed' and major_group_full == 'Mixed':
             domain_field = 'Mixed'
-        elif major_domain_seed == 'Mixed' and major_domain_full == 'No Data':
+        elif major_group_seed == 'Mixed' and major_group_full == 'No Data':
             domain_field = 'Mixed/No Data'
-        elif major_domain_full == 'No Data':
-            domain_field = '{}/No Data'.format(major_domain_seed)
-        elif major_domain_seed == 'Mixed':
-            domain_field = 'Mixed/{}'.format(major_domain_full)
-        else:  # major_domain_full == 'Mixed'
-            domain_field = '{}/Mixed'.format(major_domain_seed)
+        elif major_group_full == 'No Data':
+            domain_field = '{}/No Data'.format(major_group_seed)
+        elif major_group_seed == 'Mixed':
+            domain_field = 'Mixed/{}'.format(major_group_full)
+        else:  # major_group_full == 'Mixed'
+            domain_field = '{}/Mixed'.format(major_group_seed)
     else:
         # Rule 3: Handle standard A/B format (A or B could be C+D, so we can get A/C+D or C+D/B)
-        domain_field = '{}/{}'.format(major_domain_seed, major_domain_full)
+        domain_field = '{}/{}'.format(major_group_seed, major_group_full)
     return [
         family['rfam_acc'],
         domain_field,
-        seed_domains,
-        full_domains,
+        seed_groups,
+        full_groups,
         family['rfam_id'],
         family['description'],
         family['type'],
@@ -312,8 +369,8 @@ def write_output_files(data):
     """
     Generate output files.
     """
-    print("Generating domain-specific CSV files...")
-    header = ['Family', 'Domain', 'Seed domains', 'Full region domains',
+    print("Generating group-specific CSV files...")
+    header = ['Family', 'Domain', 'Seed groups', 'Full region groups',
               'Rfam ID', 'Description', 'RNA type']
 
     # Write all families to all-domains.csv
@@ -326,10 +383,10 @@ def write_output_files(data):
 
     # Sort domains: subgroups first, then parents, then others
     # This ensures we know which families are in subgroups before writing parent files
-    subgroups = list(SUBGROUP_PARENT.keys())
+    subgroups = SUBGROUPS
     # Use deterministic ordering for parent domains to keep CSV generation stable
     parents = sorted(set(SUBGROUP_PARENT.values()))
-    other_domains = [d for d in DOMAINS if d not in subgroups and d not in parents and d != 'Other']
+    other_domains = [d for d in DOMAINS if d not in parents and d != 'Other']
     sorted_domains = subgroups + parents + other_domains
     
     # Track which families are written to each subgroup file
@@ -344,7 +401,7 @@ def write_output_files(data):
             for line in data:
                 this_domain = line[1].lower()
                 rfam_acc = line[0]
-                full_domains = line[3]
+                full_groups = line[3]
                 domain_field = line[1]
                 # Exclude bacteria/eukaryota special case
                 if this_domain == 'bacteria/eukaryota':
@@ -358,7 +415,7 @@ def write_output_files(data):
                 # (B) Subgroup file logic
                 if domain in SUBGROUP_PARENT:
                     parent = SUBGROUP_PARENT[domain]
-                    seed_domains = line[2]
+                    seed_groups = line[2]
                     # (B1) Domain name appears in domain_field
                     if domain.lower() in domain_field.lower():
                         csvwriter.writerow(line)
@@ -367,8 +424,8 @@ def write_output_files(data):
                     # (B2) Subgroup threshold: only if parent domain is substantively present in seed
                     # This ensures subgroups are restricted to the scope of their parent
                     # (prevents viral/bacterial contamination in eukaryotic subgroups like Fungi)
-                    if get_domain_percentage(full_domains, domain) >= SUBGROUP_THRESHOLD:
-                        parent_pct_in_seed = get_domain_percentage(seed_domains, parent, allow_prefix=False)
+                    if get_group_percentage(full_groups, domain) >= SUBGROUP_THRESHOLD:
+                        parent_pct_in_seed = get_group_percentage(seed_groups, parent, allow_prefix=False)
                         if parent_pct_in_seed >= SUBGROUP_THRESHOLD:
                             csvwriter.writerow(line)
                             subgroup_families[domain].add(rfam_acc)
@@ -392,42 +449,84 @@ def write_output_files(data):
                     continue
                 
         print(f"  Created {filename}")
-        print("Done generating CSV files")
+    
+    print("Done generating CSV files")
 
 def update_summary():
     """
-    Update summary.md file with domain counts.
+    Update summary.md file with per-file statistics and group classification counts.
     """
+    import glob
     summary_file = 'domains/Readme.md'
+    
+    # Count families and clans in each CSV/clanin file
+    file_stats = {}
+    for csv_file in glob.glob('domains/*.csv'):
+        if csv_file.endswith('all-domains.csv'):
+            continue
+        
+        # Count families (rows in CSV, excluding header)
+        family_count = 0
+        with open(csv_file, 'r') as f:
+            reader = csv.reader(f)
+            next(reader)  # Skip header
+            family_count = sum(1 for row in reader)
+        
+        # Count clans (lines in clanin file)
+        clan_count = 0
+        clanin_file = csv_file.replace('.csv', '.clanin')
+        if os.path.exists(clanin_file):
+            with open(clanin_file, 'r') as f:
+                clan_count = sum(1 for line in f)
+        
+        # Extract domain/subgroup name from filename
+        name = os.path.basename(csv_file).replace('.csv', '').replace('-', ' ')
+        file_stats[name] = {'families': family_count, 'clans': clan_count}
+    
+    # Read all domain field values from all-domains.csv for pattern counts
+    domain_counts = {}
+    with open('domains/all-domains.csv', 'r') as f:
+        reader = csv.reader(f)
+        next(reader)  # Skip header
+        for row in reader:
+            if len(row) >= 2:
+                domain_field = row[1]
+                domain_counts[domain_field] = domain_counts.get(domain_field, 0) + 1
+    
+    # Write summary
     with open(summary_file, 'w') as f_out:
-        header = """# Summary
-
-The number of Rfam families observed in different domains:
+        f_out.write("""# Summary
 
 ```
-"""
-        f_out.write(header)
-    cmd = ("cut -d ',' -f 2,2 domains/all-domains.csv | sort | uniq -c | "
-           # "grep -v Mixed | "
-           # "grep -v '/' | "
-           "grep -v Domain | "
-           "sort -nr >> {}".format(summary_file))
-    os.system(cmd)
-    os.system("echo '```' >> {}".format(summary_file))
+The number of Rfam families and clans for each group (number of lines in .csv / .clanin files):
+""")
+        # Write file statistics sorted by family count (descending)
+        sorted_files = sorted(file_stats.items(), key=lambda x: x[1]['families'], reverse=True)
+        for name, stats in sorted_files:
+            f_out.write(f"{stats['families']:7d} / {stats['clans']:<4d} {name}\n")
+        
+        f_out.write("\nDistribution of Domain field classifications:\n")
+        f_out.write("(See ../Readme.md for explanation of Domain field format)\n")
+        # Write all domain field values sorted by count
+        sorted_domains = sorted(domain_counts.items(), key=lambda x: x[1], reverse=True)
+        for domain_field, count in sorted_domains:
+            f_out.write(f"{count:7d} {domain_field}\n")
+        
+        f_out.write("```\n")
 
 
 def generate_clanin_files():
     """
-    Generate domain-specific clanin files from Rfam database clan information.
+    Generate group-specific clanin files from Rfam database clan information.
     
-    For each domain, creates a clanin file containing only clans with >1 family
-    present in that domain. Queries the database directly to get current clan membership.
+    For each group, creates a clanin file containing only clans with >1 family
+    present in that group. Queries the database directly to get current clan membership.
     """
     print("Retrieving clan membership from database...")
     clan_data = get_clan_membership()
     
-    print("Generating domain-specific clanin files...")
-    for domain in DOMAINS:
+    print("Generating group-specific clanin files...")
+    for domain in ALL_GROUPS:
         if domain == 'Other':
             continue
         

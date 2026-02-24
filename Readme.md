@@ -83,7 +83,9 @@ The latest version of the files can be retrieved directly from GitHub using the 
 - https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/unclassified-sequences.csv
 - https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/unclassified-sequences.clanin
 
- It is also possible to download the data and use it locally or regenerate the files (see the **Installation** section below).
+In addition to the domain-level files listed above, CSV and clanin files are also available for the following subgroups: actinobacteria, alveolata, amoebozoa, bacteroidetes, coronaviridae, crenarchaeota, cyanobacteria, euryarchaeota, firmicutes, flaviviridae, fungi, herpesviridae, metazoa, orthomyxoviridae, picornaviridae, proteobacteria, retroviridae, stramenopiles, thaumarchaeota, and viridiplantae. These files follow the same URL pattern as the domain files.
+
+It is also possible to download the data and use it locally or regenerate the files (see the **Installation** section below).
 
 ## Example use cases
 

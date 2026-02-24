@@ -39,8 +39,9 @@ if not (51 <= DOMAIN_CUTOFF <= 100):
     raise ValueError(
         f"DOMAIN_CUTOFF ({DOMAIN_CUTOFF}) is invalid. It must be between 51 and 100 (inclusive) to ensure mutually exclusive major domains."
     )
+
 SUBGROUP_THRESHOLD = 5  # include families with at least 5% of a subgroup in full regions
-EPSILON = 1e-6
+EPSILON = 1e-6 # small value used for floating-point comparison to avoid precision errors
 
 # Mapping of subgroups to their parent domains
 # To add a new subgroup, add it here and to the DOMAINS list above

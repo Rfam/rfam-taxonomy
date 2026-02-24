@@ -1,0 +1,19 @@
+CL00001 tRNA tRNA-Sec
+CL00002 RNaseP_nuc RNase_MRP
+CL00003 Fungi_SRP Protozoa_SRP
+CL00004 Sacc_telomerase Telomerase_Asco
+CL00021 snR189 snR46 S_pombe_snR46
+CL00027 snR33 snR43 S_pombe_snR33
+CL00028 snR35 S_pombe_snR35
+CL00031 snR10 S_pombe_snR10
+CL00032 snR42 S_pombe_snR42
+CL00035 snR36 snR44 S_pombe_snR36
+CL00036 snR161 snR9
+CL00038 snR49 snR5 S_pombe_snR5
+CL00040 snR3 snR82 S_pombe_snR3
+CL00045 snR13 snR75
+CL00051 snosnR61 snosnR69 snosnR71 snR47
+CL00054 snosnR55 snR39 snR40
+CL00070 Afu_263 snosnR60_Z15
+CL00111 SSU_rRNA_eukarya SSU_rRNA_microsporidia
+CL00112 5_8S_rRNA LSU_rRNA_eukarya

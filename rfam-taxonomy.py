@@ -163,8 +163,10 @@ def get_taxonomic_distribution(rfam_acc, DATA_PATH):
 
             # Check if any subgroup appears in the taxonomy lineage
             # Count in both the subgroup AND parent domain since subgroups are part of their parent
+            # Parse lineage into tokens to avoid false positives from substring matching
+            tax_tokens = {token.strip() for token in tax_string.split(';')}
             for subgroup, parent in SUBGROUP_PARENT.items():
-                if subgroup in tax_string:
+                if subgroup in tax_tokens:
                     data[subgroup] += count
                     data[parent] += count
                     break
@@ -249,7 +251,11 @@ def get_major_group(data, cutoff):
         return major_groups[0]
     elif len(major_groups) > 1:
         validate_multi_group_pattern(major_groups, cutoff)
-        return '+'.join(sorted(major_groups))
+        # Order with parent domains before subgroups to maintain Parent+Subgroup convention
+        parents = [g for g in major_groups if g not in SUBGROUP_PARENT]
+        subgroups = [g for g in major_groups if g in SUBGROUP_PARENT]
+        ordered_groups = sorted(parents) + sorted(subgroups)
+        return '+'.join(ordered_groups)
     else:
         return 'Mixed'
 
@@ -363,7 +369,7 @@ def write_output_files(data):
     """
     Generate output files.
     """
-    print("Generating domain-specific CSV files...")
+    print("Generating group-specific CSV files...")
     header = ['Family', 'Domain', 'Seed groups', 'Full region groups',
               'Rfam ID', 'Description', 'RNA type']
 
@@ -511,15 +517,15 @@ The number of Rfam families and clans for each group (number of lines in .csv / 
 
 def generate_clanin_files():
     """
-    Generate domain-specific clanin files from Rfam database clan information.
+    Generate group-specific clanin files from Rfam database clan information.
     
-    For each domain, creates a clanin file containing only clans with >1 family
-    present in that domain. Queries the database directly to get current clan membership.
+    For each group, creates a clanin file containing only clans with >1 family
+    present in that group. Queries the database directly to get current clan membership.
     """
     print("Retrieving clan membership from database...")
     clan_data = get_clan_membership()
     
-    print("Generating domain-specific clanin files...")
+    print("Generating group-specific clanin files...")
     for domain in ALL_GROUPS:
         if domain == 'Other':
             continue

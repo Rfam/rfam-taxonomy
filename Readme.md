@@ -43,15 +43,25 @@ The `Domain` field (column 2) is determined by the following rules:
 
 Some taxonomic groups are considered subgroups of major domains. As of now, parent domains must be one of the major taxonomic domains: _Archaea_, _Bacteria_, _Eukaryota_, _Viruses_, _Viroids_, or _Other_.
 
-Currently defined subgroups:
+**Biological domains (top-level):**
+- _Archaea_
+- _Bacteria_
+- _Eukaryota_
+- _Viruses_
+- _Viroids_
+- _unclassified sequences_
+- _Other_
 
-- _Fungi_ is a subgroup of _Eukaryota_
+**Currently defined subgroups:**
+
+- **Eukaryota subgroups:** _Fungi_, _Viridiplantae_, _Metazoa_, _Amoebozoa_, _Alveolata_, _Stramenopiles_
+- **Bacteria subgroups:** _Proteobacteria_, _Firmicutes_, _Actinobacteria_, _Bacteroidetes_, _Cyanobacteria_
+- **Archaea subgroups:** _Euryarchaeota_, _Crenarchaeota_, _Thaumarchaeota_
+- **Virus subgroups:** _Flaviviridae_, _Coronaviridae_, _Retroviridae_, _Herpesviridae_, _Picornaviridae_, _Orthomyxoviridae_
 
 When both a parent domain and its subgroup each account for ≥90% of the sequences in both the seed and full datasets (because subgroup sequences are counted toward both the subgroup and its parent), and the resulting major group labels for seed and full are the same and use this pattern, the `Domain` field is shown as `Parent+Subgroup` (e.g., _Eukaryota+Fungi_). This helps clarify cases where a family is strongly represented in both a major domain and a specific subgroup.
 
 In the `Seed groups` and `Full region groups` columns (columns 3 and 4), subgroups are displayed with their parent prefix using a colon separator to indicate the hierarchical relationship (e.g., _Eukaryota:Fungi_). The percentages for subgroups are also included in their parent domain's percentage.
-
-(If you add more subgroups in the code, update this section accordingly.)
 
 :white_check_mark: View [summary](./domains/Readme.md) with the number of families observed in each group.
 
@@ -98,6 +108,7 @@ The latest version of the files can be retrieved directly from GitHub using the 
     awk -F',' '$2 ~ /(^|\+)Fungi(\+|$)/ {print $1}' | \
     tail -n +2 | \
     cmfetch -o fungi-90pct.cm -f Rfam.cm.gz -
+    ```
 
 - When using group-specific CM files (created as shown above), you should use the corresponding `.clanin` file with `cmscan --clanin` to ensure proper clan competition filtering. The `--clanin` option must be used with `--fmt 2` and `--tblout`. For example:
 

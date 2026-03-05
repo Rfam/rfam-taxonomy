@@ -567,7 +567,8 @@ def generate_clanin_files():
 @click.option('--precompute-full', is_flag=True, required=False, help='Store full data files')
 @click.option('--cutoff', required=False, default=DOMAIN_CUTOFF, help='Percent of hits from the same domain')
 def main(precompute_seed, precompute_full, cutoff):
-
+      if not (51 <= cutoff <= 100):                                                                                                        
+          raise click.BadParameter(f"cutoff must be between 51 and 100, got {cutoff}", param_hint="'--cutoff'")
     if precompute_seed:
         precompute_taxonomic_information('seed')
     if precompute_full:

@@ -406,11 +406,21 @@ def write_output_files(data):
                 # Exclude bacteria/eukaryota special case
                 if this_domain == 'bacteria/eukaryota':
                     continue
-                # (A) Whitelist: always include
+                # (A) Whitelist: include only in Archaea, Bacteria, Eukaryota and their subgroups
                 if rfam_acc in WHITELIST:
-                    csvwriter.writerow(line)
-                    if domain in subgroups:
-                        subgroup_families[domain].add(rfam_acc)
+                    # Determine if this domain should include whitelist families
+                    include_whitelist = False
+                    if domain in ['Archaea', 'Bacteria', 'Eukaryota']:
+                        include_whitelist = True
+                    elif domain in SUBGROUP_PARENT:
+                        parent = SUBGROUP_PARENT[domain]
+                        if parent in ['Archaea', 'Bacteria', 'Eukaryota']:
+                            include_whitelist = True
+                    
+                    if include_whitelist:
+                        csvwriter.writerow(line)
+                        if domain in subgroups:
+                            subgroup_families[domain].add(rfam_acc)
                     continue
                 # (B) Subgroup file logic
                 if domain in SUBGROUP_PARENT:
@@ -567,8 +577,8 @@ def generate_clanin_files():
 @click.option('--precompute-full', is_flag=True, required=False, help='Store full data files')
 @click.option('--cutoff', required=False, default=DOMAIN_CUTOFF, help='Percent of hits from the same domain')
 def main(precompute_seed, precompute_full, cutoff):
-      if not (51 <= cutoff <= 100):                                                                                                        
-          raise click.BadParameter(f"cutoff must be between 51 and 100, got {cutoff}", param_hint="'--cutoff'")
+    if not (51 <= cutoff <= 100):
+        raise click.BadParameter(f"cutoff must be between 51 and 100, got {cutoff}", param_hint="'--cutoff'")
     if precompute_seed:
         precompute_taxonomic_information('seed')
     if precompute_full:

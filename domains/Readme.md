@@ -8,26 +8,26 @@ The number of Rfam families and clans for each group (number of lines in .csv / 
     627 / 10   proteobacteria
     544 / 22   viridiplantae
     347 / 12   firmicutes
-    243 / 10   viruses
+    240 / 10   viruses
     137 / 19   fungi
     117 / 6    archaea
     112 / 7    actinobacteria
      99 / 3    alveolata
      92 / 4    euryarchaeota
      56 / 5    bacteroidetes
-     50 / 3    herpesviridae
+     47 / 3    herpesviridae
      43 / 1    cyanobacteria
      40 / 3    crenarchaeota
-     35 / 5    flaviviridae
-     26 / 1    retroviridae
+     32 / 5    flaviviridae
      24 / 1    amoebozoa
-     18 / 3    coronaviridae
-     16 / 1    picornaviridae
+     23 / 1    retroviridae
+     15 / 3    coronaviridae
+     13 / 1    picornaviridae
       5 / 1    stramenopiles
-      4 / 1    viroids
-      4 / 1    orthomyxoviridae
-      3 / 1    unclassified sequences
       3 / 1    thaumarchaeota
+      1 / 1    viroids
+      1 / 1    orthomyxoviridae
+      0 / 1    unclassified sequences
 
 Distribution of Domain field classifications:
 (See ../Readme.md for explanation of Domain field format)

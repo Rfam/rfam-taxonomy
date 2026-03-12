@@ -227,11 +227,34 @@ def get_major_group(data, cutoff):
     if data == 'NO_DATA':
         return 'No Data'
     
-    # Remove unclassified sequences and renormalize if present
+    # First check which groups meet the cutoff in the original data (including unclassified sequences)
+    groups_at_cutoff = [domain for domain, value in data.items() if value >= cutoff]
+    
+    # If unclassified sequences is among them, handle it specially
+    if 'unclassified sequences' in groups_at_cutoff:
+        if len(groups_at_cutoff) == 1:
+            # Only unclassified sequences meets cutoff
+            return 'unclassified sequences'
+        else:
+            # unclassified sequences + other groups both >= cutoff
+            # This is unusual - remove unclassified and re-evaluate the others
+            # (This can happen when there's contamination/mixed data)
+            groups_at_cutoff.remove('unclassified sequences')
+    
+    # If we already found groups at cutoff (excluding unclassified), validate and return them
+    if len(groups_at_cutoff) == 1:
+        return groups_at_cutoff[0]
+    elif len(groups_at_cutoff) > 1:
+        validate_multi_group_pattern(groups_at_cutoff, cutoff)
+        # Order with parent domains before subgroups to maintain Parent+Subgroup convention
+        parents = [g for g in groups_at_cutoff if g not in SUBGROUP_PARENT]
+        subgroups = [g for g in groups_at_cutoff if g in SUBGROUP_PARENT]
+        ordered_groups = sorted(parents) + sorted(subgroups)
+        return '+'.join(ordered_groups)
+    
+    # No groups at cutoff yet - try renormalizing without unclassified sequences
     if 'unclassified sequences' in data and data['unclassified sequences'] > 0:
         unclassified_pct = data['unclassified sequences']
-        if unclassified_pct >= (100.0 - EPSILON):
-            return 'Mixed'  # Only unclassified sequences present
         
         # Scale up remaining percentages to sum to 100%
         # Use multiplication by scale factor rather than summing percentages, because
@@ -244,20 +267,21 @@ def get_major_group(data, cutoff):
             for domain, value in data.items()
             if domain != 'unclassified sequences'
         }
+        
+        # Find all groups above cutoff after renormalization
+        major_groups = [domain for domain, value in data.items() if value >= cutoff]
+        if len(major_groups) == 1:
+            return major_groups[0]
+        elif len(major_groups) > 1:
+            validate_multi_group_pattern(major_groups, cutoff)
+            # Order with parent domains before subgroups to maintain Parent+Subgroup convention
+            parents = [g for g in major_groups if g not in SUBGROUP_PARENT]
+            subgroups = [g for g in major_groups if g in SUBGROUP_PARENT]
+            ordered_groups = sorted(parents) + sorted(subgroups)
+            return '+'.join(ordered_groups)
     
-    # Find all groups above cutoff
-    major_groups = [domain for domain, value in data.items() if value >= cutoff]
-    if len(major_groups) == 1:
-        return major_groups[0]
-    elif len(major_groups) > 1:
-        validate_multi_group_pattern(major_groups, cutoff)
-        # Order with parent domains before subgroups to maintain Parent+Subgroup convention
-        parents = [g for g in major_groups if g not in SUBGROUP_PARENT]
-        subgroups = [g for g in major_groups if g in SUBGROUP_PARENT]
-        ordered_groups = sorted(parents) + sorted(subgroups)
-        return '+'.join(ordered_groups)
-    else:
-        return 'Mixed'
+    # No group meets the cutoff
+    return 'Mixed'
 
 
 def get_groups(data):

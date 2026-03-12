@@ -74,7 +74,7 @@ RF01373,Archaea+Euryarchaeota,"Archaea (100.00%), Archaea:Euryarchaeota (100.00%
 RF01375,Archaea+Euryarchaeota/No Data,"Archaea (100.00%), Archaea:Euryarchaeota (100.00%)",No Data,CRISPR-DR62,CRISPR RNA direct repeat element,Gene; CRISPR;
 RF01377,Archaea+Euryarchaeota/No Data,"Archaea (100.00%), Archaea:Euryarchaeota (100.00%)",No Data,CRISPR-DR64,CRISPR RNA direct repeat element,Gene; CRISPR;
 RF01378,Archaea+Euryarchaeota/No Data,"Archaea (100.00%), Archaea:Euryarchaeota (100.00%)",No Data,CRISPR-DR65,CRISPR RNA direct repeat element,Gene; CRISPR;
-RF01714,Mixed/Archaea,unclassified sequences (100.00%),Archaea (100.00%),Ocean-V,Ocean-V RNA,Gene; sRNA;
+RF01714,unclassified sequences/Archaea,unclassified sequences (100.00%),Archaea (100.00%),Ocean-V,Ocean-V RNA,Gene; sRNA;
 RF01722,Archaea+Crenarchaeota,"Archaea (100.00%), Archaea:Crenarchaeota (100.00%)","Archaea (100.00%), Archaea:Crenarchaeota (100.00%)",Pyrobac-1,Pyrobac-1 RNA,Gene; sRNA;
 RF01737,Archaea+Euryarchaeota,"Archaea (100.00%), Archaea:Euryarchaeota (100.00%)","Archaea (100.00%), Archaea:Euryarchaeota (100.00%)",flpD,flpD RNA,Cis-reg;
 RF01829,Archaea+Crenarchaeota,"Archaea (100.00%), Archaea:Crenarchaeota (100.00%)","Archaea (100.00%), Archaea:Crenarchaeota (100.00%)",sR6,sR6 snoRNA,Gene; snRNA; snoRNA; CD-box;
@@ -108,10 +108,10 @@ RF02808,Archaea+Crenarchaeota,"Archaea (100.00%), Archaea:Crenarchaeota (100.00%
 RF02814,Archaea+Crenarchaeota/Archaea,"Archaea (100.00%), Archaea:Crenarchaeota (100.00%)","Archaea (100.00%), Archaea:Crenarchaeota (62.07%)",Sso133,Sulfolobus sRNA133,Gene; sRNA;
 RF02905,Archaea+Euryarchaeota/Mixed,"Archaea (100.00%), Archaea:Euryarchaeota (100.00%)","Eukaryota (66.67%), Eukaryota:Metazoa (66.67%), Archaea (33.33%), Archaea:Euryarchaeota (33.33%)",sRNA41,Archaeal Small RNA 41,Gene; sRNA;
 RF02906,Archaea+Euryarchaeota,"Archaea (100.00%), Archaea:Euryarchaeota (100.00%)","Archaea (100.00%), Archaea:Euryarchaeota (100.00%)",sRNA154,Archaeal Small RNA 154,Gene; sRNA;
-RF02984,Archaea+Euryarchaeota/Archaea,"unclassified sequences (92.05%), Archaea (7.95%), Archaea:Euryarchaeota (7.95%)","Archaea (100.00%), Archaea:Euryarchaeota (70.00%)",DUF3800-X,DUF3800-X RNA,Gene; sRNA;
+RF02984,unclassified sequences/Archaea,"unclassified sequences (92.05%), Archaea (7.95%), Archaea:Euryarchaeota (7.95%)","Archaea (100.00%), Archaea:Euryarchaeota (70.00%)",DUF3800-X,DUF3800-X RNA,Gene; sRNA;
 RF03001,Archaea+Euryarchaeota,"Archaea (52.63%), Archaea:Euryarchaeota (50.66%), unclassified sequences (47.37%)","Archaea (99.02%), Archaea:Euryarchaeota (97.06%), Bacteria (0.98%), Bacteria:Firmicutes (0.98%)",leuA-Halobacteria,leuA-Halobacteria RNA,Cis-reg;
-RF03019,Archaea,"unclassified sequences (95.19%), Archaea (4.81%)",Archaea (100.00%),RT-16,RT-16 RNA,Gene; sRNA;
-RF03094,Archaea+Euryarchaeota,"unclassified sequences (92.00%), Archaea (8.00%), Archaea:Euryarchaeota (8.00%)","Archaea (100.00%), Archaea:Euryarchaeota (100.00%)",LAGLIDADG-2,LAGLIDADG-2 RNA,Gene; sRNA;
+RF03019,unclassified sequences/Archaea,"unclassified sequences (95.19%), Archaea (4.81%)",Archaea (100.00%),RT-16,RT-16 RNA,Gene; sRNA;
+RF03094,unclassified sequences/Archaea+Euryarchaeota,"unclassified sequences (92.00%), Archaea (8.00%), Archaea:Euryarchaeota (8.00%)","Archaea (100.00%), Archaea:Euryarchaeota (100.00%)",LAGLIDADG-2,LAGLIDADG-2 RNA,Gene; sRNA;
 RF03135,Archaea+Euryarchaeota,"unclassified sequences (68.87%), Archaea (31.13%), Archaea:Euryarchaeota (31.13%)","Archaea (97.18%), Archaea:Euryarchaeota (94.37%), Bacteria (1.41%), Eukaryota (1.41%), Eukaryota:Metazoa (1.41%), Bacteria:Firmicutes (0.70%), Bacteria:Actinobacteria (0.70%)",L4-Archaeoglobi,L4-Archaeoglobi ribosomal protein leades,Cis-reg; leader;
 RF03137,Archaea+Euryarchaeota,"unclassified sequences (86.00%), Archaea (14.00%), Archaea:Euryarchaeota (14.00%)","Archaea (100.00%), Archaea:Euryarchaeota (100.00%)",S15-Methanomicrobia,S15-Methanomicrobia ribosomal protein leader,Cis-reg; leader;
 RF03143,Archaea+Euryarchaeota,"unclassified sequences (57.81%), Archaea (42.19%), Archaea:Euryarchaeota (42.19%)","Archaea (99.15%), Archaea:Euryarchaeota (98.31%), Bacteria (0.85%), Bacteria:Firmicutes (0.85%)",S15-Halobacteria,S15-Halobacteria ribosomal protein leader,Cis-reg; leader;

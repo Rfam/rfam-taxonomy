@@ -4,3 +4,5 @@ ENV/*
 data-seed/*
 data-full-region/*
 .idea
+DEVELOPMENT.md
+Rfam.clanin

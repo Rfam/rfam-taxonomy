@@ -33,6 +33,17 @@ DOMAINS = sorted([
 ])
 DOMAIN_CUTOFF = 90 # at least 90% of sequences must be from this domain
 
+TAXONOMIC_LEVELS_FILE = 'domains/taxonomic_levels.txt'
+TAXONOMIC_LEVELS = [
+    'Archaea',
+    'Bacteria',
+    'Eukaryota',
+    'Fungi',
+    'Metazoa',
+    'Chordata',
+    'Viridiplantae',
+]
+
 WHITELIST = [
     'RF00001', # 5S
     'RF00005', # tRNA
@@ -275,6 +286,88 @@ def generate_clanin_files():
     print("Done generating clanin files")
 
 
+def get_lineages(rfam_acc, DATA_PATH):
+    """
+    Get a list of lineages for a family, each lineage is a list of taxa.
+
+    Example:
+    [['Eukaryota', 'Metazoa', 'Chordata', 'Craniata', 'Vertebrata', ...], ...]
+    """
+    lineages = []
+    seen = set()
+    with open(os.path.join(DATA_PATH, '{}.csv'.format(rfam_acc)), 'r') as f:
+        for row in csv.reader(f):
+            taxa = [taxon.strip() for taxon in row[0].rstrip('. ').split(';')]
+            taxa = [taxon for taxon in taxa if taxon]
+            if taxa[-1] in TAXONOMIC_LEVELS[:3]:
+                taxa.reverse() # a few lineages are stored from species to domain
+            # the same lineage can be stored with and without a trailing period
+            if tuple(taxa) not in seen:
+                seen.add(tuple(taxa))
+                lineages.append(taxa)
+    return lineages
+
+
+def get_lca(lineages, default):
+    """
+    Find the lowest common ancestor, i.e. the most specific taxon found in all
+    lineages. Rfam lineages do not always list the same intermediate ranks, so
+    the shared taxa are compared instead of the leading part of the lineages.
+    """
+    if not lineages:
+        return default
+    shared = set(lineages[0]).intersection(*lineages[1:])
+    for taxon in reversed(lineages[0]):
+        # 'environmental samples' occurs under many unrelated taxa
+        if taxon in shared and taxon != 'environmental samples':
+            return taxon
+    if all(lineage[0] in TAXONOMIC_LEVELS[:3] for lineage in lineages):
+        return 'cellular organisms'
+    return 'root'
+
+
+def write_taxonomic_levels():
+    """
+    Generate a file with the number of lineages observed at different taxonomic
+    levels (including Chordata) and the lowest common ancestor (LCA)
+    of each family, based on the full region hits.
+    """
+    def within(*levels):
+        return lambda lineage: any(level in lineage for level in levels)
+
+    def protists(lineage):
+        return 'Eukaryota' in lineage and not within('Fungi', 'Metazoa', 'Viridiplantae')(lineage)
+
+    def non_chordate_metazoa(lineage):
+        return 'Metazoa' in lineage and 'Chordata' not in lineage
+
+    # column name, lineage filter, LCA label if no lineages are found
+    levels = [(level, within(level), 'outside ' + level) for level in TAXONOMIC_LEVELS]
+    levels += [
+        ('EnsemblBacteria', within('Archaea', 'Bacteria'), 'outside Archaea/Bacteria'),
+        ('EnsemblFungi', within('Fungi'), 'outside Fungi'),
+        ('EnsemblMetazoa', non_chordate_metazoa, 'outside Metazoa'),
+        ('EnsemblPlants', within('Viridiplantae'), 'outside Viridiplantae'),
+        ('EnsemblProtists', protists, 'outside Eukaryota'),
+        ('Ensembl', within('Chordata'), 'outside Chordata'),
+    ]
+    names = [name for name, _, _ in levels]
+
+    with open(TAXONOMIC_LEVELS_FILE, 'w') as f_out:
+        csvwriter = csv.writer(f_out, delimiter='\t', lineterminator='\n')
+        csvwriter.writerow(['Rfam_acc', 'Taxa', 'LCA'] + names + ['LCA_' + name for name in names])
+        for family in get_rfam_families():
+            lineages = get_lineages(family['rfam_acc'], DATA_FULL_REGION_PATH)
+            counts = []
+            lcas = []
+            for _, is_within, outside in levels:
+                subset = [lineage for lineage in lineages if is_within(lineage)]
+                counts.append(len(subset))
+                lcas.append(get_lca(subset, outside))
+            csvwriter.writerow([family['rfam_acc'], len(lineages), get_lca(lineages, 'NA')] + counts + lcas)
+    print("Created {}".format(TAXONOMIC_LEVELS_FILE))
+
+
 @click.command()
 @click.option('--precompute-seed', is_flag=True, required=False, help='Store seed data files')
 @click.option('--precompute-full', is_flag=True, required=False, help='Store full data files')
@@ -292,7 +385,8 @@ def main(precompute_seed, precompute_full, cutoff):
 
     write_output_files(data)
     update_summary()
-    
+    write_taxonomic_levels()
+
     # Generate domain-specific clanin files from database
     generate_clanin_files()
 

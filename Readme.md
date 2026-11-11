@@ -34,6 +34,17 @@ CSV files contain seven columns:
 - `Mixed` - if there is no single domain where the family occurs. For example, 5S rRNA [RF00001](http://rfam.org/family/RF00001) is expected to be found in _Bacteria_, _Archaea_, and _Eukaryota_.
 - `<seed region domain>/Mixed` or `Mixed/<full region domain>` - For example, Bacterial SSU [RF00177](http://rfam.org/family/RF00177) has only Bacteria in the seed alignment but the full region hits also contain Eukaryota because the mitochondrial and plastid SSU is similar to the bacterial SSU and is expected to match the bacterial model.
 
+### Taxonomic levels and lowest common ancestor
+
+The [taxonomic_levels.txt](./domains/taxonomic_levels.txt) file is a tab-separated file based on the full region hits that lists for each family:
+
+- `Taxa` = number of distinct lineages where the family is found
+- `LCA` = lowest common ancestor, the most specific taxon shared by all lineages (`cellular organisms` or `root` if the lineages span several domains, `NA` if there are no hits)
+- the number of lineages within _Archaea_, _Bacteria_, _Eukaryota_, _Fungi_, _Metazoa_, _Chordata_, and _Viridiplantae_, as well as within the Ensembl divisions (for example, `EnsemblMetazoa` is _Metazoa_ excluding _Chordata_ and `EnsemblProtists` is _Eukaryota_ excluding _Fungi_, _Metazoa_, and _Viridiplantae_)
+- `LCA_<level>` = lowest common ancestor of the lineages within each level (or `outside <level>` if there are none)
+
+The counts and the LCA are based on the lineages stored in the Rfam database, which stop at the genus level in most cases and do not include every NCBI taxonomy rank, so the LCA can be less specific than the one computed using the full NCBI taxonomy.
+
 :white_check_mark: View [summary](./domains/Readme.md) with the number of families observed in each domain.
 
 ## Retrieving the data
@@ -121,6 +132,7 @@ pushed to GitHub.
     python rfam-taxonomy.py
 
     # this will generate both .csv and .clanin files for each domain
+    # as well as domains/taxonomic_levels.txt
     # clan information is retrieved directly from the Rfam database
 
     # to see additional options:

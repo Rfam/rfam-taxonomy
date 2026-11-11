@@ -294,13 +294,17 @@ def get_lineages(rfam_acc, DATA_PATH):
     [['Eukaryota', 'Metazoa', 'Chordata', 'Craniata', 'Vertebrata', ...], ...]
     """
     lineages = []
+    seen = set()
     with open(os.path.join(DATA_PATH, '{}.csv'.format(rfam_acc)), 'r') as f:
         for row in csv.reader(f):
             taxa = [taxon.strip() for taxon in row[0].rstrip('. ').split(';')]
             taxa = [taxon for taxon in taxa if taxon]
             if taxa[-1] in TAXONOMIC_LEVELS[:3]:
                 taxa.reverse() # a few lineages are stored from species to domain
-            lineages.append(taxa)
+            # the same lineage can be stored with and without a trailing period
+            if tuple(taxa) not in seen:
+                seen.add(tuple(taxa))
+                lineages.append(taxa)
     return lineages
 
 
@@ -314,7 +318,8 @@ def get_lca(lineages, default):
         return default
     shared = set(lineages[0]).intersection(*lineages[1:])
     for taxon in reversed(lineages[0]):
-        if taxon in shared:
+        # 'environmental samples' occurs under many unrelated taxa
+        if taxon in shared and taxon != 'environmental samples':
             return taxon
     if all(lineage[0] in TAXONOMIC_LEVELS[:3] for lineage in lineages):
         return 'cellular organisms'

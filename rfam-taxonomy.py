@@ -297,7 +297,10 @@ def get_lineages(rfam_acc, DATA_PATH):
     with open(os.path.join(DATA_PATH, '{}.csv'.format(rfam_acc)), 'r') as f:
         for row in csv.reader(f):
             taxa = [taxon.strip() for taxon in row[0].rstrip('. ').split(';')]
-            lineages.append([taxon for taxon in taxa if taxon])
+            taxa = [taxon for taxon in taxa if taxon]
+            if taxa[-1] in TAXONOMIC_LEVELS[:3]:
+                taxa.reverse() # a few lineages are stored from species to domain
+            lineages.append(taxa)
     return lineages
 
 

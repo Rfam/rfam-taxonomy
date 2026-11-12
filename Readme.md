@@ -59,6 +59,10 @@ Some taxonomic groups are considered subgroups of major domains. As of now, pare
 - **Archaea subgroups:** _Euryarchaeota_, _Crenarchaeota_, _Thaumarchaeota_
 - **Virus subgroups:** _Flaviviridae_, _Coronaviridae_, _Retroviridae_, _Herpesviridae_, _Picornaviridae_, _Orthomyxoviridae_
 
+Subgroups are also matched under their current NCBI Taxonomy names, which Rfam lineages contain alongside the older ones (e.g. _Pseudomonadota_ is counted as _Proteobacteria_, _Bacillota_ as _Firmicutes_, _Actinomycetota_ as _Actinobacteria_); the full list is `SUBGROUP_SYNONYMS` in `rfam-taxonomy.py`.
+
+Families whose seed is mostly _Bacteria_ but whose full region hits are mostly _Eukaryota_ (e.g. _Wolbachia_ sRNAs found in arthropod genome assemblies) are assigned to group files by their seed: they appear in `bacteria.csv` and the matching bacterial subgroup file, but not in `eukaryota.csv` or a eukaryotic subgroup file. Their `Domain` field in `all-domains.csv` is unchanged (e.g. _Bacteria+Proteobacteria/Eukaryota+Metazoa_).
+
 When both a parent domain and its subgroup each account for ≥90% of the sequences in both the seed and full datasets (because subgroup sequences are counted toward both the subgroup and its parent), and the resulting major group labels for seed and full are the same and use this pattern, the `Domain` field is shown as `Parent+Subgroup` (e.g., _Eukaryota+Fungi_). This helps clarify cases where a family is strongly represented in both a major domain and a specific subgroup.
 
 In the `Seed groups` and `Full region groups` columns (columns 3 and 4), subgroups are displayed with their parent prefix using a colon separator to indicate the hierarchical relationship (e.g., _Eukaryota:Fungi_). The percentages for subgroups are also included in their parent domain's percentage.

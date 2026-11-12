@@ -63,6 +63,8 @@ Subgroups are also matched under their current NCBI Taxonomy names, which Rfam l
 
 Families whose seed is mostly _Bacteria_ but whose full region hits are mostly _Eukaryota_ (e.g. _Wolbachia_ sRNAs found in arthropod genome assemblies) are assigned to group files by their seed: they appear in `bacteria.csv` and the matching bacterial subgroup file, but not in `eukaryota.csv` or a eukaryotic subgroup file. Their `Domain` field in `all-domains.csv` is unchanged (e.g. _Bacteria+Proteobacteria/Eukaryota+Metazoa_).
 
+5S rRNA ([RF00001](http://rfam.org/family/RF00001)), tRNA ([RF00005](http://rfam.org/family/RF00005)) and tRNA-Sec ([RF01852](http://rfam.org/family/RF01852)) are always included in the _Archaea_, _Bacteria_ and _Eukaryota_ files and in all of their subgroup files, whatever their `Domain` field (`WHITELIST` in `rfam-taxonomy.py`). They are not added to the _Viruses_, _Viroids_ or _unclassified sequences_ files.
+
 When both a parent domain and its subgroup each account for ≥90% of the sequences in both the seed and full datasets (because subgroup sequences are counted toward both the subgroup and its parent), and the resulting major group labels for seed and full are the same and use this pattern, the `Domain` field is shown as `Parent+Subgroup` (e.g., _Eukaryota+Fungi_). This helps clarify cases where a family is strongly represented in both a major domain and a specific subgroup.
 
 In the `Seed groups` and `Full region groups` columns (columns 3 and 4), subgroups are displayed with their parent prefix using a colon separator to indicate the hierarchical relationship (e.g., _Eukaryota:Fungi_). The percentages for subgroups are also included in their parent domain's percentage.
@@ -106,13 +108,12 @@ It is also possible to download the data and use it locally or regenerate the fi
 
     The same approach works for any group (e.g. archaea or fungi) by just replacing `bacteria` in the command above with the name of the group.
 
-    **Note for subgroups:** Subgroup files like [fungi.csv](./domains/fungi.csv) contain two types of families: (1) families that are ≥90% from that subgroup (Domain field = `Fungi`), and (2) families that are primarily from the parent domain but have significant (>5%) representation from the subgroup (Domain field = `Eukaryota` or containing the parent name). To extract only families that are ≥90% from a subgroup, filter the Domain field (column 2):
+    **Note for subgroups:** Subgroup files like [fungi.csv](./domains/fungi.csv) contain three types of families: (1) families that are ≥90% from that subgroup in the seed, the full region hits, or both (the subgroup appears in the Domain field, e.g. `Eukaryota+Fungi` or `Eukaryota+Fungi/Eukaryota`); (2) families with ≥5% of their full region hits from the subgroup and ≥5% of their seed from the parent domain, whatever their Domain field (it can be the parent, e.g. `Eukaryota`, another subgroup, or `Mixed`); and (3) 5S rRNA, tRNA and tRNA-Sec, which are included in every Archaea, Bacteria and Eukaryota file and their subgroup files. To extract only families that are ≥90% from a subgroup in the seed or the full region hits, filter the Domain field (column 2):
 
     ```
-    # Get only families that are ≥90% Fungi
+    # Get only families that are ≥90% Fungi in the seed or the full region hits
     curl https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/fungi.csv | \
-    awk -F',' '$2 ~ /(^|\+)Fungi(\+|$)/ {print $1}' | \
-    tail -n +2 | \
+    awk -F',' '$2 ~ /(^|[+\/])Fungi([+\/]|$)/ {print $1}' | \
     cmfetch -o fungi-90pct.cm -f Rfam.cm.gz -
     ```
 
@@ -133,7 +134,7 @@ It is also possible to download the data and use it locally or regenerate the fi
     cmscan --cpu 4 --fmt 2 --clanin bacteria.clanin --oclan --oskip --tblout results.tbl bacteria.cm sequences.fa
     ```
 
-- You can also further process the [all-domains.csv](./domains/all-domains.csv) file. For example, to eliminate any families that find hits outside Bacteria, you can focus on rows where the second column is `Bacteria` and the third and the fourth columns (the group percentages) contain `Bacteria (100.0%)`. Note that such a subset would ignore many important RNA families that detect some contamination in eukaryotic sequences.
+- You can also further process the [all-domains.csv](./domains/all-domains.csv) file. For example, to eliminate any families that find hits outside Bacteria, you can focus on rows where the second column is `Bacteria` or `Bacteria+<subgroup>` (e.g. `Bacteria+Proteobacteria`, with no `/`) and the third and the fourth columns (the group percentages) contain `Bacteria (100.00%)`. Note that such a subset would ignore many important RNA families that detect some contamination in eukaryotic sequences.
 
 --------------------------------------------------------------------------------
 

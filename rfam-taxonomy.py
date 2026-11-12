@@ -71,7 +71,7 @@ if not (51 <= DOMAIN_CUTOFF <= 100):
         f"DOMAIN_CUTOFF ({DOMAIN_CUTOFF}) is invalid. It must be between 51 and 100 (inclusive) to ensure mutually exclusive major domains."
     )
 
-SUBGROUP_THRESHOLD = 5  # include families with at least 5% of a subgroup in full regions
+SUBGROUP_THRESHOLD = 5  # include families with at least 5% of a group in full regions (and its parent in seed)
 
 # Mapping of subgroups to their parent domains
 # To add a new subgroup, add it to the SUBGROUPS list above and to this mapping
@@ -153,10 +153,12 @@ def precompute_taxonomic_information(analysis_type):
     print('Done')
 
 
-def get_taxonomic_distribution(rfam_acc, DATA_PATH):
+def get_taxonomic_distribution(rfam_acc, DATA_PATH, exclude_unclassified=False):
     """
     Calculate the percentage of hits from each group (domain and subgroup) for a family.
     Subgroup hits are also counted in their parent domain, so percentages can sum to more than 100.
+
+    If exclude_unclassified is True, rows from unclassified sequences are skipped.
 
     Example (groups with 0.0 omitted):
     {'Eukaryota': 45.51, 'Fungi': 9.66, 'Metazoa': 35.85, 'Bacteria': 48.6, 'Proteobacteria': 40.2, 'Archaea': 5.9}
@@ -178,6 +180,8 @@ def get_taxonomic_distribution(rfam_acc, DATA_PATH):
                 taxon = taxon.replace('.', '') # example: Bacteria.
             if taxon == 'Unclassified':
                 taxon = 'unclassified sequences'
+            if exclude_unclassified and taxon == 'unclassified sequences':
+                continue
 
             # Check if any subgroup appears in the taxonomy lineage
             # Count in both the subgroup AND parent domain since subgroups are part of their parent
@@ -197,7 +201,7 @@ def get_taxonomic_distribution(rfam_acc, DATA_PATH):
                 else:
                     data['Other'] += count
             total += count
-    if num_rows == 0:
+    if num_rows == 0 or total == 0:
         return 'NO_DATA'
     if total != 0:
         for domain in ALL_GROUPS:
@@ -404,7 +408,37 @@ def analyse_seed_full_taxonomic_distribution(family, cutoff):
     ]
 
 
-def write_output_files(data):
+def in_labels(group, labels):
+    """
+    True if the group name appears in any of the placement labels (e.g. 'Bacteria' in 'Bacteria+Firmicutes/Mixed').
+    """
+    return any(group.lower() in label.lower() for label in labels)
+
+
+def get_placement_labels(line, cutoff):
+    """
+    Return the labels used to decide which group files a family goes into.
+
+    Usually this is just the Domain field. Two exceptions:
+    - Bacteria in seed but Eukaryota in full: the full hits are bacterial RNAs in eukaryotic
+      assemblies (e.g. Wolbachia sRNAs in arthropod genomes), so only the seed label is used.
+    - Seed mostly unclassified sequences (e.g. metagenome-derived seeds): the seed sequences
+      with a known organism are classified with the same cutoff, and that label is added.
+    """
+    rfam_acc, domain_field = line[0], line[1]
+    seed_part, _, full_part = domain_field.partition('/')
+    if seed_part.split('+')[0] == 'Bacteria' and full_part.split('+')[0] == 'Eukaryota':
+        return [seed_part]
+    labels = [domain_field]
+    if seed_part == 'unclassified sequences':
+        classified = get_taxonomic_distribution(rfam_acc, DATA_SEED_PATH, exclude_unclassified=True)
+        classified_group = get_major_group(classified, cutoff)
+        if classified_group not in ('No Data', 'Mixed'):
+            labels.append(classified_group)
+    return labels
+
+
+def write_output_files(data, cutoff):
     """
     Generate output files.
     """
@@ -427,9 +461,10 @@ def write_output_files(data):
     parents = sorted(set(SUBGROUP_PARENT.values()))
     other_domains = [d for d in DOMAINS if d not in parents and d != 'Other']
     sorted_domains = subgroups + parents + other_domains
+    placement_labels = {line[0]: get_placement_labels(line, cutoff) for line in data}
     
-    # Track which families are written to each subgroup file
-    subgroup_families = {subgroup: set() for subgroup in subgroups}
+    # Track which families are written to each group file
+    group_families = {domain: set() for domain in sorted_domains}
 
     # Write domain-specific files
     for domain in sorted_domains:
@@ -438,70 +473,47 @@ def write_output_files(data):
             csvwriter = csv.writer(f_out)
             csvwriter.writerow(header)
             for line in data:
-                this_domain = line[1].lower()
                 rfam_acc = line[0]
+                seed_groups = line[2]
                 full_groups = line[3]
-                domain_field = line[1]
-                # Bacteria in seed but Eukaryota in full: the full hits are bacterial RNAs in
-                # eukaryotic assemblies (e.g. Wolbachia sRNAs in arthropod genomes), so trust the seed.
-                seed_part, _, full_part = domain_field.partition('/')
-                if seed_part.split('+')[0] == 'Bacteria' and full_part.split('+')[0] == 'Eukaryota':
-                    domain_field = seed_part
-                    this_domain = seed_part.lower()
+                labels = placement_labels[rfam_acc]
+                include = False
                 # (A) Whitelist: include only in Archaea, Bacteria, Eukaryota and their subgroups
                 if rfam_acc in WHITELIST:
-                    # Determine if this domain should include whitelist families
-                    include_whitelist = False
-                    if domain in ['Archaea', 'Bacteria', 'Eukaryota']:
-                        include_whitelist = True
-                    elif domain in SUBGROUP_PARENT:
-                        parent = SUBGROUP_PARENT[domain]
-                        if parent in ['Archaea', 'Bacteria', 'Eukaryota']:
-                            include_whitelist = True
-                    
-                    if include_whitelist:
-                        csvwriter.writerow(line)
-                        if domain in subgroups:
-                            subgroup_families[domain].add(rfam_acc)
-                    continue
+                    include = SUBGROUP_PARENT.get(domain, domain) in ['Archaea', 'Bacteria', 'Eukaryota']
                 # (B) Subgroup file logic
-                if domain in SUBGROUP_PARENT:
+                elif domain in SUBGROUP_PARENT:
                     parent = SUBGROUP_PARENT[domain]
-                    seed_groups = line[2]
-                    # (B1) Domain name appears in domain_field
-                    if domain.lower() in domain_field.lower():
-                        csvwriter.writerow(line)
-                        subgroup_families[domain].add(rfam_acc)
-                        continue
-                    # (B2) Subgroup threshold: only if parent domain is substantively present in seed
+                    # (B1) Subgroup name appears in a placement label, or
+                    # (B2) subgroup threshold: only if the parent domain is substantively present in seed
                     # This ensures subgroups are restricted to the scope of their parent
                     # (prevents viral/bacterial contamination in eukaryotic subgroups like Fungi)
-                    if get_group_percentage(full_groups, domain) >= SUBGROUP_THRESHOLD:
-                        parent_pct_in_seed = get_group_percentage(seed_groups, parent)
-                        if parent_pct_in_seed >= SUBGROUP_THRESHOLD:
-                            csvwriter.writerow(line)
-                            subgroup_families[domain].add(rfam_acc)
-                        continue
-                    continue    
-                # (C) Parent domain file logic: include all families from child subgroups
-                if domain in parents:
-                    # Include families from any subgroup that has this domain as parent
-                    for subgroup, parent in SUBGROUP_PARENT.items():
-                        if parent == domain and rfam_acc in subgroup_families[subgroup]:
-                            csvwriter.writerow(line)
-                            break
-                    else:
-                        # Also check standard inclusion if not already written
-                        if domain.lower() in this_domain:
-                            csvwriter.writerow(line)
-                    continue
-                # (D) Standard inclusion: domain name in this_domain
-                if domain.lower() in this_domain:
+                    include = (in_labels(domain, labels) or
+                               (get_group_percentage(full_groups, domain) >= SUBGROUP_THRESHOLD and
+                                get_group_percentage(seed_groups, parent) >= SUBGROUP_THRESHOLD))
+                # (C) Parent domain file logic: the same rules as for subgroups, plus every
+                # family in a child subgroup file (so each subgroup file is a subset of its parent's)
+                elif domain in parents:
+                    include = (in_labels(domain, labels) or
+                               (get_group_percentage(full_groups, domain) >= SUBGROUP_THRESHOLD and
+                                get_group_percentage(seed_groups, domain) >= SUBGROUP_THRESHOLD) or
+                               any(rfam_acc in group_families[subgroup]
+                                   for subgroup, parent in SUBGROUP_PARENT.items() if parent == domain))
+                # (D) Standard inclusion: domain name in a placement label
+                else:
+                    include = in_labels(domain, labels)
+                if include:
                     csvwriter.writerow(line)
-                    continue
-                
+                    group_families[domain].add(rfam_acc)
+
         print(f"  Created {filename}")
-    
+
+    # Every family in a subgroup file must also be in its parent's file
+    for subgroup, parent in SUBGROUP_PARENT.items():
+        missing = group_families[subgroup] - group_families[parent]
+        if missing:
+            raise ValueError(f"Families in {subgroup} but not in its parent {parent}: {sorted(missing)}")
+
     print("Done generating CSV files")
 
 def update_summary():
@@ -629,7 +641,7 @@ def main(precompute_seed, precompute_full, cutoff):
     for family in get_rfam_families():
         data.append(analyse_seed_full_taxonomic_distribution(family, cutoff))
 
-    write_output_files(data)
+    write_output_files(data, cutoff)
 
     # Generate domain-specific clanin files from database
     generate_clanin_files()

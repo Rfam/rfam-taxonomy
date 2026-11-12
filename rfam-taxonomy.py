@@ -103,6 +103,24 @@ SUBGROUP_PARENT = {
     'Orthomyxoviridae': 'Viruses',
 }
 
+# Current NCBI names (and older spellings) for the subgroups above, mapped to the name used in SUBGROUPS.
+# NCBI Taxonomy renamed prokaryotic phyla in 2021-2024; Rfam lineages contain both forms.
+SUBGROUP_SYNONYMS = {
+    'Pseudomonadota': 'Proteobacteria',
+    'Bacillota': 'Firmicutes',
+    'Actinomycetota': 'Actinobacteria',
+    'Bacteroidota': 'Bacteroidetes',
+    'Cyanobacteriota': 'Cyanobacteria',
+    'Thermoproteota': 'Crenarchaeota',
+    'Nitrososphaerota': 'Thaumarchaeota',
+    'Methanobacteriota': 'Euryarchaeota',
+    'Halobacteriota': 'Euryarchaeota',
+    'Thermoplasmatota': 'Euryarchaeota',
+    'Candidatus Thermoplasmatota': 'Euryarchaeota',
+    'stramenopiles': 'Stramenopiles',
+    'Orthoherpesviridae': 'Herpesviridae',
+}
+
 WHITELIST = [
     'RF00001', # 5S
     'RF00005', # tRNA
@@ -163,8 +181,10 @@ def get_taxonomic_distribution(rfam_acc, DATA_PATH):
 
             # Check if any subgroup appears in the taxonomy lineage
             # Count in both the subgroup AND parent domain since subgroups are part of their parent
-            # Parse lineage into tokens to avoid false positives from substring matching
-            tax_tokens = {token.strip() for token in tax_string.split(';')}
+            # Parse lineage into tokens to avoid false positives from substring matching;
+            # strip trailing periods (e.g. "Bacteria; Firmicutes.") and map current NCBI names to subgroup names
+            tax_tokens = {SUBGROUP_SYNONYMS.get(t, t)
+                          for t in (token.strip().rstrip('.') for token in tax_string.split(';'))}
             for subgroup, parent in SUBGROUP_PARENT.items():
                 if subgroup in tax_tokens:
                     data[subgroup] += count

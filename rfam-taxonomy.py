@@ -72,7 +72,6 @@ if not (51 <= DOMAIN_CUTOFF <= 100):
     )
 
 SUBGROUP_THRESHOLD = 5  # include families with at least 5% of a subgroup in full regions
-EPSILON = 1e-6 # small value used for floating-point comparison to avoid precision errors
 
 # Mapping of subgroups to their parent domains
 # To add a new subgroup, add it to the SUBGROUPS list above and to this mapping
@@ -256,9 +255,8 @@ def get_major_group(data, cutoff):
             # Only unclassified sequences meets cutoff
             return 'unclassified sequences'
         else:
-            # unclassified sequences + other groups both >= cutoff
-            # This is unusual - remove unclassified and re-evaluate the others
-            # (This can happen when there's contamination/mixed data)
+            # unclassified sequences + another group both >= cutoff; cannot happen while
+            # cutoff > 50 because the two are disjoint, kept as a safeguard
             groups_at_cutoff.remove('unclassified sequences')
     
     # If we already found groups at cutoff (excluding unclassified), validate and return them
@@ -329,30 +327,25 @@ def get_groups(data):
 
 
 
-def get_group_percentage(groups_str, group, allow_prefix=True):
+def get_group_percentage(groups_str, group):
     """
     Extract the percentage for a given group (domain or subgroup) from a groups string.
 
     Args:
-        groups_str: String with group percentages (e.g., 'Bacteria (0.25%), Eukaryota (40%)')
+        groups_str: String with group percentages (e.g., 'Eukaryota (40.00%), Eukaryota:Fungi (9.66%)')
         group: Group name to search for
-        allow_prefix: If True, matches "Parent:Group (X%)" format. If False, only standalone "Group (X%)"
 
     Examples:
-        get_group_percentage('Eukaryota:Fungi (9.66%)', 'Fungi') => 9.66
-        get_group_percentage('Eukaryota (40%)', 'Eukaryota') => 40.0
-        get_group_percentage('Eukaryota:Fungi (9.66%)', 'Eukaryota', allow_prefix=False) => 0.0
+        get_group_percentage('Eukaryota (40.00%), Eukaryota:Fungi (9.66%)', 'Fungi') => 9.66
+        get_group_percentage('Eukaryota (40.00%), Eukaryota:Fungi (9.66%)', 'Eukaryota') => 40.0
+
+    A parent name never matches the "Parent:" prefix of a subgroup entry, because the
+    pattern requires the name to be followed by " (".
 
     Returns:
         Percentage as float, or 0.0 if not found
     """
-    if allow_prefix:
-        # Match "group (x%)" possibly preceded by a parent prefix like "Eukaryota:Fungi"
-        pattern = r'[^,]*\b{} \(([0-9.]+)%\)'.format(re.escape(group))
-    else:
-        # Only match standalone group, not as part of "Parent:Group" format
-        pattern = r'\b{} \(([0-9.]+)%\)'.format(re.escape(group))
-    
+    pattern = r'\b{} \(([0-9.]+)%\)'.format(re.escape(group))
     match = re.search(pattern, groups_str)
     if match:
         return float(match.group(1))
@@ -482,7 +475,7 @@ def write_output_files(data):
                     # This ensures subgroups are restricted to the scope of their parent
                     # (prevents viral/bacterial contamination in eukaryotic subgroups like Fungi)
                     if get_group_percentage(full_groups, domain) >= SUBGROUP_THRESHOLD:
-                        parent_pct_in_seed = get_group_percentage(seed_groups, parent, allow_prefix=False)
+                        parent_pct_in_seed = get_group_percentage(seed_groups, parent)
                         if parent_pct_in_seed >= SUBGROUP_THRESHOLD:
                             csvwriter.writerow(line)
                             subgroup_families[domain].add(rfam_acc)

@@ -155,10 +155,11 @@ def precompute_taxonomic_information(analysis_type):
 
 def get_taxonomic_distribution(rfam_acc, DATA_PATH):
     """
-    Calculate the percentage of hits from each domain for a family.
+    Calculate the percentage of hits from each group (domain and subgroup) for a family.
+    Subgroup hits are also counted in their parent domain, so percentages can sum to more than 100.
 
-    Example:
-    {'Eukaryota': 45.51, 'Bacteria': 48.6, 'Other': 0.0, 'Viruses': 0.0, 'unclassified sequences': 0.0, 'Viroids': 0.0, 'Archaea': 5.9}
+    Example (groups with 0.0 omitted):
+    {'Eukaryota': 45.51, 'Fungi': 9.66, 'Metazoa': 35.85, 'Bacteria': 48.6, 'Proteobacteria': 40.2, 'Archaea': 5.9}
     """
     data = {}
     for domain in ALL_GROUPS:
@@ -239,9 +240,10 @@ def validate_multi_group_pattern(major_groups, cutoff):
 
 def get_major_group(data, cutoff):
     """
-    Find the prevalent group (domain or subgroup, for example, Eukaryota or Fungi):
+    Find the prevalent group(s): every group with at least `cutoff` percent of the hits.
+    Returns e.g. 'Eukaryota', 'Eukaryota+Fungi' (parent and subgroup both >= cutoff), 'Mixed', or 'No Data'.
 
-    {'Eukaryota': 100.0, 'Other': 0.0, 'Viruses': 0.0, 'unclassified sequences': 0.0, 'Viroids': 0.0, 'Archaea': 0.0, 'Bacteria': 0.0}
+    Example: {'Eukaryota': 100.0, 'Fungi': 95.0, 'Metazoa': 5.0, ...} => 'Eukaryota+Fungi'
     """
     if data == 'NO_DATA':
         return 'No Data'
@@ -615,10 +617,9 @@ def generate_clanin_files():
 @click.command()
 @click.option('--precompute-seed', is_flag=True, required=False, help='Store seed data files')
 @click.option('--precompute-full', is_flag=True, required=False, help='Store full data files')
-@click.option('--cutoff', required=False, default=DOMAIN_CUTOFF, help='Percent of hits from the same domain')
+@click.option('--cutoff', required=False, default=DOMAIN_CUTOFF, type=click.IntRange(51, 100),
+              help='Minimum percent of hits from one group (51-100)')
 def main(precompute_seed, precompute_full, cutoff):
-    if not (51 <= cutoff <= 100):
-        raise click.BadParameter(f"cutoff must be between 51 and 100, got {cutoff}", param_hint="'--cutoff'")
     if precompute_seed:
         precompute_taxonomic_information('seed')
     if precompute_full:

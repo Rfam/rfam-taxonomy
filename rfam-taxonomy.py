@@ -447,9 +447,12 @@ def write_output_files(data):
                 rfam_acc = line[0]
                 full_groups = line[3]
                 domain_field = line[1]
-                # Exclude bacteria/eukaryota special case
-                if this_domain == 'bacteria/eukaryota':
-                    continue
+                # Bacteria in seed but Eukaryota in full: the full hits are bacterial RNAs in
+                # eukaryotic assemblies (e.g. Wolbachia sRNAs in arthropod genomes), so trust the seed.
+                seed_part, _, full_part = domain_field.partition('/')
+                if seed_part.split('+')[0] == 'Bacteria' and full_part.split('+')[0] == 'Eukaryota':
+                    domain_field = seed_part
+                    this_domain = seed_part.lower()
                 # (A) Whitelist: include only in Archaea, Bacteria, Eukaryota and their subgroups
                 if rfam_acc in WHITELIST:
                     # Determine if this domain should include whitelist families

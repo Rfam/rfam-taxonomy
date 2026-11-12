@@ -2,20 +2,20 @@
 
 ```
 The number of Rfam families and clans for each group (number of lines in .csv / .clanin files):
-   2721 / 118  eukaryota
+   2723 / 118  eukaryota
    1951 / 71   metazoa
-   1123 / 25   bacteria
-    632 / 10   proteobacteria
+   1134 / 25   bacteria
+    634 / 10   proteobacteria
     544 / 22   viridiplantae
-    360 / 13   firmicutes
-    239 / 9    viruses
+    363 / 13   firmicutes
+    244 / 9    viruses
     137 / 19   fungi
-    120 / 7    actinobacteria
+    121 / 7    actinobacteria
     120 / 1    unclassified sequences
     118 / 6    archaea
      99 / 3    alveolata
      93 / 4    euryarchaeota
-     61 / 5    bacteroidetes
+     63 / 5    bacteroidetes
      47 / 1    cyanobacteria
      47 / 2    herpesviridae
      41 / 3    crenarchaeota

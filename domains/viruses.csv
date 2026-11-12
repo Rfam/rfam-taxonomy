@@ -1,4 +1,5 @@
 Family,Domain,Seed groups,Full region groups,Rfam ID,Description,RNA type
+RF00028,Eukaryota/Mixed,"Eukaryota (91.67%), Eukaryota:Viridiplantae (66.67%), Eukaryota:Alveolata (16.67%), Viruses (8.33%), Eukaryota:Fungi (8.33%)","Eukaryota (79.78%), Eukaryota:Viridiplantae (37.61%), Eukaryota:Fungi (36.13%), Bacteria (14.60%), Bacteria:Firmicutes (6.87%), Viruses (5.55%), Bacteria:Cyanobacteria (4.09%), Bacteria:Proteobacteria (2.07%), Eukaryota:Metazoa (1.64%), Bacteria:Bacteroidetes (0.66%), Bacteria:Actinobacteria (0.20%), Eukaryota:Stramenopiles (0.16%), Archaea (0.07%), Archaea:Euryarchaeota (0.04%), Archaea:Thaumarchaeota (0.02%), Eukaryota:Amoebozoa (0.02%), Eukaryota:Alveolata (0.02%)",Intron_gpI,Group I catalytic intron,Intron;
 RF00036,Viruses+Retroviridae,"Viruses (100.00%), Viruses:Retroviridae (100.00%)","Viruses (91.67%), Viruses:Retroviridae (91.67%), Bacteria (5.56%), Eukaryota (2.78%), Bacteria:Actinobacteria (2.78%), Eukaryota:Metazoa (2.78%)",RRE,HIV Rev response element,Cis-reg;
 RF00041,Viruses+Picornaviridae/No Data,"Viruses (100.00%), Viruses:Picornaviridae (100.00%)",No Data,Entero_OriR,Enteroviral 3' UTR element,Cis-reg;
 RF00044,Viruses,Viruses (100.00%),Viruses (100.00%),Phage_pRNA,3WJ core of Phi29 Bacteriophage pRNA,Gene;
@@ -125,12 +126,14 @@ RF01508,Viruses,Viruses (100.00%),Viruses (100.00%),BYDV_5_UTR,Barley yellow dwa
 RF01516,Viruses+Herpesviridae,"Viruses (100.00%), Viruses:Herpesviridae (100.00%)","Viruses (100.00%), Viruses:Herpesviridae (100.00%)",v-snoRNA-1,Human herpesvirus 1 small nucleolar RNA,Gene; snRNA; snoRNA; CD-box;
 RF01717,unclassified sequences/Viruses,unclassified sequences (100.00%),Viruses (100.00%),PhotoRC-II,PhotoRC-II RNA,Cis-reg;
 RF01745,unclassified sequences/Viruses,"unclassified sequences (98.79%), Bacteria (1.21%), Bacteria:Proteobacteria (1.21%)","Viruses (95.00%), Bacteria (5.00%)",manA,manA RNA,Cis-reg;
+RF01761,unclassified sequences/Mixed,"unclassified sequences (98.15%), Viruses (1.85%)","Viruses (58.57%), Eukaryota (41.43%), Eukaryota:Metazoa (40.00%), Eukaryota:Viridiplantae (1.43%)",wcaG,wcaG RNA,Cis-reg;
 RF01768,Viruses+Flaviviridae/No Data,"Viruses (100.00%), Viruses:Flaviviridae (100.00%)",No Data,flavi_FSE,ribosomal frameshift site,Cis-reg; frameshift_element;
 RF01785,Viruses+Retroviridae/Mixed,"Viruses (100.00%), Viruses:Retroviridae (100.00%)","Eukaryota (83.33%), Eukaryota:Metazoa (83.33%), Viruses (16.67%), Viruses:Retroviridae (16.67%)",blv_FSE,ribosomal frameshift site,Cis-reg; frameshift_element;
 RF01789,Viruses+Herpesviridae,"Viruses (100.00%), Viruses:Herpesviridae (100.00%)","Viruses (100.00%), Viruses:Herpesviridae (100.00%)",EBER1,Epstein-Barr virus EBER1,Gene; sRNA;
 RF01790,Viruses+Retroviridae,"Viruses (100.00%), Viruses:Retroviridae (100.00%)","Viruses (100.00%), Viruses:Retroviridae (100.00%)",htlv_FSE,ribosomal frameshift site,Cis-reg; frameshift_element;
 RF01792,Viruses+Retroviridae/No Data,"Viruses (100.00%), Viruses:Retroviridae (100.00%)",No Data,eiav_FSE,ribosomal frameshift site,Cis-reg; frameshift_element;
 RF01802,Viruses+Herpesviridae/Mixed,"Viruses (100.00%), Viruses:Herpesviridae (100.00%)","Viruses (80.00%), Viruses:Herpesviridae (80.00%), Eukaryota (20.00%), Eukaryota:Metazoa (20.00%)",HSUR,Herpesvirus saimiri U RNA1/RNA2,Gene; snRNA;
+RF01804,Mixed,"Bacteria (60.00%), Bacteria:Proteobacteria (60.00%), Viruses (40.00%)","Viruses (73.58%), Bacteria (22.64%), Bacteria:Proteobacteria (16.98%), Eukaryota (3.77%), Bacteria:Firmicutes (3.77%), Bacteria:Actinobacteria (1.89%), Eukaryota:Viridiplantae (1.89%), Eukaryota:Metazoa (1.89%)",Lambda_thermo,Lambda phage CIII thermoregulator element,Cis-reg; thermoregulator;
 RF01828,Bacteria+Firmicutes/Viruses,"Bacteria (100.00%), Bacteria:Firmicutes (100.00%)","Viruses (92.31%), Bacteria (7.69%), Bacteria:Firmicutes (7.69%)",SprD,Small pathogenicity island RNA D,Gene; sRNA;
 RF01833,Viruses,Viruses (100.00%),Viruses (100.00%),astro_FSE,ribosomal frameshift site,Cis-reg; frameshift_element;
 RF01834,Viruses+Retroviridae,"Viruses (100.00%), Viruses:Retroviridae (100.00%)","Viruses (100.00%), Viruses:Retroviridae (100.00%)",fiv_FSE,ribosomal frameshift site,Cis-reg; frameshift_element;
@@ -142,6 +145,7 @@ RF01839,Viruses/No Data,Viruses (100.00%),No Data,eeev_FSE,eastern equine enceph
 RF01840,Viruses+Retroviridae,"Viruses (100.00%), Viruses:Retroviridae (100.00%)","Viruses (100.00%), Viruses:Retroviridae (100.00%)",ovine_lenti_FSE,ribosomal frameshift element,Cis-reg; frameshift_element;
 RF01841,Viruses/No Data,Viruses (100.00%),No Data,veev_FSE,venezuelan equine encephalitis virus ribosomal frameshift element,Cis-reg; frameshift_element;
 RF01940,Viruses+Herpesviridae,"Viruses (100.00%), Viruses:Herpesviridae (100.00%)","Viruses (100.00%), Viruses:Herpesviridae (100.00%)",hvt-mir-H,hvt-mir-H9 microRNA precursor family,Gene; miRNA;
+RF02032,Mixed,"unclassified sequences (80.00%), Viruses (11.43%), Bacteria (8.57%), Bacteria:Firmicutes (2.86%), Bacteria:Bacteroidetes (2.86%)","Viruses (74.00%), Bacteria (24.00%), Bacteria:Proteobacteria (8.00%), Bacteria:Firmicutes (8.00%), Bacteria:Actinobacteria (4.00%), Eukaryota (2.00%), Eukaryota:Metazoa (2.00%)",GOLLD,"Giant, ornate, lake- and Lactobacillales-derived (GOLLD) RNA",Gene;
 RF02340,Viruses+Flaviviridae,"Viruses (93.33%), Viruses:Flaviviridae (93.33%), Other (6.67%)","Viruses (100.00%), Viruses:Flaviviridae (100.00%)",DENV_SLA,Dengue virus SLA,Cis-reg;
 RF02359,Viruses/Mixed,Viruses (100.00%),"Eukaryota (66.67%), Eukaryota:Metazoa (66.67%), Viruses (33.33%)",MS2,Bacteriophage MS2 operator hairpin,Cis-reg;
 RF02415,Bacteria+Firmicutes/Viruses,"Bacteria (100.00%), Bacteria:Firmicutes (100.00%)","Viruses (90.91%), Bacteria (9.09%), Bacteria:Firmicutes (9.09%)",rliG,Listeria sRNA rliG,Gene; sRNA;
@@ -191,6 +195,7 @@ RF03149,unclassified sequences/Viruses,unclassified sequences (100.00%),Viruses 
 RF03150,unclassified sequences/Viruses,unclassified sequences (100.00%),Viruses (100.00%),RAGATH-15,RAGATH-15 RNA,Gene; sRNA;
 RF03152,unclassified sequences/Viruses,unclassified sequences (100.00%),Viruses (100.00%),RAGATH-1-hammerhead,RAGATH-1 hammerhead ribozyme,Gene; ribozyme;
 RF03159,unclassified sequences/Viruses,unclassified sequences (100.00%),Viruses (100.00%),RAGATH-7,RAGATH-7 RNA,Gene; sRNA;
+RF03163,Mixed,"Bacteria (66.23%), Bacteria:Proteobacteria (66.23%), unclassified sequences (24.68%), Viruses (9.09%)","Bacteria (84.41%), Bacteria:Proteobacteria (84.41%), Eukaryota (8.47%), Eukaryota:Metazoa (7.80%), Viruses (7.12%), Eukaryota:Fungi (0.68%)",c4-a1b1,"a1, b1 targets of C4 antisense RNA",Gene; antisense;
 RF03200,Viruses+Herpesviridae,"Viruses (100.00%), Viruses:Herpesviridae (100.00%)","Viruses (100.00%), Viruses:Herpesviridae (100.00%)",mir-BART13,mir-BART13 microRNA precursor family,Gene; miRNA;
 RF03216,Viruses+Herpesviridae,"Viruses (100.00%), Viruses:Herpesviridae (100.00%)","Viruses (100.00%), Viruses:Herpesviridae (100.00%)",mir-BART10,mir-BART10 microRNA precursor family,Gene; miRNA;
 RF03233,Viruses+Herpesviridae,"Viruses (100.00%), Viruses:Herpesviridae (100.00%)","Viruses (100.00%), Viruses:Herpesviridae (100.00%)",hvt-mir-H16,hvt-mir-H16 microRNA precursor family,Gene; miRNA;

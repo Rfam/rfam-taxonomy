@@ -558,14 +558,14 @@ def update_summary():
 The number of Rfam families and clans for each group (number of lines in .csv / .clanin files):
 """)
         # Write file statistics sorted by family count (descending)
-        sorted_files = sorted(file_stats.items(), key=lambda x: x[1]['families'], reverse=True)
+        sorted_files = sorted(file_stats.items(), key=lambda x: (-x[1]['families'], x[0]))
         for name, stats in sorted_files:
             f_out.write(f"{stats['families']:7d} / {stats['clans']:<4d} {name}\n")
         
         f_out.write("\nDistribution of Domain field classifications:\n")
         f_out.write("(See ../Readme.md for explanation of Domain field format)\n")
         # Write all domain field values sorted by count
-        sorted_domains = sorted(domain_counts.items(), key=lambda x: x[1], reverse=True)
+        sorted_domains = sorted(domain_counts.items(), key=lambda x: (-x[1], x[0]))
         for domain_field, count in sorted_domains:
             f_out.write(f"{count:7d} {domain_field}\n")
         
@@ -636,10 +636,12 @@ def main(precompute_seed, precompute_full, cutoff):
         data.append(analyse_seed_full_taxonomic_distribution(family, cutoff))
 
     write_output_files(data)
-    update_summary()
-    
+
     # Generate domain-specific clanin files from database
     generate_clanin_files()
+
+    # Summary counts lines in the .clanin files, so it must run after generate_clanin_files()
+    update_summary()
 
 
 if __name__ == '__main__':

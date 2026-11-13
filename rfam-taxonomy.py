@@ -72,6 +72,12 @@ if not (51 <= DOMAIN_CUTOFF <= 100):
     )
 
 SUBGROUP_THRESHOLD = 5  # include families with at least 5% of a group in full regions (and its parent in seed)
+# Also include families found in at least PRESENCE_THRESHOLD% of the taxa of a group that have any
+# full region hit, and in at least PRESENCE_MIN_TAXA of them (and its parent in seed). This catches
+# RNAs present throughout a group whose hits are outnumbered by other groups (e.g. U6 snRNA in Fungi:
+# 66% of fungal taxa, but under 2% of the hits, because animal and plant genomes carry many copies).
+PRESENCE_THRESHOLD = 5
+PRESENCE_MIN_TAXA = 3
 
 # Mapping of subgroups to their parent domains
 # To add a new subgroup, add it to the SUBGROUPS list above and to this mapping
@@ -153,6 +159,38 @@ def precompute_taxonomic_information(analysis_type):
     print('Done')
 
 
+def get_lineage_groups(tax_string):
+    """
+    Return the top-level taxon of a lineage and the groups its hits are counted in:
+    a subgroup and its parent domain if a subgroup appears in the lineage, otherwise
+    the top-level taxon (or 'Other' if it is not one of the groups).
+
+    Example:
+    'Eukaryota; Fungi; Dikarya; Ascomycota; ...' => ('Eukaryota', ['Fungi', 'Eukaryota'])
+    """
+    taxon = tax_string.split(';')[0]
+    if '.' in taxon:
+        taxon = taxon.replace('.', '') # example: Bacteria.
+    if taxon == 'Unclassified':
+        taxon = 'unclassified sequences'
+    if taxon not in DOMAINS:  # a few lineages are stored from species to domain
+        taxon = tax_string.rstrip('. ').split(';')[-1].strip()
+
+    # Check if any subgroup appears in the taxonomy lineage
+    # Count in both the subgroup AND parent domain since subgroups are part of their parent
+    # Parse lineage into tokens to avoid false positives from substring matching;
+    # strip trailing periods (e.g. "Bacteria; Firmicutes.") and map current NCBI names to subgroup names
+    tax_tokens = {SUBGROUP_SYNONYMS.get(t, t)
+                  for t in (token.strip().rstrip('.') for token in tax_string.split(';'))}
+    for subgroup, parent in SUBGROUP_PARENT.items():
+        if subgroup in tax_tokens:
+            return taxon, [subgroup, parent]
+    # No subgroup found, count in the top-level taxon
+    if taxon in ALL_GROUPS:
+        return taxon, [taxon]
+    return taxon, ['Other']
+
+
 def get_taxonomic_distribution(rfam_acc, DATA_PATH, exclude_unclassified=False):
     """
     Calculate the percentage of hits from each group (domain and subgroup) for a family.
@@ -174,34 +212,11 @@ def get_taxonomic_distribution(rfam_acc, DATA_PATH, exclude_unclassified=False):
             num_rows += 1
             tax_string, count, _ = row
             count = int(count)
-            taxon = tax_string.split(';')[0]
-
-            if '.' in taxon:
-                taxon = taxon.replace('.', '') # example: Bacteria.
-            if taxon == 'Unclassified':
-                taxon = 'unclassified sequences'
-            if taxon not in DOMAINS:  # a few lineages are stored from species to domain
-                taxon = tax_string.rstrip('. ').split(';')[-1].strip()
+            taxon, groups = get_lineage_groups(tax_string)
             if exclude_unclassified and taxon == 'unclassified sequences':
                 continue
-
-            # Check if any subgroup appears in the taxonomy lineage
-            # Count in both the subgroup AND parent domain since subgroups are part of their parent
-            # Parse lineage into tokens to avoid false positives from substring matching;
-            # strip trailing periods (e.g. "Bacteria; Firmicutes.") and map current NCBI names to subgroup names
-            tax_tokens = {SUBGROUP_SYNONYMS.get(t, t)
-                          for t in (token.strip().rstrip('.') for token in tax_string.split(';'))}
-            for subgroup, parent in SUBGROUP_PARENT.items():
-                if subgroup in tax_tokens:
-                    data[subgroup] += count
-                    data[parent] += count
-                    break
-            else:
-                # No subgroup found, count in the top-level taxon
-                if taxon in ALL_GROUPS:
-                    data[taxon] += count
-                else:
-                    data['Other'] += count
+            for group in groups:
+                data[group] += count
             total += count
     if num_rows == 0 or total == 0:
         return 'NO_DATA'
@@ -209,6 +224,23 @@ def get_taxonomic_distribution(rfam_acc, DATA_PATH, exclude_unclassified=False):
         for domain in ALL_GROUPS:
             data[domain] = round(data[domain]*100.0/total, 2)
     return data
+
+
+def get_group_taxa(rfam_acc):
+    """
+    Return the set of NCBI taxids with full region hits in each group (domain and subgroup) for a family.
+    Taxids are counted rather than lineages, because the same organism can appear under an old and a
+    new NCBI lineage.
+
+    Example:
+    {'Eukaryota': {'4932', '9606', ...}, 'Fungi': {'4932', ...}, 'Metazoa': {'9606', ...}}
+    """
+    taxa = {}
+    with open(os.path.join(DATA_FULL_REGION_PATH, '{}.csv'.format(rfam_acc)), 'r') as f:
+        for tax_string, _, taxid in csv.reader(f):
+            for group in get_lineage_groups(tax_string)[1]:
+                taxa.setdefault(group, set()).add(taxid)
+    return taxa
 
 
 def validate_multi_group_pattern(major_groups, cutoff):
@@ -438,7 +470,18 @@ def write_output_files(data, cutoff):
     other_domains = [d for d in DOMAINS if d not in parents and d != 'Other']
     sorted_domains = subgroups + parents + other_domains
     placement_labels = {line[0]: get_placement_labels(line, cutoff) for line in data}
-    
+
+    # Taxa with full region hits for each family and group, and in total for each group
+    family_taxa = {line[0]: get_group_taxa(line[0]) for line in data}
+    group_taxa_count = {}
+    for group in ALL_GROUPS:
+        group_taxa_count[group] = len(set().union(*(taxa.get(group, set()) for taxa in family_taxa.values())))
+
+    def present_in(rfam_acc, group):
+        """True if the family has full region hits in enough of the group's taxa (see PRESENCE_THRESHOLD)."""
+        n = len(family_taxa[rfam_acc].get(group, ()))
+        return n >= PRESENCE_MIN_TAXA and n * 100.0 / group_taxa_count[group] >= PRESENCE_THRESHOLD
+
     # Track which families are written to each group file
     group_families = {domain: set() for domain in sorted_domains}
 
@@ -461,17 +504,20 @@ def write_output_files(data, cutoff):
                 elif domain in SUBGROUP_PARENT:
                     parent = SUBGROUP_PARENT[domain]
                     # (B1) Subgroup name appears in a placement label, or
-                    # (B2) subgroup threshold: only if the parent domain is substantively present in seed
+                    # (B2) subgroup threshold (share of hits) or presence threshold (share of taxa):
+                    # only if the parent domain is substantively present in seed
                     # This ensures subgroups are restricted to the scope of their parent
                     # (prevents viral/bacterial contamination in eukaryotic subgroups like Fungi)
                     include = (in_labels(domain, labels) or
-                               (get_group_percentage(full_groups, domain) >= SUBGROUP_THRESHOLD and
+                               ((get_group_percentage(full_groups, domain) >= SUBGROUP_THRESHOLD or
+                                 present_in(rfam_acc, domain)) and
                                 get_group_percentage(seed_groups, parent) >= SUBGROUP_THRESHOLD))
                 # (C) Parent domain file logic: the same rules as for subgroups, plus every
                 # family in a child subgroup file (so each subgroup file is a subset of its parent's)
                 elif domain in parents:
                     include = (in_labels(domain, labels) or
-                               (get_group_percentage(full_groups, domain) >= SUBGROUP_THRESHOLD and
+                               ((get_group_percentage(full_groups, domain) >= SUBGROUP_THRESHOLD or
+                                 present_in(rfam_acc, domain)) and
                                 get_group_percentage(seed_groups, domain) >= SUBGROUP_THRESHOLD) or
                                any(rfam_acc in group_families[subgroup]
                                    for subgroup, parent in SUBGROUP_PARENT.items() if parent == domain))

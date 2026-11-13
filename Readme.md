@@ -63,7 +63,12 @@ Subgroups are also matched under their current NCBI Taxonomy names, which Rfam l
 
 Families whose seed is mostly _Bacteria_ but whose full region hits are mostly _Eukaryota_ (e.g. _Wolbachia_ sRNAs found in arthropod genome assemblies) are assigned to group files by their seed: they appear in `bacteria.csv` and the matching bacterial subgroup file, but not in `eukaryota.csv` or a eukaryotic subgroup file. Their `Domain` field in `all-domains.csv` is unchanged (e.g. _Bacteria+Proteobacteria/Eukaryota+Metazoa_).
 
-A family is included in a group file (domain or subgroup) if the group appears in its `Domain` field, or if at least 5% of its full region hits are from the group and at least 5% of its seed is from the group's parent domain (for a domain, the domain itself). Every family in a subgroup file is also in its parent domain's file. So, for example, `bacteria.csv` contains the families that are mostly bacterial plus families with a substantial bacterial minority.
+A family is included in a group file (domain or subgroup) if the group appears in its `Domain` field, or if at least 5% of its seed is from the group's parent domain (for a domain, the domain itself) and either of these holds for its full region hits:
+
+- at least 5% of the hits are from the group (`SUBGROUP_THRESHOLD` in `rfam-taxonomy.py`), or
+- the family has hits in at least 5% of the group's taxa, and in at least 3 of them (`PRESENCE_THRESHOLD` and `PRESENCE_MIN_TAXA`). A group's taxa are the NCBI taxonomy IDs from that group with a full region hit to any Rfam family.
+
+The second condition catches RNAs found throughout a group whose hits are outnumbered by copies in other groups. For example, U6 snRNA ([RF00026](http://rfam.org/family/RF00026)) has hits in 66% of fungal taxa, but fewer than 2% of its hits are from Fungi, because animal and plant genomes carry hundreds of U6 copies and pseudogenes each. Every family in a subgroup file is also in its parent domain's file. So, for example, `bacteria.csv` contains the families that are mostly bacterial plus families with a substantial bacterial minority.
 
 Families whose seed is mostly _unclassified sequences_ (e.g. seeds built from metagenomic sequences) are also assigned using only the seed sequences from known organisms: if those are ≥90% from one group, the family is also included in that group's file. Their `Domain` field is unchanged and they remain in `unclassified-sequences.csv`.
 
@@ -112,7 +117,7 @@ It is also possible to download the data and use it locally or regenerate the fi
 
     The same approach works for any group (e.g. archaea or fungi) by just replacing `bacteria` in the command above with the name of the group.
 
-    **Note for subgroups:** Subgroup files like [fungi.csv](./domains/fungi.csv) contain three types of families: (1) families that are ≥90% from that subgroup in the seed, the full region hits, or both (the subgroup appears in the Domain field, e.g. `Eukaryota+Fungi` or `Eukaryota+Fungi/Eukaryota`); (2) families with ≥5% of their full region hits from the subgroup and ≥5% of their seed from the parent domain, whatever their Domain field (it can be the parent, e.g. `Eukaryota`, another subgroup, or `Mixed`); and (3) 5S rRNA, tRNA and tRNA-Sec, which are included in every Archaea, Bacteria and Eukaryota file and their subgroup files. To extract only families that are ≥90% from a subgroup in the seed or the full region hits, filter the Domain field (column 2):
+    **Note for subgroups:** Subgroup files like [fungi.csv](./domains/fungi.csv) contain three types of families: (1) families that are ≥90% from that subgroup in the seed, the full region hits, or both (the subgroup appears in the Domain field, e.g. `Eukaryota+Fungi` or `Eukaryota+Fungi/Eukaryota`); (2) families with ≥5% of their seed from the parent domain and either ≥5% of their full region hits from the subgroup or hits in ≥5% (and at least 3) of the subgroup's taxa, whatever their Domain field (it can be the parent, e.g. `Eukaryota`, another subgroup, or `Mixed`); and (3) 5S rRNA, tRNA and tRNA-Sec, which are included in every Archaea, Bacteria and Eukaryota file and their subgroup files. To extract only families that are ≥90% from a subgroup in the seed or the full region hits, filter the Domain field (column 2):
 
     ```
     # Get only families that are ≥90% Fungi in the seed or the full region hits

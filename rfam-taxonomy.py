@@ -180,6 +180,8 @@ def get_taxonomic_distribution(rfam_acc, DATA_PATH, exclude_unclassified=False):
                 taxon = taxon.replace('.', '') # example: Bacteria.
             if taxon == 'Unclassified':
                 taxon = 'unclassified sequences'
+            if taxon not in DOMAINS:  # a few lineages are stored from species to domain
+                taxon = tax_string.rstrip('. ').split(';')[-1].strip()
             if exclude_unclassified and taxon == 'unclassified sequences':
                 continue
 

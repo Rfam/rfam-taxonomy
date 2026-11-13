@@ -33,8 +33,8 @@ Distribution of Domain field classifications:
 (See ../Readme.md for explanation of Domain field format)
    1842 Eukaryota+Metazoa
     454 Eukaryota+Viridiplantae
-    424 Bacteria+Proteobacteria
-    202 Bacteria+Firmicutes
+    425 Bacteria+Proteobacteria
+    203 Bacteria+Firmicutes
     107 Eukaryota+Fungi
      99 Eukaryota
      89 Eukaryota+Alveolata
@@ -72,18 +72,18 @@ Distribution of Domain field classifications:
       9 unclassified sequences/Bacteria+Proteobacteria
       8 Bacteria+Proteobacteria/No Data
       7 Bacteria+Cyanobacteria/Mixed
-      7 Bacteria/Bacteria+Proteobacteria
       7 Eukaryota+Fungi/Eukaryota
       7 Viruses+Herpesviridae/Mixed
       7 Viruses+Picornaviridae
       6 Archaea+Euryarchaeota/Mixed
       6 Bacteria+Firmicutes/No Data
-      6 Bacteria/Bacteria+Firmicutes
+      6 Bacteria/Bacteria+Proteobacteria
       6 Bacteria/No Data
       6 Viruses+Retroviridae/Eukaryota+Metazoa
       6 Viruses+Retroviridae/Mixed
       5 Archaea/Mixed
       5 Bacteria+Firmicutes/Viruses
+      5 Bacteria/Bacteria+Firmicutes
       4 Archaea+Euryarchaeota/No Data
       4 Eukaryota+Stramenopiles
       4 Mixed/Bacteria

@@ -251,9 +251,10 @@ def get_taxonomic_distribution(rfam_acc, DATA_PATH, exclude_unclassified=False):
 
 def get_group_taxa(rfam_acc):
     """
-    Return the set of NCBI taxids with full region hits in each group (domain and subgroup) for a family.
-    Taxids are counted rather than lineages, because the same organism can appear under an old and a
-    new NCBI lineage.
+    Return the set of taxa with full region hits in each group (domain and subgroup) for a family.
+    Each row of the data files is one lineage string, which stops at the genus in most cases, and its
+    NCBI taxid is one representative of that lineage (the query groups hits by lineage string). So the
+    taxa counted here are lineages, roughly genera, identified by that representative taxid.
 
     Example:
     {'Eukaryota': {'4932', '9606', ...}, 'Fungi': {'4932', ...}, 'Metazoa': {'9606', ...}}

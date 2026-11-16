@@ -66,7 +66,7 @@ Families whose seed is mostly _Bacteria_ but whose full region hits are mostly _
 A family is included in a group file (domain or subgroup) if the group appears in its `Domain` field, or if at least 5% of its seed is from the group's parent domain (for a domain, the domain itself) and either of these holds for its full region hits:
 
 - at least 5% of the hits are from the group (`SUBGROUP_THRESHOLD` in `rfam-taxonomy.py`), or
-- the family has hits in at least 5% of the group's taxa, and in at least 3 of them (`PRESENCE_THRESHOLD` and `PRESENCE_MIN_TAXA`). A group's taxa are the NCBI taxonomy IDs from that group with a full region hit to any Rfam family.
+- the family has hits in at least 5% of the group's taxa, and in at least 3 of them (`PRESENCE_THRESHOLD` and `PRESENCE_MIN_TAXA`). A group's taxa are the distinct lineages from that group with a full region hit to any Rfam family; the lineages stored in the Rfam database stop at the genus in most cases, so this is roughly the share of the group's genera.
 
 The second condition catches RNAs found throughout a group whose hits are outnumbered by copies in other groups. For example, U6 snRNA ([RF00026](http://rfam.org/family/RF00026)) has hits in 66% of fungal taxa, but fewer than 2% of its hits are from Fungi, because animal and plant genomes carry hundreds of U6 copies and pseudogenes each. Every family in a subgroup file is also in its parent domain's file. So, for example, `bacteria.csv` contains the families that are mostly bacterial plus families with a substantial bacterial minority.
 

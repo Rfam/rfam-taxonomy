@@ -132,6 +132,29 @@ WHITELIST = [
     'RF01852', # tRNA-Sec
 ]
 
+# Hand-curated additions to and removals from specific group files, for families the rules above
+# get wrong. Both lists are checked against the data on every run (see print_curation_report()):
+# re-check them at each Rfam release.
+# Families always included in a group file (and so in its parent's file)
+GROUP_INCLUDE = {
+    'Fungi': [
+        'RF00619', # U6atac: minor spliceosome, kept in early-diverging fungi (Mucoromycota, chytrids)
+        'RF00548', # U11: minor spliceosome, same fungal lineages as U6atac
+        'RF00016', # SNORD14 (U14; yeast snR128): fungal hits mostly in Ascomycota
+        'RF00093', # SNORD18 (U18; yeast snR18): fungal hits mostly in Ascomycota
+        'RF00049', # SNORD36: strong hits in Saccharomycotina, Zoopagomycota and Mucoromycota
+    ],
+}
+# Families never included in a group file (checked last, overrides every other rule)
+GROUP_EXCLUDE = {
+    'Viridiplantae': [
+        'RF00254', # mir-16: animal miRNA; plant hits are weak (best E-value 9e-5), near the GA threshold
+    ],
+    'Alveolata': [
+        'RF00254', # mir-16: animal miRNA; alveolate hits are weak (best E-value 0.02), near the GA threshold
+    ],
+}
+
 
 def precompute_taxonomic_information(analysis_type):
     """
@@ -482,8 +505,43 @@ def write_output_files(data, cutoff):
         n = len(family_taxa[rfam_acc].get(group, ()))
         return n >= PRESENCE_MIN_TAXA and n * 100.0 / group_taxa_count[group] >= PRESENCE_THRESHOLD
 
-    # Track which families are written to each group file
+    def data_rules_include(line, domain, child_families):
+        """
+        Rules (B)-(D): True if the data place the family in the group file.
+        For a parent domain, child_families gives the families in each subgroup file.
+        """
+        rfam_acc = line[0]
+        seed_groups = line[2]
+        full_groups = line[3]
+        labels = placement_labels[rfam_acc]
+        # (B) Subgroup file logic
+        if domain in SUBGROUP_PARENT:
+            parent = SUBGROUP_PARENT[domain]
+            # (B1) Subgroup name appears in a placement label, or
+            # (B2) subgroup threshold (share of hits) or presence threshold (share of taxa):
+            # only if the parent domain is substantively present in seed
+            # This ensures subgroups are restricted to the scope of their parent
+            # (prevents viral/bacterial contamination in eukaryotic subgroups like Fungi)
+            return (in_labels(domain, labels) or
+                    ((get_group_percentage(full_groups, domain) >= SUBGROUP_THRESHOLD or
+                      present_in(rfam_acc, domain)) and
+                     get_group_percentage(seed_groups, parent) >= SUBGROUP_THRESHOLD))
+        # (C) Parent domain file logic: the same rules as for subgroups, plus every
+        # family in a child subgroup file (so each subgroup file is a subset of its parent's)
+        if domain in parents:
+            return (in_labels(domain, labels) or
+                    ((get_group_percentage(full_groups, domain) >= SUBGROUP_THRESHOLD or
+                      present_in(rfam_acc, domain)) and
+                     get_group_percentage(seed_groups, domain) >= SUBGROUP_THRESHOLD) or
+                    any(rfam_acc in child_families[subgroup]
+                        for subgroup, parent in SUBGROUP_PARENT.items() if parent == domain))
+        # (D) Standard inclusion: domain name in a placement label
+        return in_labels(domain, labels)
+
+    # Track which families are written to each group file, and which ones the
+    # data rules alone (without WHITELIST, GROUP_INCLUDE and GROUP_EXCLUDE) would include
     group_families = {domain: set() for domain in sorted_domains}
+    data_families = {domain: set() for domain in sorted_domains}
 
     # Write domain-specific files
     for domain in sorted_domains:
@@ -493,37 +551,20 @@ def write_output_files(data, cutoff):
             csvwriter.writerow(header)
             for line in data:
                 rfam_acc = line[0]
-                seed_groups = line[2]
-                full_groups = line[3]
-                labels = placement_labels[rfam_acc]
-                include = False
+                if data_rules_include(line, domain, data_families):
+                    data_families[domain].add(rfam_acc)
                 # (A) Whitelist: include only in Archaea, Bacteria, Eukaryota and their subgroups
                 if rfam_acc in WHITELIST:
                     include = SUBGROUP_PARENT.get(domain, domain) in ['Archaea', 'Bacteria', 'Eukaryota']
-                # (B) Subgroup file logic
-                elif domain in SUBGROUP_PARENT:
-                    parent = SUBGROUP_PARENT[domain]
-                    # (B1) Subgroup name appears in a placement label, or
-                    # (B2) subgroup threshold (share of hits) or presence threshold (share of taxa):
-                    # only if the parent domain is substantively present in seed
-                    # This ensures subgroups are restricted to the scope of their parent
-                    # (prevents viral/bacterial contamination in eukaryotic subgroups like Fungi)
-                    include = (in_labels(domain, labels) or
-                               ((get_group_percentage(full_groups, domain) >= SUBGROUP_THRESHOLD or
-                                 present_in(rfam_acc, domain)) and
-                                get_group_percentage(seed_groups, parent) >= SUBGROUP_THRESHOLD))
-                # (C) Parent domain file logic: the same rules as for subgroups, plus every
-                # family in a child subgroup file (so each subgroup file is a subset of its parent's)
-                elif domain in parents:
-                    include = (in_labels(domain, labels) or
-                               ((get_group_percentage(full_groups, domain) >= SUBGROUP_THRESHOLD or
-                                 present_in(rfam_acc, domain)) and
-                                get_group_percentage(seed_groups, domain) >= SUBGROUP_THRESHOLD) or
-                               any(rfam_acc in group_families[subgroup]
-                                   for subgroup, parent in SUBGROUP_PARENT.items() if parent == domain))
-                # (D) Standard inclusion: domain name in a placement label
+                # (A2) Hand-curated additions (a parent gets them through rule (C))
+                elif rfam_acc in GROUP_INCLUDE.get(domain, ()):
+                    include = True
+                # (B)-(D) Data rules
                 else:
-                    include = in_labels(domain, labels)
+                    include = data_rules_include(line, domain, group_families)
+                # (E) Hand-curated removals, checked last
+                if rfam_acc in GROUP_EXCLUDE.get(domain, ()):
+                    include = False
                 if include:
                     csvwriter.writerow(line)
                     group_families[domain].add(rfam_acc)
@@ -537,6 +578,43 @@ def write_output_files(data, cutoff):
             raise ValueError(f"Families in {subgroup} but not in its parent {parent}: {sorted(missing)}")
 
     print("Done generating CSV files")
+    print_curation_report(data_families, family_taxa, group_taxa_count,
+                          {line[0]: line[4] for line in data})
+
+
+def check_curated_lists(rfam_accs):
+    """
+    Check GROUP_INCLUDE and GROUP_EXCLUDE: groups must exist, accessions must be Rfam families,
+    and a family cannot be both included in and excluded from the same group.
+    """
+    for name, curated in (('GROUP_INCLUDE', GROUP_INCLUDE), ('GROUP_EXCLUDE', GROUP_EXCLUDE)):
+        for group, accs in curated.items():
+            if group not in ALL_GROUPS:
+                raise ValueError(f"{name}: unknown group '{group}'")
+            unknown = sorted(set(accs) - set(rfam_accs))
+            if unknown:
+                raise ValueError(f"{name}['{group}']: not Rfam families: {unknown}")
+    for group in set(GROUP_INCLUDE) & set(GROUP_EXCLUDE):
+        both = sorted(set(GROUP_INCLUDE[group]) & set(GROUP_EXCLUDE[group]))
+        if both:
+            raise ValueError(f"Families in both GROUP_INCLUDE and GROUP_EXCLUDE for {group}: {both}")
+
+
+def print_curation_report(data_families, family_taxa, group_taxa_count, rfam_ids):
+    """
+    Report whether each GROUP_INCLUDE and GROUP_EXCLUDE entry is still needed: an entry is
+    redundant if the data rules alone already make the same decision. The number and share of
+    the group's taxa with full region hits are shown, so large changes between releases stand out.
+    """
+    print("Hand-curated group lists (GROUP_INCLUDE / GROUP_EXCLUDE):")
+    for name, curated, needed_if in (('include', GROUP_INCLUDE, False), ('exclude', GROUP_EXCLUDE, True)):
+        for group, accs in curated.items():
+            for rfam_acc in accs:
+                by_data = rfam_acc in data_families[group]
+                n = len(family_taxa[rfam_acc].get(group, ()))
+                status = 'needed' if by_data == needed_if else 'redundant, can be removed'
+                print(f"  {name} {rfam_acc} ({rfam_ids[rfam_acc]}) {group}: hits in {n} of {group_taxa_count[group]} taxa "
+                      f"({n * 100.0 / group_taxa_count[group]:.1f}%); {status}")
 
 def update_summary():
     """
@@ -659,8 +737,11 @@ def main(precompute_seed, precompute_full, cutoff):
     if precompute_full:
         precompute_taxonomic_information('full')
 
+    families = get_rfam_families()
+    check_curated_lists([family['rfam_acc'] for family in families])
+
     data = []
-    for family in get_rfam_families():
+    for family in families:
         data.append(analyse_seed_full_taxonomic_distribution(family, cutoff))
 
     write_output_files(data, cutoff)

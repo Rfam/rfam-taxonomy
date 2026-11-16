@@ -149,6 +149,7 @@ GROUP_INCLUDE = {
 GROUP_EXCLUDE = {
     'Viridiplantae': [
         'RF00254', # mir-16: animal miRNA; plant hits are weak (best E-value 9e-5), near the GA threshold
+        'RF02253', # IRE_II: animal iron-response element; plant hits are weak (best 36.4 bits, GA 30.0)
     ],
     'Alveolata': [
         'RF00254', # mir-16: animal miRNA; alveolate hits are weak (best E-value 0.02), near the GA threshold

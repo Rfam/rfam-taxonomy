@@ -6,7 +6,7 @@ The number of Rfam families and clans for each group (number of lines in .csv / 
    1951 / 71   metazoa
    1134 / 25   bacteria
     635 / 10   proteobacteria
-    549 / 23   viridiplantae
+    548 / 23   viridiplantae
     363 / 13   firmicutes
     244 / 9    viruses
     148 / 22   fungi

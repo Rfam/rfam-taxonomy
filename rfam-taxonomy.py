@@ -768,12 +768,32 @@ def generate_clanin_files():
     print("Done generating clanin files")
 
 
-@click.command()
+@click.command(context_settings={'help_option_names': ['-h', '--help']})
 @click.option('--precompute-seed', is_flag=True, required=False, help='Store seed data files')
 @click.option('--precompute-full', is_flag=True, required=False, help='Store full data files')
 @click.option('--cutoff', required=False, default=DOMAIN_CUTOFF, type=click.IntRange(51, 100),
               help='Minimum percent of hits from one group (51-100)')
-def main(precompute_seed, precompute_full, cutoff):
+@click.option('--subgroup-threshold', required=False, default=SUBGROUP_THRESHOLD,
+              type=click.FloatRange(0, 100),
+              help='Include a family in a group file if at least this percent of its full region hits '
+                   f'are from the group (0-100, default {SUBGROUP_THRESHOLD})')
+@click.option('--presence-threshold', required=False, default=PRESENCE_THRESHOLD,
+              type=click.FloatRange(0, 100),
+              help='Include a family in a group file if it has full region hits in at least this percent '
+                   f'of the group\'s taxa, and in at least --presence-min-taxa of them (0-100, '
+                   f'default {PRESENCE_THRESHOLD})')
+@click.option('--presence-min-taxa', required=False, default=PRESENCE_MIN_TAXA, type=click.IntRange(1),
+              help=f'Minimum number of the group\'s taxa for --presence-threshold (default {PRESENCE_MIN_TAXA})')
+@click.option('--seed-threshold', required=False, default=SEED_THRESHOLD, type=click.FloatRange(0, 100),
+              help='Include a family in a group file if at least this percent of its seed sequences, '
+                   f'and at least one, are from the group (0-100, default {SEED_THRESHOLD}: any one)')
+@click.option('--parent-seed-threshold', required=False, default=PARENT_SEED_THRESHOLD,
+              type=click.FloatRange(0, 100),
+              help='Apply the three rules above (--subgroup-threshold, --presence-threshold, --seed-threshold) only if at least this percent of the seed sequences, and '
+                   'at least one, are from the parent domain of the group (for a domain, the domain '
+                   f'itself) (0-100, default {PARENT_SEED_THRESHOLD}: any one)')
+def main(precompute_seed, precompute_full, cutoff, subgroup_threshold, presence_threshold,
+         presence_min_taxa, seed_threshold, parent_seed_threshold):
     if precompute_seed:
         precompute_taxonomic_information('seed')
     if precompute_full:
@@ -786,7 +806,8 @@ def main(precompute_seed, precompute_full, cutoff):
     for family in families:
         data.append(analyse_seed_full_taxonomic_distribution(family, cutoff))
 
-    write_output_files(data, cutoff)
+    write_output_files(data, cutoff, subgroup_threshold, presence_threshold, presence_min_taxa,
+                       seed_threshold, parent_seed_threshold)
 
     # Generate domain-specific clanin files from database
     generate_clanin_files()

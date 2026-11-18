@@ -78,6 +78,16 @@ SUBGROUP_THRESHOLD = 5  # include families with at least 5% of a group in full r
 # 66% of fungal taxa, but under 2% of the hits, because animal and plant genomes carry many copies).
 PRESENCE_THRESHOLD = 5
 PRESENCE_MIN_TAXA = 3
+# Also include families with at least SEED_THRESHOLD% of their seed sequences from a group, and at
+# least one; 0 means any one seed sequence. This catches RNAs restricted to a few lineages of a group
+# whose seed includes them (e.g. the yeast snoRNAs snoZ122 and snoZ196: about a quarter of the seed is
+# fungal, but under 1.5% of the full region hits).
+SEED_THRESHOLD = 0
+# The rules above apply only if at least PARENT_SEED_THRESHOLD% of the seed sequences, and at least
+# one, are from the group's parent domain (for a domain, the domain itself); 0 means any one seed
+# sequence. This keeps out families whose hits in a group are probably contamination, e.g. a
+# bacterial or viral family with full region hits in eukaryotic genome assemblies.
+PARENT_SEED_THRESHOLD = 0
 
 # Mapping of subgroups to their parent domains
 # To add a new subgroup, add it to the SUBGROUPS list above and to this mapping
@@ -266,6 +276,24 @@ def get_group_taxa(rfam_acc):
             for group in get_lineage_groups(tax_string)[1]:
                 taxa.setdefault(group, set()).add(taxid)
     return taxa
+
+
+def get_group_seed_counts(rfam_acc):
+    """
+    Return the number of seed sequences from each group (domain and subgroup) for a family, and the
+    total number of seed sequences. Subgroup sequences are also counted in their parent domain.
+
+    Example:
+    ({'Eukaryota': 23, 'Fungi': 5, 'Metazoa': 18}, 23)
+    """
+    counts = {}
+    total = 0
+    with open(os.path.join(DATA_SEED_PATH, '{}.csv'.format(rfam_acc)), 'r') as f:
+        for tax_string, count, _ in csv.reader(f):
+            for group in get_lineage_groups(tax_string)[1]:
+                counts[group] = counts.get(group, 0) + int(count)
+            total += int(count)
+    return counts, total
 
 
 def validate_multi_group_pattern(major_groups, cutoff):
@@ -471,9 +499,11 @@ def get_placement_labels(line, cutoff):
     return labels
 
 
-def write_output_files(data, cutoff):
+def write_output_files(data, cutoff, subgroup_threshold=SUBGROUP_THRESHOLD,
+                       presence_threshold=PRESENCE_THRESHOLD, presence_min_taxa=PRESENCE_MIN_TAXA,
+                       seed_threshold=SEED_THRESHOLD, parent_seed_threshold=PARENT_SEED_THRESHOLD):
     """
-    Generate output files.
+    Generate output files. The thresholds are explained where their defaults are defined.
     """
     print("Generating group-specific CSV files...")
     header = ['Family', 'Domain', 'Seed groups', 'Full region groups',
@@ -505,7 +535,16 @@ def write_output_files(data, cutoff):
     def present_in(rfam_acc, group):
         """True if the family has full region hits in enough of the group's taxa (see PRESENCE_THRESHOLD)."""
         n = len(family_taxa[rfam_acc].get(group, ()))
-        return n >= PRESENCE_MIN_TAXA and n * 100.0 / group_taxa_count[group] >= PRESENCE_THRESHOLD
+        return n >= presence_min_taxa and n * 100.0 / group_taxa_count[group] >= presence_threshold
+
+    # Seed sequences from each group, for each family
+    family_seed = {line[0]: get_group_seed_counts(line[0]) for line in data}
+
+    def in_seed(rfam_acc, group, threshold):
+        """True if at least one seed sequence, and at least threshold percent of them, are from the group."""
+        counts, total = family_seed[rfam_acc]
+        n = counts.get(group, 0)
+        return n >= 1 and n * 100.0 / total >= threshold
 
     def data_rules_include(line, domain, child_families):
         """
@@ -513,28 +552,29 @@ def write_output_files(data, cutoff):
         For a parent domain, child_families gives the families in each subgroup file.
         """
         rfam_acc = line[0]
-        seed_groups = line[2]
         full_groups = line[3]
         labels = placement_labels[rfam_acc]
         # (B) Subgroup file logic
         if domain in SUBGROUP_PARENT:
             parent = SUBGROUP_PARENT[domain]
             # (B1) Subgroup name appears in a placement label, or
-            # (B2) subgroup threshold (share of hits) or presence threshold (share of taxa):
-            # only if the parent domain is substantively present in seed
+            # (B2) subgroup threshold (share of hits), presence threshold (share of taxa) or
+            # seed threshold (share of seed sequences): only if the parent domain is present in seed
             # This ensures subgroups are restricted to the scope of their parent
             # (prevents viral/bacterial contamination in eukaryotic subgroups like Fungi)
             return (in_labels(domain, labels) or
-                    ((get_group_percentage(full_groups, domain) >= SUBGROUP_THRESHOLD or
-                      present_in(rfam_acc, domain)) and
-                     get_group_percentage(seed_groups, parent) >= SUBGROUP_THRESHOLD))
+                    ((get_group_percentage(full_groups, domain) >= subgroup_threshold or
+                      present_in(rfam_acc, domain) or
+                      in_seed(rfam_acc, domain, seed_threshold)) and
+                     in_seed(rfam_acc, parent, parent_seed_threshold)))
         # (C) Parent domain file logic: the same rules as for subgroups, plus every
         # family in a child subgroup file (so each subgroup file is a subset of its parent's)
         if domain in parents:
             return (in_labels(domain, labels) or
-                    ((get_group_percentage(full_groups, domain) >= SUBGROUP_THRESHOLD or
-                      present_in(rfam_acc, domain)) and
-                     get_group_percentage(seed_groups, domain) >= SUBGROUP_THRESHOLD) or
+                    ((get_group_percentage(full_groups, domain) >= subgroup_threshold or
+                      present_in(rfam_acc, domain) or
+                      in_seed(rfam_acc, domain, seed_threshold)) and
+                     in_seed(rfam_acc, domain, parent_seed_threshold)) or
                     any(rfam_acc in child_families[subgroup]
                         for subgroup, parent in SUBGROUP_PARENT.items() if parent == domain))
         # (D) Standard inclusion: domain name in a placement label

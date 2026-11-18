@@ -145,15 +145,25 @@ WHITELIST = [
 # Hand-curated additions to and removals from specific group files, for families the rules above
 # get wrong. Both lists are checked against the data on every run (see print_curation_report()):
 # re-check them at each Rfam release.
+# Stand-ins for organellar rRNA, added to every eukaryotic subgroup below. Rfam has no mitochondrial
+# or plastid rRNA families, and its bacterial SSU and LSU rRNA models are the ones that annotate
+# organellar rRNA (in Rfam 15.1 they hit about 90% of the fungal and animal mitochondrial genomes with
+# any Rfam hit, and most plastid genomes). Remove them once Rfam has organellar rRNA families.
+ORGANELLAR_RRNA_STAND_INS = [
+    'RF00177', # SSU_rRNA_bacteria: stand-in for mitochondrial and plastid SSU rRNA
+    'RF02541', # LSU_rRNA_bacteria: stand-in for mitochondrial and plastid LSU rRNA
+]
 # Families always included in a group file (and so in its parent's file)
 GROUP_INCLUDE = {
     'Fungi': [
-        'RF00619', # U6atac: minor spliceosome, kept in early-diverging fungi (Mucoromycota, chytrids)
-        'RF00548', # U11: minor spliceosome, same fungal lineages as U6atac
-        'RF00016', # SNORD14 (U14; yeast snR128): fungal hits mostly in Ascomycota
-        'RF00093', # SNORD18 (U18; yeast snR18): fungal hits mostly in Ascomycota
         'RF00049', # SNORD36: strong hits in Saccharomycotina, Zoopagomycota and Mucoromycota
-    ],
+        'RF00563', # SNORA53: hits in 18 fungal lineages, mostly Mucoromycota; seed is all animal
+    ] + ORGANELLAR_RRNA_STAND_INS,
+    'Viridiplantae': ORGANELLAR_RRNA_STAND_INS,
+    'Metazoa': ORGANELLAR_RRNA_STAND_INS,
+    'Amoebozoa': ORGANELLAR_RRNA_STAND_INS,
+    'Alveolata': ORGANELLAR_RRNA_STAND_INS,
+    'Stramenopiles': ORGANELLAR_RRNA_STAND_INS,
 }
 # Families never included in a group file (checked last, overrides every other rule)
 GROUP_EXCLUDE = {

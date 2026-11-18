@@ -1,8 +1,10 @@
+CL00010 Hammerhead_3 Hammerhead_II
 CL00017 IRES_HCV IRES_Pesti
 CL00097 mir-BART1 mir-BART3
 CL00104 AHBV_epsilon HBV_epsilon
 CL00116 aCoV-5UTR bCoV-5UTR dCoV-5UTR gCoV-5UTR Sarbecovirus-5UTR
 CL00117 aCoV-3UTR bCoV-3UTR Corona_pk3 dCoV-3UTR gCoV-3UTR s2m Sarbecovirus-3UTR
+CL00128 C4 c4-a1b1
 CL00129 cHP DENV_SLA Flavivirus-5UTR
 CL00131 Flavi_ISFV_repeat_Ra Flavi_ISFV_repeat_Ra_Rb Flavi_ISFV_repeat_Rb
 CL00141 mir-H20 mir-H7

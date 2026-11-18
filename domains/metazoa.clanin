@@ -1,4 +1,4 @@
-CL00001 tRNA tRNA-Sec
+CL00001 tmRNA tRNA tRNA-Sec
 CL00002 RNaseP_nuc RNase_MRP
 CL00003 Metazoa_SRP Protozoa_SRP
 CL00005 U1 U11
@@ -56,8 +56,9 @@ CL00095 mir-279 mir-996
 CL00096 mir-290 mir-302 miR-430 mir-515
 CL00103 SNORD11 SNORD11B
 CL00110 mir-19 mir-363
-CL00111 SSU_rRNA_eukarya SSU_rRNA_microsporidia
-CL00112 5_8S_rRNA LSU_rRNA_eukarya
+CL00111 SSU_rRNA_bacteria SSU_rRNA_eukarya SSU_rRNA_microsporidia
+CL00112 5_8S_rRNA LSU_rRNA_bacteria LSU_rRNA_eukarya
+CL00120 twister-P1 Twister-P5
 CL00133 mir-31 mir-72
 CL00135 mir-251 mir-252
 CL00136 mir-465 mir-507 mir-509 mir-513 mir-743 mir-890 mir-8908

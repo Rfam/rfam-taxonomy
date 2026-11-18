@@ -2,31 +2,31 @@
 
 ```
 The number of Rfam families and clans for each group (number of lines in .csv / .clanin files):
-   2723 / 118  eukaryota
-   1951 / 71   metazoa
-   1134 / 25   bacteria
-    635 / 10   proteobacteria
-    548 / 23   viridiplantae
-    363 / 13   firmicutes
-    244 / 9    viruses
-    148 / 22   fungi
-    122 / 7    actinobacteria
+   2738 / 118  eukaryota
+   1963 / 72   metazoa
+   1143 / 26   bacteria
+    665 / 14   proteobacteria
+    553 / 23   viridiplantae
+    377 / 15   firmicutes
+    262 / 11   viruses
+    156 / 22   fungi
+    144 / 7    actinobacteria
+    130 / 8    alveolata
+    126 / 7    archaea
     120 / 1    unclassified sequences
-    119 / 8    alveolata
-    119 / 6    archaea
-     94 / 4    euryarchaeota
-     67 / 5    bacteroidetes
-     62 / 1    cyanobacteria
-     47 / 2    herpesviridae
-     43 / 3    crenarchaeota
-     40 / 5    amoebozoa
-     36 / 10   stramenopiles
-     32 / 4    flaviviridae
-     25 / 0    retroviridae
-     15 / 2    coronaviridae
+    100 / 5    euryarchaeota
+     76 / 5    bacteroidetes
+     67 / 2    cyanobacteria
+     48 / 2    herpesviridae
+     46 / 8    amoebozoa
+     45 / 3    crenarchaeota
+     41 / 10   stramenopiles
+     36 / 4    flaviviridae
+     26 / 0    retroviridae
+     16 / 2    coronaviridae
      13 / 0    picornaviridae
      10 / 1    thaumarchaeota
-      1 / 0    orthomyxoviridae
+      2 / 0    orthomyxoviridae
       1 / 0    viroids
 
 Distribution of Domain field classifications:

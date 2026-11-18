@@ -1,4 +1,5 @@
 Family,Domain,Seed groups,Full region groups,Rfam ID,Description,RNA type
+RF00164,Viruses/Mixed,"Viruses (97.44%), Viruses:Coronaviridae (41.03%), Other (2.56%), Viruses:Picornaviridae (2.56%)","Eukaryota (82.61%), Eukaryota:Metazoa (82.61%), Viruses (17.39%), Viruses:Picornaviridae (8.70%)",s2m,Coronavirus 3' stem-loop II-like motif (s2m),Cis-reg;
 RF00165,Viruses+Coronaviridae/Mixed,"Viruses (100.00%), Viruses:Coronaviridae (100.00%)","Eukaryota (82.14%), Eukaryota:Metazoa (67.86%), Viruses (14.29%), Viruses:Coronaviridae (14.29%), Eukaryota:Fungi (7.14%), Eukaryota:Viridiplantae (7.14%), Bacteria (3.57%)",Corona_pk3,Coronavirus 3' UTR pseudoknot,Cis-reg;
 RF00182,Viruses+Coronaviridae,"Viruses (100.00%), Viruses:Coronaviridae (100.00%)","Viruses (100.00%), Viruses:Coronaviridae (100.00%)",Corona_package,Coronavirus packaging signal,Cis-reg;
 RF00385,Viruses+Coronaviridae/Mixed,"Viruses (100.00%), Viruses:Coronaviridae (100.00%)","Eukaryota (63.64%), Eukaryota:Metazoa (54.55%), Viruses (27.27%), Viruses:Coronaviridae (27.27%), Bacteria (9.09%), Bacteria:Firmicutes (9.09%), Eukaryota:Viridiplantae (9.09%)",IBV_D-RNA,Infectious bronchitis virus D-RNA,Cis-reg;

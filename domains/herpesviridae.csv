@@ -1,4 +1,5 @@
 Family,Domain,Seed groups,Full region groups,Rfam ID,Description,RNA type
+RF00024,Eukaryota+Metazoa,"Eukaryota (97.30%), Eukaryota:Metazoa (97.30%), Viruses (2.70%), Viruses:Herpesviridae (2.70%)","Eukaryota (99.24%), Eukaryota:Metazoa (99.24%), Viruses (0.76%), Viruses:Herpesviridae (0.76%)",Telomerase-vert,Vertebrate telomerase RNA,Gene;
 RF00363,Viruses+Herpesviridae,"Viruses (100.00%), Viruses:Herpesviridae (100.00%)","Viruses (100.00%), Viruses:Herpesviridae (100.00%)",mir-BART1,mir-BART1 microRNA precursor family,Gene; miRNA;
 RF00364,Viruses+Herpesviridae,"Viruses (100.00%), Viruses:Herpesviridae (100.00%)","Viruses (100.00%), Viruses:Herpesviridae (100.00%)",mir-BART2,mir-BART2 microRNA precursor family,Gene; miRNA;
 RF00365,Viruses+Herpesviridae,"Viruses (100.00%), Viruses:Herpesviridae (100.00%)","Viruses (100.00%), Viruses:Herpesviridae (100.00%)",mir-BHRF1-1,mir-BHRF1-1 microRNA precursor family,Gene; miRNA;

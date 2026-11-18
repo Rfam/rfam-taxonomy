@@ -509,7 +509,7 @@ def get_placement_labels(line, cutoff):
     return labels
 
 
-def write_output_files(data, cutoff, subgroup_threshold=SUBGROUP_THRESHOLD,
+def write_output_files(data, cutoff, full_threshold=SUBGROUP_THRESHOLD,
                        presence_threshold=PRESENCE_THRESHOLD, presence_min_taxa=PRESENCE_MIN_TAXA,
                        seed_threshold=SEED_THRESHOLD, parent_seed_threshold=PARENT_SEED_THRESHOLD):
     """
@@ -573,7 +573,7 @@ def write_output_files(data, cutoff, subgroup_threshold=SUBGROUP_THRESHOLD,
             # This ensures subgroups are restricted to the scope of their parent
             # (prevents viral/bacterial contamination in eukaryotic subgroups like Fungi)
             return (in_labels(domain, labels) or
-                    ((get_group_percentage(full_groups, domain) >= subgroup_threshold or
+                    ((get_group_percentage(full_groups, domain) >= full_threshold or
                       present_in(rfam_acc, domain) or
                       in_seed(rfam_acc, domain, seed_threshold)) and
                      in_seed(rfam_acc, parent, parent_seed_threshold)))
@@ -581,7 +581,7 @@ def write_output_files(data, cutoff, subgroup_threshold=SUBGROUP_THRESHOLD,
         # family in a child subgroup file (so each subgroup file is a subset of its parent's)
         if domain in parents:
             return (in_labels(domain, labels) or
-                    ((get_group_percentage(full_groups, domain) >= subgroup_threshold or
+                    ((get_group_percentage(full_groups, domain) >= full_threshold or
                       present_in(rfam_acc, domain) or
                       in_seed(rfam_acc, domain, seed_threshold)) and
                      in_seed(rfam_acc, domain, parent_seed_threshold)) or
@@ -783,7 +783,7 @@ def generate_clanin_files():
 @click.option('--precompute-full', is_flag=True, required=False, help='Store full data files')
 @click.option('--cutoff', required=False, default=DOMAIN_CUTOFF, type=click.IntRange(51, 100),
               help='Minimum percent of hits from one group (51-100)')
-@click.option('--subgroup-threshold', required=False, default=SUBGROUP_THRESHOLD,
+@click.option('--full-threshold', required=False, default=SUBGROUP_THRESHOLD,
               type=click.FloatRange(0, 100),
               help='Include a family in a group file if at least this percent of its full region hits '
                    f'are from the group (0-100, default {SUBGROUP_THRESHOLD})')
@@ -799,10 +799,11 @@ def generate_clanin_files():
                    f'and at least one, are from the group (0-100, default {SEED_THRESHOLD}: any one)')
 @click.option('--parent-seed-threshold', required=False, default=PARENT_SEED_THRESHOLD,
               type=click.FloatRange(0, 100),
-              help='Apply the three rules above (--subgroup-threshold, --presence-threshold, --seed-threshold) only if at least this percent of the seed sequences, and '
+              help='Apply the three rules above (--full-threshold, --presence-threshold, '
+                   '--seed-threshold) only if at least this percent of the seed sequences, and '
                    'at least one, are from the parent domain of the group (for a domain, the domain '
                    f'itself) (0-100, default {PARENT_SEED_THRESHOLD}: any one)')
-def main(precompute_seed, precompute_full, cutoff, subgroup_threshold, presence_threshold,
+def main(precompute_seed, precompute_full, cutoff, full_threshold, presence_threshold,
          presence_min_taxa, seed_threshold, parent_seed_threshold):
     if precompute_seed:
         precompute_taxonomic_information('seed')
@@ -816,7 +817,7 @@ def main(precompute_seed, precompute_full, cutoff, subgroup_threshold, presence_
     for family in families:
         data.append(analyse_seed_full_taxonomic_distribution(family, cutoff))
 
-    write_output_files(data, cutoff, subgroup_threshold, presence_threshold, presence_min_taxa,
+    write_output_files(data, cutoff, full_threshold, presence_threshold, presence_min_taxa,
                        seed_threshold, parent_seed_threshold)
 
     # Generate domain-specific clanin files from database

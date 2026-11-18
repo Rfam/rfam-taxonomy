@@ -1,6 +1,6 @@
 CL00001 mt-tmRNA tmRNA tRNA tRNA-Sec
 CL00002 RNaseP_bact_a RNaseP_bact_b RNaseP_nuc RNase_MRP RNase_P
-CL00003 Dictyostelium_SRP Fungi_SRP Metazoa_SRP Plant_SRP Protozoa_SRP
+CL00003 Bacteria_small_SRP Dictyostelium_SRP Fungi_SRP Metazoa_SRP Plant_SRP Protozoa_SRP
 CL00004 Sacc_telomerase Telomerase-cil Telomerase-vert Telomerase_Asco
 CL00005 Gl_U1 U1 U11 U1_yeast
 CL00006 U12 U2

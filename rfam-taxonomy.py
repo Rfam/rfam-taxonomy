@@ -158,12 +158,29 @@ GROUP_INCLUDE = {
     'Fungi': [
         'RF00049', # SNORD36: strong hits in Saccharomycotina, Zoopagomycota and Mucoromycota
         'RF00563', # SNORA53: hits in 18 fungal lineages, mostly Mucoromycota; seed is all animal
+        'RF00133', # SNORD33: weak hits (up to 6.8 bits over GA) in 18 lineages of four fungal phyla
     ] + ORGANELLAR_RRNA_STAND_INS,
-    'Viridiplantae': ORGANELLAR_RRNA_STAND_INS,
+    'Viridiplantae': [
+        'RF00169', # Bacteria_small_SRP: plastid SRP RNA, hits in green algal plastid genomes
+    ] + ORGANELLAR_RRNA_STAND_INS,
     'Metazoa': ORGANELLAR_RRNA_STAND_INS,
     'Amoebozoa': ORGANELLAR_RRNA_STAND_INS,
     'Alveolata': ORGANELLAR_RRNA_STAND_INS,
     'Stramenopiles': ORGANELLAR_RRNA_STAND_INS,
+    'Actinobacteria': [
+        'RF01051', # c-di-GMP-I: no actinobacterial seed, but 43% of the clan's actinobacterial hits
+    ],
+    'Crenarchaeota': [
+        'RF01315', # CRISPR-DR2: bacterial seed, but 40% of the clan's archaeal (all crenarchaeal) hits
+    ],
+    # tRNA is in WHITELIST, which leaves viruses out, but bacteriophage and giant virus genomes carry
+    # many tRNA genes (over 10,000 hits in Rfam 15.1), as do some herpesviruses
+    'Viruses': [
+        'RF00005', # tRNA
+    ],
+    'Herpesviridae': [
+        'RF00005', # tRNA: hits in Rhadinovirus and Mardivirus genomes
+    ],
 }
 # Families never included in a group file (checked last, overrides every other rule)
 GROUP_EXCLUDE = {
@@ -591,7 +608,7 @@ def write_output_files(data, cutoff, full_threshold=SUBGROUP_THRESHOLD,
         return in_labels(domain, labels)
 
     # Track which families are written to each group file, and which ones the
-    # data rules alone (without WHITELIST, GROUP_INCLUDE and GROUP_EXCLUDE) would include
+    # rules without the hand-curated lists (WHITELIST and the data rules) would include
     group_families = {domain: set() for domain in sorted_domains}
     data_families = {domain: set() for domain in sorted_domains}
 
@@ -603,14 +620,19 @@ def write_output_files(data, cutoff, full_threshold=SUBGROUP_THRESHOLD,
             csvwriter.writerow(header)
             for line in data:
                 rfam_acc = line[0]
-                if data_rules_include(line, domain, data_families):
-                    data_families[domain].add(rfam_acc)
-                # (A) Whitelist: include only in Archaea, Bacteria, Eukaryota and their subgroups
                 if rfam_acc in WHITELIST:
-                    include = SUBGROUP_PARENT.get(domain, domain) in ['Archaea', 'Bacteria', 'Eukaryota']
-                # (A2) Hand-curated additions (a parent gets them through rule (C))
-                elif rfam_acc in GROUP_INCLUDE.get(domain, ()):
+                    by_rules = SUBGROUP_PARENT.get(domain, domain) in ['Archaea', 'Bacteria', 'Eukaryota']
+                else:
+                    by_rules = data_rules_include(line, domain, data_families)
+                if by_rules:
+                    data_families[domain].add(rfam_acc)
+                # (A) Hand-curated additions (a parent gets them through rule (C), except for
+                # WHITELIST families, which must be listed for the parent too)
+                if rfam_acc in GROUP_INCLUDE.get(domain, ()):
                     include = True
+                # (A2) Whitelist: include only in Archaea, Bacteria, Eukaryota and their subgroups
+                elif rfam_acc in WHITELIST:
+                    include = SUBGROUP_PARENT.get(domain, domain) in ['Archaea', 'Bacteria', 'Eukaryota']
                 # (B)-(D) Data rules
                 else:
                     include = data_rules_include(line, domain, group_families)
@@ -655,8 +677,9 @@ def check_curated_lists(rfam_accs):
 def print_curation_report(data_families, family_taxa, group_taxa_count, rfam_ids):
     """
     Report whether each GROUP_INCLUDE and GROUP_EXCLUDE entry is still needed: an entry is
-    redundant if the data rules alone already make the same decision. The number and share of
-    the group's taxa with full region hits are shown, so large changes between releases stand out.
+    redundant if the other rules (WHITELIST and the data rules) already make the same decision.
+    The number and share of the group's taxa with full region hits are shown, so large changes
+    between releases stand out.
     """
     print("Hand-curated group lists (GROUP_INCLUDE / GROUP_EXCLUDE):")
     for name, curated, needed_if in (('include', GROUP_INCLUDE, False), ('exclude', GROUP_EXCLUDE, True)):

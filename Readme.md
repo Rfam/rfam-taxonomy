@@ -18,6 +18,8 @@ Each group (domain or subgroup) has both a `.csv` file and a `.clanin` file:
 - **CSV files** contain seven columns with family and taxonomic information
 - **Clanin files** list Rfam clan membership for families in that group, useful for `cmscan --clanin` when using modified CM files
 
+Two files cover all families: `all-domains.csv` (the same seven columns, for every family) and `lineage-counts.csv`, which gives for each family the number of lineages in each group with a full region hit, after a first row (`Total`) with each group's number of lineages with a hit to any family. Together they contain the numbers behind the data rules below (the hand-curated lists are in `rfam-taxonomy.py`), so you can apply your own thresholds when parsing them.
+
 CSV files contain seven columns:
 
 1. `Family` = Rfam accession (e.g. RF00001)
@@ -66,7 +68,7 @@ Families whose seed is mostly _Bacteria_ but whose full region hits are mostly _
 A family is included in a group file (domain or subgroup) if the group appears in its `Domain` field, or if at least one of its seed sequences is from the group's parent domain (for a domain, the domain itself; `PARENT_SEED_THRESHOLD` in `rfam-taxonomy.py`) and any of these holds:
 
 - at least 5% of its full region hits are from the group (`SUBGROUP_THRESHOLD`), or
-- it has full region hits in at least 5% of the group's taxa, and in at least 3 of them (`PRESENCE_THRESHOLD` and `PRESENCE_MIN_TAXA`). A group's taxa are the distinct lineages from that group with a full region hit to any Rfam family; the lineages stored in the Rfam database stop at the genus in most cases, so this is roughly the share of the group's genera, or
+- it has full region hits in at least 5% of the group's taxa, and in at least 3 of them (`PRESENCE_THRESHOLD` and `PRESENCE_MIN_TAXA`). A group's taxa are the distinct lineages from that group with a full region hit to any Rfam family; the lineages stored in the Rfam database stop at the genus in most cases, so this is roughly the share of the group's genera (the counts are in `lineage-counts.csv`), or
 - at least one of its seed sequences is from the group (`SEED_THRESHOLD`).
 
 These thresholds are deliberately permissive: a family wrongly left out of a group file loses its hits without any sign that they are missing, while a family wrongly included mostly costs search time. The requirement of a seed sequence from the parent domain keeps out families whose hits in a group are probably contamination, for example a bacterial sRNA with full region hits in a few eukaryotic genome assemblies. A seed sequence whose taxonomy in the Rfam database is wrong can still bring a family into an unrelated group (e.g. some tick-borne flavivirus families into bacterial and animal files).
@@ -96,6 +98,7 @@ In the `Seed groups` and `Full region groups` columns (columns 3 and 4), subgrou
 The latest version of the files can be retrieved directly from GitHub using the following URL format:
 
 - https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/all-domains.csv
+- https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/lineage-counts.csv
 - https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/archaea.csv
 - https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/archaea.clanin
 - https://raw.githubusercontent.com/Rfam/rfam-taxonomy/master/domains/bacteria.csv

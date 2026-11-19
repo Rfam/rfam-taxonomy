@@ -652,6 +652,7 @@ def write_output_files(data, cutoff, full_threshold=SUBGROUP_THRESHOLD,
             raise ValueError(f"Families in {subgroup} but not in its parent {parent}: {sorted(missing)}")
 
     print("Done generating CSV files")
+    write_lineage_counts(data, family_taxa, group_taxa_count)
     print_curation_report(data_families, family_taxa, group_taxa_count,
                           {line[0]: line[4] for line in data})
 
@@ -672,6 +673,23 @@ def check_curated_lists(rfam_accs):
         both = sorted(set(GROUP_INCLUDE[group]) & set(GROUP_EXCLUDE[group]))
         if both:
             raise ValueError(f"Families in both GROUP_INCLUDE and GROUP_EXCLUDE for {group}: {both}")
+
+
+def write_lineage_counts(data, family_taxa, group_taxa_count):
+    """
+    Write the number of lineages with full region hits for each family and group, the counts used
+    by the presence rule (PRESENCE_THRESHOLD), so that users can apply their own thresholds.
+    The first row after the header gives each group's total: the lineages from that group with a
+    full region hit to any family.
+    """
+    with open('domains/lineage-counts.csv', 'w') as f_out:
+        csvwriter = csv.writer(f_out)
+        csvwriter.writerow(['Family', 'Rfam ID'] + ALL_GROUPS)
+        csvwriter.writerow(['Total', ''] + [group_taxa_count[group] for group in ALL_GROUPS])
+        for line in data:
+            taxa = family_taxa[line[0]]
+            csvwriter.writerow([line[0], line[4]] + [len(taxa.get(group, ())) for group in ALL_GROUPS])
+    print("  Created domains/lineage-counts.csv")
 
 
 def print_curation_report(data_families, family_taxa, group_taxa_count, rfam_ids):
@@ -701,7 +719,7 @@ def update_summary():
     # Count families and clans in each CSV/clanin file
     file_stats = {}
     for csv_file in glob.glob('domains/*.csv'):
-        if csv_file.endswith('all-domains.csv'):
+        if csv_file.endswith(('all-domains.csv', 'lineage-counts.csv')):
             continue
         
         # Count families (rows in CSV, excluding header)

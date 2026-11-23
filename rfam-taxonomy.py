@@ -529,9 +529,12 @@ def get_placement_labels(line, cutoff):
 
 def write_output_files(data, cutoff, full_threshold=SUBGROUP_THRESHOLD,
                        presence_threshold=PRESENCE_THRESHOLD, presence_min_taxa=PRESENCE_MIN_TAXA,
-                       seed_threshold=SEED_THRESHOLD, parent_seed_threshold=PARENT_SEED_THRESHOLD):
+                       seed_threshold=SEED_THRESHOLD, parent_seed_threshold=PARENT_SEED_THRESHOLD,
+                       groups=None):
     """
     Generate output files. The thresholds are explained where their defaults are defined.
+    If groups is given, only those groups' files are written (all groups are still computed,
+    because parent files depend on their subgroups' families).
     """
     print("Generating group-specific CSV files...")
     header = ['Family', 'Domain', 'Seed groups', 'Full region groups',
@@ -615,36 +618,39 @@ def write_output_files(data, cutoff, full_threshold=SUBGROUP_THRESHOLD,
 
     # Write domain-specific files
     for domain in sorted_domains:
-        filename = os.path.join(OUTPUT_DIR, '{}.csv'.format(domain.lower().replace(' ', '-')))
-        with open(filename, 'w') as f_out:
-            csvwriter = csv.writer(f_out)
-            csvwriter.writerow(header)
-            for line in data:
-                rfam_acc = line[0]
-                if rfam_acc in WHITELIST:
-                    by_rules = SUBGROUP_PARENT.get(domain, domain) in ['Archaea', 'Bacteria', 'Eukaryota']
-                else:
-                    by_rules = data_rules_include(line, domain, data_families)
-                if by_rules:
-                    data_families[domain].add(rfam_acc)
-                # (A) Hand-curated additions (a parent gets them through rule (C), except for
-                # WHITELIST families, which must be listed for the parent too)
-                if rfam_acc in GROUP_INCLUDE.get(domain, ()):
-                    include = True
-                # (A2) Whitelist: include only in Archaea, Bacteria, Eukaryota and their subgroups
-                elif rfam_acc in WHITELIST:
-                    include = SUBGROUP_PARENT.get(domain, domain) in ['Archaea', 'Bacteria', 'Eukaryota']
-                # (B)-(D) Data rules
-                else:
-                    include = data_rules_include(line, domain, group_families)
-                # (E) Hand-curated removals, checked last
-                if rfam_acc in GROUP_EXCLUDE.get(domain, ()):
-                    include = False
-                if include:
-                    csvwriter.writerow(line)
-                    group_families[domain].add(rfam_acc)
+        rows = []
+        for line in data:
+            rfam_acc = line[0]
+            if rfam_acc in WHITELIST:
+                by_rules = SUBGROUP_PARENT.get(domain, domain) in ['Archaea', 'Bacteria', 'Eukaryota']
+            else:
+                by_rules = data_rules_include(line, domain, data_families)
+            if by_rules:
+                data_families[domain].add(rfam_acc)
+            # (A) Hand-curated additions (a parent gets them through rule (C), except for
+            # WHITELIST families, which must be listed for the parent too)
+            if rfam_acc in GROUP_INCLUDE.get(domain, ()):
+                include = True
+            # (A2) Whitelist: include only in Archaea, Bacteria, Eukaryota and their subgroups
+            elif rfam_acc in WHITELIST:
+                include = SUBGROUP_PARENT.get(domain, domain) in ['Archaea', 'Bacteria', 'Eukaryota']
+            # (B)-(D) Data rules
+            else:
+                include = data_rules_include(line, domain, group_families)
+            # (E) Hand-curated removals, checked last
+            if rfam_acc in GROUP_EXCLUDE.get(domain, ()):
+                include = False
+            if include:
+                rows.append(line)
+                group_families[domain].add(rfam_acc)
 
-        print(f"  Created {filename}")
+        if groups is None or domain in groups:
+            filename = os.path.join(OUTPUT_DIR, '{}.csv'.format(domain.lower().replace(' ', '-')))
+            with open(filename, 'w') as f_out:
+                csvwriter = csv.writer(f_out)
+                csvwriter.writerow(header)
+                csvwriter.writerows(rows)
+            print(f"  Created {filename}")
 
     # Every family in a subgroup file must also be in its parent's file
     for subgroup, parent in SUBGROUP_PARENT.items():
@@ -773,7 +779,7 @@ The number of Rfam families and clans for each group (number of lines in .csv / 
         f_out.write("```\n")
 
 
-def generate_clanin_files():
+def generate_clanin_files(groups=None):
     """
     Generate group-specific clanin files from Rfam database clan information.
     
@@ -785,7 +791,7 @@ def generate_clanin_files():
     
     print("Generating group-specific clanin files...")
     for domain in ALL_GROUPS:
-        if domain == 'Other':
+        if domain == 'Other' or (groups is not None and domain not in groups):
             continue
         
         csv_filename = os.path.join(OUTPUT_DIR, '{}.csv'.format(domain.lower().replace(' ', '-')))
@@ -847,11 +853,24 @@ def generate_clanin_files():
                    f'itself) (0-100, default {PARENT_SEED_THRESHOLD}: any one)')
 @click.option('--out-dir', required=False, default=OUTPUT_DIR, type=click.Path(file_okay=False),
               help=f'Directory for the output files, created if needed (default {OUTPUT_DIR})')
+@click.option('--groups', required=False, default=None,
+              help='Comma-separated groups whose .csv and .clanin files to write, e.g. '
+                   'Viridiplantae,Metazoa (default: all). all-domains.csv and lineage-counts.csv '
+                   'are always written; the summary (Readme.md) is written only for all groups')
 def main(precompute_seed, precompute_full, cutoff, full_threshold, presence_threshold,
-         presence_min_taxa, seed_threshold, parent_seed_threshold, out_dir):
+         presence_min_taxa, seed_threshold, parent_seed_threshold, out_dir, groups):
     global OUTPUT_DIR
     OUTPUT_DIR = out_dir
     os.makedirs(OUTPUT_DIR, exist_ok=True)
+    if groups is not None:
+        known = {group.lower().replace(' ', '-'): group for group in ALL_GROUPS if group != 'Other'}
+        requested = [name.strip().lower().replace(' ', '-') for name in groups.split(',') if name.strip()]
+        unknown = [name for name in requested if name not in known]
+        if unknown or not requested:
+            raise click.BadParameter(f"unknown group(s): {', '.join(unknown) or groups}; "
+                                     f"choose from {', '.join(sorted(known.values()))}",
+                                     param_hint='--groups')
+        groups = [known[name] for name in requested]
     if precompute_seed:
         precompute_taxonomic_information('seed')
     if precompute_full:
@@ -865,13 +884,15 @@ def main(precompute_seed, precompute_full, cutoff, full_threshold, presence_thre
         data.append(analyse_seed_full_taxonomic_distribution(family, cutoff))
 
     write_output_files(data, cutoff, full_threshold, presence_threshold, presence_min_taxa,
-                       seed_threshold, parent_seed_threshold)
+                       seed_threshold, parent_seed_threshold, groups)
 
     # Generate domain-specific clanin files from database
-    generate_clanin_files()
+    generate_clanin_files(groups)
 
-    # Summary counts lines in the .clanin files, so it must run after generate_clanin_files()
-    update_summary()
+    # Summary counts lines in the .clanin files, so it must run after generate_clanin_files().
+    # It describes the whole set of group files, so skip it when only some are written.
+    if groups is None:
+        update_summary()
 
 
 if __name__ == '__main__':

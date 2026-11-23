@@ -204,7 +204,7 @@ pushed to GitHub.
     python rfam-taxonomy.py --seed-threshold 5 --parent-seed-threshold 5 --out-dir domains-seed5
     ```
 
-    By default the files are written to `domains/`, replacing the files in this repository; use `--out-dir` to write them to another directory instead. The files in this repository were generated with the defaults.
+    By default the files are written to `domains/`, replacing the files in this repository; use `--out-dir` to write them to another directory instead, and `--groups` (e.g. `--groups Viridiplantae,Metazoa`) to write only some groups' `.csv` and `.clanin` files (`all-domains.csv` and `lineage-counts.csv` are always written; the summary only when all groups are). The files in this repository were generated with the defaults.
 
 1. Review the changes
 

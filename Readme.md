@@ -201,10 +201,10 @@ pushed to GitHub.
     The thresholds described in [Rules for the `Domain` field](#rules-for-the-domain-field) can be changed on the command line: `--cutoff` (the 90% used for the `Domain` field), `--full-threshold` (`SUBGROUP_THRESHOLD`), `--presence-threshold`, `--presence-min-taxa`, `--seed-threshold` and `--parent-seed-threshold`. For example, to require at least 5% of the seed from the group and from its parent domain:
 
     ```
-    python rfam-taxonomy.py --seed-threshold 5 --parent-seed-threshold 5
+    python rfam-taxonomy.py --seed-threshold 5 --parent-seed-threshold 5 --out-dir domains-seed5
     ```
 
-    The files in this repository were generated with the defaults.
+    By default the files are written to `domains/`, replacing the files in this repository; use `--out-dir` to write them to another directory instead. The files in this repository were generated with the defaults.
 
 1. Review the changes
 

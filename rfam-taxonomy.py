@@ -22,6 +22,7 @@ from scripts.rfam_db import get_rfam_families, get_taxonomy_info, get_clan_membe
 
 DATA_SEED_PATH = 'data-seed'
 DATA_FULL_REGION_PATH = 'data-full-region'
+OUTPUT_DIR = 'domains'  # where output files are written; set with --out-dir
 
 # Domains (top-level biological domains)
 DOMAINS = [
@@ -537,12 +538,12 @@ def write_output_files(data, cutoff, full_threshold=SUBGROUP_THRESHOLD,
               'Rfam ID', 'Description', 'RNA type']
 
     # Write all families to all-domains.csv
-    with open('domains/all-domains.csv', 'w') as f_out:
+    with open(os.path.join(OUTPUT_DIR, 'all-domains.csv'), 'w') as f_out:
         csvwriter = csv.writer(f_out)
         csvwriter.writerow(header)
         for line in data:
             csvwriter.writerow(line)
-    print("  Created domains/all-domains.csv")
+    print("  Created {}".format(os.path.join(OUTPUT_DIR, 'all-domains.csv')))
 
     # Sort domains: subgroups first, then parents, then others
     # This ensures we know which families are in subgroups before writing parent files
@@ -614,7 +615,7 @@ def write_output_files(data, cutoff, full_threshold=SUBGROUP_THRESHOLD,
 
     # Write domain-specific files
     for domain in sorted_domains:
-        filename = 'domains/{}.csv'.format(domain.lower().replace(' ', '-'))
+        filename = os.path.join(OUTPUT_DIR, '{}.csv'.format(domain.lower().replace(' ', '-')))
         with open(filename, 'w') as f_out:
             csvwriter = csv.writer(f_out)
             csvwriter.writerow(header)
@@ -682,14 +683,14 @@ def write_lineage_counts(data, family_taxa, group_taxa_count):
     The first row after the header gives each group's total: the lineages from that group with a
     full region hit to any family.
     """
-    with open('domains/lineage-counts.csv', 'w') as f_out:
+    with open(os.path.join(OUTPUT_DIR, 'lineage-counts.csv'), 'w') as f_out:
         csvwriter = csv.writer(f_out)
         csvwriter.writerow(['Family', 'Rfam ID'] + ALL_GROUPS)
         csvwriter.writerow(['Total', ''] + [group_taxa_count[group] for group in ALL_GROUPS])
         for line in data:
             taxa = family_taxa[line[0]]
             csvwriter.writerow([line[0], line[4]] + [len(taxa.get(group, ())) for group in ALL_GROUPS])
-    print("  Created domains/lineage-counts.csv")
+    print("  Created {}".format(os.path.join(OUTPUT_DIR, 'lineage-counts.csv')))
 
 
 def print_curation_report(data_families, family_taxa, group_taxa_count, rfam_ids):
@@ -714,11 +715,11 @@ def update_summary():
     Update summary.md file with per-file statistics and group classification counts.
     """
     import glob
-    summary_file = 'domains/Readme.md'
+    summary_file = os.path.join(OUTPUT_DIR, 'Readme.md')
     
     # Count families and clans in each CSV/clanin file
     file_stats = {}
-    for csv_file in glob.glob('domains/*.csv'):
+    for csv_file in glob.glob(os.path.join(OUTPUT_DIR, '*.csv')):
         if csv_file.endswith(('all-domains.csv', 'lineage-counts.csv')):
             continue
         
@@ -742,7 +743,7 @@ def update_summary():
     
     # Read all domain field values from all-domains.csv for pattern counts
     domain_counts = {}
-    with open('domains/all-domains.csv', 'r') as f:
+    with open(os.path.join(OUTPUT_DIR, 'all-domains.csv'), 'r') as f:
         reader = csv.reader(f)
         next(reader)  # Skip header
         for row in reader:
@@ -787,8 +788,8 @@ def generate_clanin_files():
         if domain == 'Other':
             continue
         
-        csv_filename = 'domains/{}.csv'.format(domain.lower().replace(' ', '-'))
-        clanin_filename = 'domains/{}.clanin'.format(domain.lower().replace(' ', '-'))
+        csv_filename = os.path.join(OUTPUT_DIR, '{}.csv'.format(domain.lower().replace(' ', '-')))
+        clanin_filename = os.path.join(OUTPUT_DIR, '{}.clanin'.format(domain.lower().replace(' ', '-')))
         
         if not os.path.exists(csv_filename):
             continue
@@ -844,8 +845,13 @@ def generate_clanin_files():
                    '--seed-threshold) only if at least this percent of the seed sequences, and '
                    'at least one, are from the parent domain of the group (for a domain, the domain '
                    f'itself) (0-100, default {PARENT_SEED_THRESHOLD}: any one)')
+@click.option('--out-dir', required=False, default=OUTPUT_DIR, type=click.Path(file_okay=False),
+              help=f'Directory for the output files, created if needed (default {OUTPUT_DIR})')
 def main(precompute_seed, precompute_full, cutoff, full_threshold, presence_threshold,
-         presence_min_taxa, seed_threshold, parent_seed_threshold):
+         presence_min_taxa, seed_threshold, parent_seed_threshold, out_dir):
+    global OUTPUT_DIR
+    OUTPUT_DIR = out_dir
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
     if precompute_seed:
         precompute_taxonomic_information('seed')
     if precompute_full:
